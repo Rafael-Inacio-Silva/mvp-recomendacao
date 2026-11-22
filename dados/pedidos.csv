@@ -1,0 +1,4623 @@
+id_pedido,item
+1,Nachos com Molho de Tomate Fresco
+1,Soda de Frutas Izze
+1,Suco Nantucket Nectar
+1,Nachos com Molho Verde Apimentado
+2,Bowl de Frango
+3,Bowl de Frango
+3,Porção Extra de Nachos
+4,Burrito de Carne
+4,Tacos Macios de Carne
+5,Burrito de Carne
+5,Nachos com Guacamole
+6,Tacos Crocantes de Frango
+6,Tacos Macios de Frango
+7,Bowl de Frango
+7,Nachos com Guacamole
+8,Nachos com Molho Verde Apimentado
+8,Burrito de Frango
+9,Burrito de Frango
+9,Refrigerante em Lata
+10,Bowl de Frango
+10,Nachos com Guacamole
+11,Burrito de Carne Desfiada
+11,Suco Nantucket Nectar
+12,Burrito de Frango
+12,Soda de Frutas Izze
+13,Nachos com Molho de Tomate Fresco
+13,Bowl de Frango
+14,Burrito de Porco Desfiado
+14,Refrigerante em Lata
+15,Burrito de Frango
+15,Nachos com Molho Verde Apimentado
+16,Burrito de Carne
+16,Porção Extra de Nachos
+17,Bowl de Porco Desfiado
+17,Água Mineral
+18,Tacos Macios de Frango
+18,Tacos Macios de Frango
+18,Nachos com Guacamole
+18,Nachos com Molho Verde Apimentado
+19,Bowl de Carne Desfiada
+19,Nachos
+20,Nachos com Guacamole
+20,Bowl de Frango
+20,Burrito de Carne
+20,Bowl de Salada com Frango
+21,Burrito de Frango
+21,Burrito de Carne
+21,Soda de Frutas Izze
+22,Burrito de Carne
+22,Nachos com Guacamole
+23,Burrito de Carne
+23,Refrigerante em Lata
+24,Burrito de Frango
+24,Refrigerante em Lata
+25,Bowl de Carne
+25,Nachos com Molho de Tomate Fresco
+26,Tacos Macios de Carne Desfiada
+26,Burrito Vegetariano
+27,Bowl de Carne Desfiada
+27,Nachos
+28,Nachos com Guacamole
+28,Tacos Macios de Carne
+28,Bowl Vegetariano
+28,Burrito de Frango
+29,Burrito de Carne
+29,Tacos Macios de Carne
+30,Soda de Frutas Izze
+30,Burrito de Carne
+30,Burrito de Frango
+31,Burrito de Carne
+31,Porção Extra de Nachos
+32,Burrito de Carne
+32,Nachos com Guacamole
+33,Burrito de Frango
+33,Nachos com Guacamole
+34,Tacos Macios de Frango
+34,Bowl de Frango
+34,Nachos
+34,Bowl de Frango
+35,Tacos Macios de Frango
+35,Nachos
+36,Burrito de Carne Desfiada
+36,Burrito de Frango
+37,Burrito de Frango
+37,Tacos Macios de Carne
+38,Bowl Vegetariano
+38,Bowl de Carne
+38,Água Mineral
+39,Burrito de Porco Desfiado
+39,Nachos com Molho de Tomate Fresco
+40,Bowl de Carne
+40,Bowl de Carne
+40,Tacos Crocantes de Carne
+41,Burrito de Porco Desfiado
+41,Nachos com Guacamole
+42,Bowl de Carne Desfiada
+42,Nachos com Guacamole
+43,Bowl de Porco Desfiado
+43,Burrito de Frango
+44,Bowl de Frango
+44,Nachos com Guacamole
+45,Burrito de Carne
+45,Bowl de Carne
+45,Nachos com Guacamole
+46,Burrito Vegetariano
+46,Suco Nantucket Nectar
+47,Burrito de Carne
+47,Refrigerante em Lata
+48,Burrito de Carne
+48,Nachos com Guacamole
+49,Bowl de Frango
+49,Nachos com Molho Vermelho Apimentado
+49,Nachos com Guacamole
+50,Nachos com Molho Verde Apimentado
+50,Burrito de Frango
+51,Bowl de Carne Desfiada
+51,Burrito de Frango
+51,Refrigerante em Lata
+52,Tacos Macios de Carne
+52,Nachos com Guacamole
+53,Burrito de Frango
+53,Burrito de Carne Desfiada
+53,Nachos com Guacamole
+54,Bowl de Frango
+54,Nachos com Guacamole
+55,Burrito de Carne
+55,Refrigerante em Lata
+56,Bowl de Carne Desfiada
+56,Nachos com Molho Vermelho Apimentado
+56,Nachos com Guacamole
+57,Burrito de Carne Desfiada
+57,Nachos com Guacamole
+58,Burrito de Frango
+58,Nachos com Molho Verde Apimentado
+59,Burrito de Frango
+60,Bowl de Salada com Frango
+61,Bowl de Carne Desfiada
+61,Nachos com Guacamole
+62,Bowl de Frango
+62,Nachos com Guacamole
+63,Bowl de Frango
+63,Nachos com Guacamole
+64,Bowl de Frango
+64,Bowl Vegetariano
+65,Burrito de Carne Desfiada
+65,Bowl de Porco Desfiado
+65,Nachos com Guacamole
+66,Burrito de Carne
+67,Burrito de Carne
+67,Porção Extra de Nachos
+68,Burrito de Frango
+68,Nachos com Guacamole
+69,Burrito de Frango
+69,Nachos com Molho Verde Apimentado
+70,Bowl de Frango
+70,Nachos com Guacamole
+71,Nachos com Guacamole
+71,Bowl Vegetariano
+71,Burrito de Carne
+72,Burrito de Frango
+73,Bowl de Frango
+73,Burrito de Frango
+73,Refrigerante em Lata
+74,Bowl de Porco Desfiado
+74,Bowl Vegetariano
+74,Nachos com Molho Verde Apimentado
+75,Nachos com Guacamole
+75,Burrito de Frango
+75,Tacos Crocantes de Carne Desfiada
+75,Burrito de Frango
+76,Burrito de Frango
+76,Refrigerante em Lata
+77,Burrito de Frango
+77,Suco Nantucket Nectar
+78,Burrito de Frango
+78,Tacos Macios de Carne
+79,Bowl de Frango
+80,Burrito de Carne
+81,Burrito de Frango
+81,Refrigerante em Lata
+81,Refrigerante em Lata
+82,Tacos Macios de Carne Desfiada
+82,Bowl de Frango
+82,Nachos com Molho de Tomate Fresco
+83,Tacos Macios de Carne
+83,Nachos com Guacamole
+83,Bowl de Salada Vegetariano
+84,Bowl de Carne
+84,Burrito de Frango
+84,Burrito de Frango
+85,Burrito de Carne
+85,Nachos com Molho de Milho e Pimenta Assada
+86,Bowl Vegetariano
+86,Bowl de Frango
+86,Nachos com Molho de Tomate Fresco
+87,Refrigerante em Lata
+87,Burrito de Carne
+88,Burrito de Frango
+88,Nachos com Molho Verde Apimentado
+89,Bowl de Frango
+89,Refrigerante em Lata
+89,Nachos com Guacamole
+90,Burrito de Frango
+90,Burrito de Frango
+91,Burrito de Frango
+91,Suco Nantucket Nectar
+92,Bowl de Frango
+92,Bowl de Carne
+92,Nachos
+93,Bowl de Frango
+93,Bowl Vegetariano
+93,Bowl de Frango
+93,Nachos com Guacamole
+94,Bowl de Salada com Frango
+95,Nachos com Guacamole
+95,Bowl de Carne
+96,Burrito de Frango
+96,Tacos Crocantes de Frango
+96,Bowl de Frango
+97,Bowl de Carne Desfiada
+97,Bowl de Frango
+97,Nachos
+98,Burrito de Carne Desfiada
+98,Nachos
+98,Bowl de Frango
+99,Burrito Vegetariano
+99,Nachos
+100,Burrito de Carne
+100,Refrigerante em Lata
+101,Burrito de Carne
+101,Nachos com Guacamole
+102,Bowl de Frango
+102,Nachos com Molho Verde Apimentado
+102,Nachos com Molho de Milho e Pimenta Assada
+103,Burrito de Carne
+103,Nachos com Molho Verde Apimentado
+103,Burrito de Carne
+103,Tacos Macios de Porco Desfiado
+103,Burrito de Carne
+104,Burrito de Porco Desfiado
+104,Nachos com Molho de Tomate Fresco
+105,Burrito de Frango
+106,Burrito de Frango
+106,Bowl de Carne
+107,Burrito de Frango
+108,Burrito de Carne
+108,Refrigerante em Lata
+108,Refrigerante em Lata
+108,Refrigerante em Lata
+108,Burrito de Carne Desfiada
+109,Salada com Frango
+109,Refrigerante em Lata
+110,Bowl de Frango
+110,Bowl Vegetariano
+110,Bowl de Carne Desfiada
+110,Tacos Crocantes de Carne Desfiada
+111,Bowl de Salada com Frango
+111,Bowl de Frango
+112,Burrito de Carne
+112,Bowl de Carne
+113,Bowl de Carne
+113,Refrigerante em Lata
+114,Bowl de Carne
+114,Refrigerante em Lata
+115,Burrito de Carne
+115,Nachos com Molho de Tomate Fresco
+116,Tacos Macios de Carne
+116,Nachos com Molho de Tomate Fresco
+117,Tacos Macios de Carne Desfiada
+117,Nachos com Guacamole
+118,Burrito de Frango
+118,Nachos com Molho Verde Apimentado
+119,Burrito de Frango
+119,Burrito de Frango
+120,Burrito de Frango
+120,Porção Extra de Nachos
+121,Burrito de Frango
+121,Nachos com Guacamole
+122,Tacos Macios de Carne
+122,Porção Extra de Nachos
+122,Refrigerante em Lata
+123,Bowl de Salada com Carne
+124,Bowl de Frango
+124,Nachos
+124,Bowl de Frango
+125,Bowl de Carne
+125,Bowl de Carne
+125,Bowl Vegetariano
+125,Nachos com Guacamole
+126,Burrito de Frango
+126,Bowl de Frango
+127,Bowl de Frango
+127,Refrigerante em Lata
+128,Tacos Macios de Carne
+128,Nachos com Guacamole
+128,Bowl de Salada Vegetariano
+129,Burrito de Carne
+129,Burrito de Carne
+129,Pack com 6 Refrigerantes
+130,Tacos Macios de Carne
+130,Nachos com Molho Vermelho Apimentado
+131,Bowl de Frango
+131,Nachos com Molho de Tomate Fresco
+132,Bowl de Frango
+132,Bowl de Frango
+132,Nachos
+133,Bowl de Carne
+133,Porção Extra de Nachos
+134,Burrito de Frango
+134,Burrito de Frango
+134,Nachos
+135,Nachos com Guacamole
+135,Bowl de Frango
+136,Tacos Macios de Frango
+136,Burrito de Carne
+137,Bowl de Salada com Frango
+138,Burrito de Frango
+138,Refrigerante em Lata
+138,Água Mineral
+139,Bowl de Frango
+139,Refrigerante em Lata
+139,Nachos
+140,Burrito de Carne
+141,Burrito de Frango
+141,Tacos Macios de Frango
+142,Burrito de Carne
+142,Nachos com Molho de Tomate Fresco
+143,Bowl de Frango
+143,Nachos
+143,Água Mineral
+144,Burrito de Frango
+144,Nachos
+145,Tacos Macios de Frango
+145,Tacos Macios de Frango
+146,Burrito de Carne Desfiada
+146,Burrito de Carne
+147,Bowl de Carne
+147,Refrigerante em Lata
+148,Burrito de Frango
+148,Burrito de Frango
+148,Nachos com Guacamole
+148,Pack com 6 Refrigerantes
+149,Tacos Macios de Carne
+149,Nachos com Molho de Tomate Fresco
+149,Tacos Macios de Frango
+149,Nachos com Guacamole
+149,Refrigerante em Lata
+149,Refrigerante em Lata
+150,Bowl de Frango
+150,Nachos com Molho Vermelho Apimentado
+150,Refrigerante em Lata
+151,Burrito de Frango
+151,Refrigerante em Lata
+152,Burrito de Carne
+153,Tacos Macios de Frango
+154,Burrito de Frango
+154,Nachos com Molho Vermelho Apimentado
+154,Pack com 6 Refrigerantes
+155,Burrito de Carne
+155,Soda de Frutas Izze
+155,Soda de Frutas Izze
+156,Burrito de Carne
+156,Burrito de Frango
+157,Burrito de Frango
+157,Nachos
+158,Tacos Crocantes de Frango
+158,Nachos com Molho Verde Apimentado
+159,Burrito de Frango
+159,Refrigerante em Lata
+160,Burrito de Carne
+160,Refrigerante em Lata
+161,Bowl de Frango
+161,Burrito de Frango
+162,Burrito de Porco Desfiado
+162,Nachos com Molho de Tomate Fresco
+163,Burrito de Carne Desfiada
+163,Água Mineral
+164,Burrito de Carne
+164,Refrigerante em Lata
+165,Bowl de Frango
+165,Refrigerante em Lata
+165,Refrigerante em Lata
+166,Burrito de Frango
+166,Burrito de Carne
+166,Nachos
+167,Burrito de Carne Desfiada
+167,Porção Extra de Nachos
+168,Bowl de Carne
+168,Pack com 6 Refrigerantes
+169,Burrito de Frango
+169,Tacos Macios de Carne
+170,Burrito de Frango
+170,Nachos com Guacamole
+170,Refrigerante em Lata
+171,Burrito Vegetariano
+171,Nachos com Guacamole
+172,Burrito de Frango
+172,Burrito de Carne Desfiada
+173,Burrito de Frango
+173,Bowl de Porco Desfiado
+174,Burrito de Frango
+174,Refrigerante em Lata
+175,Burrito de Carne
+175,Refrigerante em Lata
+176,Burrito de Carne
+176,Tacos Macios de Porco Desfiado
+176,Nachos com Guacamole
+177,Bowl de Frango
+177,Nachos
+178,Bowl de Frango
+179,Refrigerante em Lata
+179,Bowl de Frango
+180,Bowl de Carne
+180,Porção Extra de Nachos
+180,Refrigerante em Lata
+181,Bowl de Frango
+182,Nachos com Guacamole
+182,Pack com 6 Refrigerantes
+182,Bowl de Carne Desfiada
+183,Tacos Macios de Frango
+183,Burrito de Carne
+184,Burrito de Porco Desfiado
+184,Bowl de Frango
+184,Burrito de Frango
+184,Nachos
+184,Nachos com Molho de Tomate Fresco
+185,Tacos Macios de Frango
+186,Tacos Macios de Frango
+186,Bowl de Carne
+186,Tacos Crocantes de Carne Desfiada
+186,Soda de Frutas Izze
+187,Burrito de Carne
+187,Porção Extra de Nachos
+188,Bowl de Porco Desfiado
+188,Refrigerante em Lata
+189,Burrito Vegetariano
+189,Suco Nantucket Nectar
+190,Tacos Crocantes de Carne
+190,Refrigerante em Lata
+191,Burrito de Carne
+191,Tacos Macios de Frango
+192,Burrito de Frango
+192,Nachos com Guacamole
+192,Nachos com Molho Vermelho Apimentado
+192,Bowl de Carne
+193,Bowl
+194,Burrito de Frango
+194,Burrito de Carne
+195,Burrito de Frango
+195,Bowl de Frango
+195,Burrito de Carne Desfiada
+195,Burrito de Frango
+195,Burrito de Frango
+195,Tacos Macios de Porco Desfiado
+195,Bowl de Frango
+195,Bowl de Salada Vegetariano
+196,Bowl de Frango
+196,Burrito de Frango
+196,Nachos com Molho de Tomate Fresco
+196,Refrigerante em Lata
+197,Bowl de Frango
+197,Porção Extra de Nachos
+198,Burrito de Porco Desfiado
+198,Burrito de Frango
+199,Bowl de Frango
+199,Bowl de Frango
+199,Nachos com Guacamole
+200,Burrito Vegetariano
+200,Nachos com Guacamole
+201,Burrito Vegetariano
+201,Nachos com Guacamole
+202,Bowl de Carne Desfiada
+202,Porção Extra de Nachos
+202,Refrigerante em Lata
+203,Tacos Macios de Frango
+203,Água Mineral
+204,Burrito de Frango
+204,Porção Extra de Nachos
+205,Burrito de Porco Desfiado
+205,Burrito Vegetariano
+205,Bowl de Frango
+205,Burrito de Carne
+205,Burrito de Frango
+205,Bowl de Frango
+205,Bowl de Frango
+205,Tacos Crocantes de Carne Desfiada
+205,Burrito de Frango
+205,Burrito de Frango
+205,Bowl de Frango
+205,Nachos
+206,Bowl de Frango
+206,Bowl de Carne
+206,Refrigerante em Lata
+206,Nachos com Guacamole
+207,Tacos Macios de Carne
+207,Nachos com Guacamole
+207,Bowl de Salada Vegetariano
+208,Burrito Vegetariano
+208,Nachos com Guacamole
+209,Bowl de Carne
+209,Bowl de Carne
+210,Bowl de Frango
+210,Burrito de Carne Desfiada
+211,Burrito de Carne
+211,Tacos Macios de Frango
+212,Refrigerante em Lata
+212,Bowl de Porco Desfiado
+212,Refrigerante em Lata
+213,Burrito de Carne
+213,Bowl de Frango
+214,Burrito
+214,Burrito
+215,Bowl Vegetariano
+215,Refrigerante em Lata
+215,Nachos com Guacamole
+215,Bowl Vegetariano
+215,Nachos
+216,Burrito de Frango
+216,Nachos com Guacamole
+217,Burrito
+217,Tacos Crocantes
+217,Tacos Crocantes
+218,Burrito de Carne
+218,Nachos com Guacamole
+219,Bowl de Carne
+219,Porção Extra de Nachos
+220,Bowl de Salada com Frango
+220,Bowl de Frango
+221,Bowl de Salada com Frango
+221,Bowl de Salada com Frango
+222,Bowl Vegetariano
+222,Burrito de Frango
+222,Nachos com Molho de Tomate Fresco
+223,Burrito de Frango
+223,Burrito de Carne
+224,Burrito Vegetariano
+224,Nachos com Guacamole
+225,Nachos com Molho Verde Apimentado
+225,Bowl de Porco Desfiado
+225,Burrito de Carne
+225,Água Mineral
+225,Refrigerante em Lata
+226,Bowl de Frango
+226,Burrito de Carne Desfiada
+226,Nachos com Guacamole
+227,Bowl de Frango
+227,Bowl de Frango
+227,Nachos com Guacamole
+228,Bowl de Frango
+229,Burrito de Carne
+230,Nachos com Guacamole
+230,Burrito de Frango
+230,Burrito de Carne
+230,Pack com 6 Refrigerantes
+230,Tacos Crocantes de Porco Desfiado
+231,Bowl Vegetariano
+231,Bowl de Frango
+231,Burrito de Carne Desfiada
+231,Nachos
+231,Bowl de Carne
+231,Nachos com Guacamole
+232,Burrito de Carne Desfiada
+232,Nachos com Molho de Milho e Pimenta Assada
+233,Burrito de Carne
+233,Burrito de Frango
+233,Tacos Macios de Porco Desfiado
+233,Refrigerante em Lata
+233,Refrigerante em Lata
+234,Bowl de Salada com Frango
+234,Burrito de Frango
+234,Tacos Macios de Carne
+234,Nachos com Guacamole
+235,Burrito de Carne
+235,Burrito de Carne
+235,Burrito de Carne Desfiada
+236,Burrito de Carne Desfiada
+236,Burrito de Carne
+237,Tacos Macios de Frango
+237,Nachos com Molho Verde Apimentado
+237,Soda de Frutas Izze
+237,Soda de Frutas Izze
+238,Tacos Crocantes de Carne
+238,Burrito de Carne
+239,Bowl de Frango
+239,Nachos
+240,Bowl de Salada com Frango
+240,Burrito de Carne Desfiada
+240,Nachos com Guacamole
+241,Burrito de Frango
+242,Burrito de Frango
+242,Tacos Macios de Porco Desfiado
+243,Bowl de Salada com Frango
+244,Bowl de Carne Desfiada
+244,Nachos com Molho Vermelho Apimentado
+244,Água Mineral
+245,Bowl de Carne
+246,Bowl de Frango
+246,Porção Extra de Nachos
+247,Tacos Crocantes de Frango
+247,Burrito de Frango
+247,Tacos Crocantes de Frango
+247,Suco Nantucket Nectar
+248,Burrito de Carne Desfiada
+248,Nachos com Guacamole
+249,Bowl de Frango
+249,Nachos com Guacamole
+250,Bowl de Salada com Carne
+250,Bowl de Salada com Carne
+251,Burrito de Frango
+251,Nachos com Molho de Tomate Fresco
+251,Refrigerante em Lata
+252,Tacos Macios de Carne Desfiada
+252,Burrito de Frango
+253,Bowl de Salada com Carne
+254,Bowl de Frango
+254,Burrito de Carne Desfiada
+254,Nachos
+254,Nachos
+254,Refrigerante em Lata
+255,Bowl Vegetariano
+255,Nachos com Guacamole
+256,Burrito de Frango
+256,Refrigerante em Lata
+257,Burrito Vegetariano
+257,Nachos com Guacamole
+258,Bowl de Frango
+258,Burrito de Porco Desfiado
+258,Nachos com Molho Verde Apimentado
+258,Nachos com Guacamole
+259,Burrito de Carne
+259,Tacos Macios de Frango
+260,Burrito Vegetariano
+260,Nachos com Guacamole
+261,Bowl de Salada com Frango
+262,Burrito de Frango
+262,Refrigerante em Lata
+263,Burrito de Frango
+263,Bowl de Frango
+264,Burrito de Carne
+264,Pack com 6 Refrigerantes
+265,Burrito de Frango
+265,Tacos Macios de Frango
+265,Nachos com Guacamole
+266,Bowl Vegetariano
+266,Nachos com Guacamole
+267,Burrito de Carne
+267,Refrigerante em Lata
+268,Bowl de Frango
+268,Nachos com Molho de Milho e Pimenta Assada
+269,Burrito de Carne
+269,Porção Extra de Nachos
+270,Refrigerante em Lata
+270,Burrito de Porco Desfiado
+270,Água Mineral
+271,Bowl de Frango
+271,Nachos com Molho Verde Apimentado
+272,Burrito de Frango
+272,Nachos com Guacamole
+273,Burrito de Carne
+273,Burrito de Frango
+274,Bowl de Frango
+274,Porção Extra de Nachos
+275,Burrito Vegetariano
+275,Nachos com Guacamole
+276,Salada com Carne
+276,Bowl de Carne
+276,Nachos com Guacamole
+276,Tacos Macios de Porco Desfiado
+277,Bowl de Frango
+277,Nachos com Guacamole
+277,Refrigerante em Lata
+278,Nachos com Guacamole
+278,Burrito de Frango
+279,Bowl
+279,Nachos com Molho de Tomate Fresco
+279,Burrito
+279,Nachos com Guacamole
+280,Bowl Vegetariano
+280,Nachos com Guacamole
+281,Bowl de Carne
+281,Nachos com Guacamole
+282,Burrito de Frango
+282,Refrigerante em Lata
+282,Burrito de Carne
+282,Refrigerante em Lata
+283,Burrito de Frango
+283,Nachos
+284,Bowl de Frango
+284,Nachos com Guacamole
+284,Refrigerante em Lata
+284,Bowl de Carne
+285,Burrito de Porco Desfiado
+285,Nachos com Molho Vermelho Apimentado
+286,Bowl de Salada com Frango
+286,Nachos com Guacamole
+286,Refrigerante em Lata
+287,Burrito de Carne
+287,Tacos Macios de Frango
+287,Refrigerante em Lata
+288,Burrito de Frango
+288,Refrigerante em Lata
+288,Água Mineral
+289,Bowl de Salada com Frango
+289,Nachos com Molho Verde Apimentado
+289,Refrigerante em Lata
+290,Água Mineral
+290,Bowl de Frango
+291,Burrito de Carne
+291,Nachos com Molho de Milho e Pimenta Assada
+291,Refrigerante em Lata
+292,Burrito Vegetariano
+292,Nachos com Guacamole
+293,Burrito de Carne
+294,Nachos com Guacamole
+294,Burrito Vegetariano
+295,Burrito de Frango
+295,Refrigerante em Lata
+296,Burrito de Carne Desfiada
+296,Porção Extra de Nachos
+297,Bowl de Frango
+297,Refrigerante em Lata
+298,Pack com 6 Refrigerantes
+298,Bowl de Frango
+299,Burrito de Carne Desfiada
+299,Burrito de Frango
+299,Nachos com Molho de Tomate Fresco
+300,Burrito de Frango
+300,Burrito de Carne
+301,Burrito de Carne
+301,Tacos Crocantes de Carne
+301,Nachos com Molho de Tomate Fresco
+302,Nachos com Guacamole
+302,Burrito Vegetariano
+303,Bowl de Frango
+303,Burrito de Frango
+304,Refrigerante em Lata
+304,Burrito de Carne
+304,Bowl Vegetariano
+304,Tacos Macios Vegetarianos
+305,Burrito de Frango
+305,Refrigerante em Lata
+305,Burrito de Carne
+306,Burrito de Carne Desfiada
+306,Pack com 6 Refrigerantes
+307,Nachos com Guacamole
+307,Burrito Vegetariano
+308,Burrito de Frango
+308,Nachos
+309,Burrito de Frango
+309,Bowl de Salada com Carne
+310,Bowl de Carne Desfiada
+310,Porção Extra de Nachos
+311,Salada com Carne
+311,Bowl de Carne
+311,Nachos com Guacamole
+311,Tacos Macios de Porco Desfiado
+312,Burrito de Carne Desfiada
+312,Bowl de Carne
+312,Nachos
+313,Burrito
+313,Burrito
+314,Burrito Vegetariano
+314,Bowl de Salada com Frango
+315,Tacos Crocantes de Carne Desfiada
+315,Nachos com Guacamole
+316,Bowl de Frango
+316,Refrigerante em Lata
+317,Burrito de Porco Desfiado
+317,Tacos Crocantes de Frango
+317,Refrigerante em Lata
+318,Nachos com Guacamole
+318,Burrito Vegetariano
+319,Bowl de Frango
+319,Bowl de Frango
+319,Tacos Crocantes de Carne
+320,Bowl de Frango
+320,Nachos
+320,Refrigerante em Lata
+321,Burrito de Frango
+321,Refrigerante em Lata
+321,Água Mineral
+322,Tacos Macios Vegetarianos
+322,Nachos com Molho Verde Apimentado
+322,Refrigerante em Lata
+323,Bowl de Carne
+323,Refrigerante em Lata
+323,Nachos
+324,Burrito de Frango
+324,Refrigerante em Lata
+325,Nachos com Guacamole
+325,Burrito de Frango
+325,Refrigerante em Lata
+326,Nachos com Guacamole
+326,Burrito de Frango
+326,Bowl de Frango
+326,Bowl de Frango
+327,Burrito de Frango
+327,Burrito Vegetariano
+328,Bowl de Frango
+328,Nachos com Guacamole
+329,Burrito de Frango
+329,Nachos com Guacamole
+330,Porção Extra de Nachos
+330,Bowl de Carne Desfiada
+331,Bowl de Carne Desfiada
+331,Bowl de Frango
+332,Burrito de Carne
+332,Refrigerante em Lata
+333,Burrito de Carne
+333,Nachos com Molho Verde Apimentado
+334,Burrito de Frango
+334,Burrito de Carne
+335,Nachos com Guacamole
+335,Burrito Vegetariano
+336,Burrito de Frango
+336,Bowl de Frango
+337,Bowl de Salada com Frango
+338,Bowl de Frango
+338,Água Mineral
+338,Nachos com Guacamole
+338,Tacos Macios de Porco Desfiado
+338,Refrigerante em Lata
+339,Bowl de Porco Desfiado
+340,Burrito de Frango
+340,Nachos com Guacamole
+341,Bowl de Carne
+342,Nachos com Guacamole
+342,Burrito Vegetariano
+343,Nachos
+343,Tacos Crocantes de Carne Desfiada
+343,Tacos Crocantes de Frango
+343,Bowl Vegetariano
+343,Bowl Vegetariano
+343,Bowl de Porco Desfiado
+344,Burrito de Frango
+344,Burrito de Porco Desfiado
+344,Burrito de Frango
+345,Bowl de Frango
+345,Nachos com Molho Vermelho Apimentado
+345,Nachos com Guacamole
+346,Bowl de Carne Desfiada
+346,Nachos com Molho de Milho e Pimenta Assada
+346,Bowl de Carne
+346,Bowl Vegetariano
+347,Bowl de Frango
+347,Nachos com Guacamole
+348,Bowl Vegetariano
+349,Burrito Vegetariano
+349,Nachos com Molho de Tomate Fresco
+350,Bowl de Frango
+350,Refrigerante em Lata
+351,Bowl de Porco Desfiado
+351,Nachos com Guacamole
+352,Burrito de Carne Desfiada
+352,Burrito de Carne Desfiada
+352,Nachos com Guacamole
+353,Burrito de Frango
+353,Tacos Macios de Carne Desfiada
+354,Burrito de Frango
+354,Burrito de Carne Desfiada
+355,Burrito de Carne
+355,Burrito de Carne
+356,Burrito de Carne
+356,Burrito de Carne
+357,Bowl de Salada com Frango
+358,Burrito de Porco Desfiado
+358,Tacos Crocantes de Frango
+358,Refrigerante em Lata
+359,Bowl de Frango
+359,Nachos
+359,Refrigerante em Lata
+360,Bowl de Frango
+360,Tacos Macios de Frango
+360,Refrigerante em Lata
+361,Burrito Vegetariano
+361,Água Mineral
+362,Tacos Macios de Frango
+362,Bowl de Frango
+363,Burrito de Carne Desfiada
+363,Pack com 6 Refrigerantes
+363,Nachos com Guacamole
+364,Bowl de Frango
+364,Nachos com Guacamole
+365,Tacos Macios de Frango
+365,Refrigerante em Lata
+366,Tacos Crocantes de Frango
+366,Burrito de Carne
+367,Bowl Vegetariano
+367,Burrito de Carne Desfiada
+367,Água Mineral
+368,Bowl de Frango
+368,Burrito Vegetariano
+369,Bowl de Frango
+369,Salada com Carne
+369,Nachos com Guacamole
+370,Burrito de Frango
+370,Nachos com Guacamole
+371,Burrito de Carne
+371,Porção Extra de Nachos
+372,Bowl de Carne
+372,Bowl de Frango
+373,Bowl Vegetariano
+373,Nachos com Guacamole
+374,Burrito de Carne Desfiada
+374,Refrigerante em Lata
+375,Bowl de Carne
+375,Nachos com Molho de Milho e Pimenta Assada
+376,Burrito de Carne
+376,Burrito de Carne
+376,Refrigerante em Lata
+377,Bowl de Carne
+377,Burrito de Carne
+378,Burrito de Frango
+378,Porção Extra de Nachos
+379,Burrito de Carne
+379,Bowl de Frango
+379,Nachos com Molho Verde Apimentado
+379,Refrigerante em Lata
+379,Tacos Crocantes de Carne
+380,Bowl de Carne Desfiada
+380,Bowl de Frango
+380,Nachos
+380,Água Mineral
+381,Tacos Macios de Frango
+381,Tacos Macios de Frango
+381,Suco Nantucket Nectar
+382,Bowl de Carne
+382,Nachos com Guacamole
+383,Bowl de Frango
+383,Nachos com Guacamole
+384,Bowl de Frango
+384,Burrito Vegetariano
+384,Nachos
+384,Bowl de Frango
+385,Bowl de Frango
+385,Porção Extra de Nachos
+386,Bowl Vegetariano
+386,Bowl de Frango
+387,Refrigerante em Lata
+387,Burrito de Frango
+387,Burrito de Carne
+387,Burrito de Carne
+388,Burrito de Carne
+388,Água Mineral
+389,Bowl de Frango
+389,Nachos com Guacamole
+389,Tacos Crocantes de Frango
+389,Nachos com Molho de Tomate Fresco
+389,Bowl de Frango
+389,Nachos
+390,Nachos com Guacamole
+390,Burrito de Frango
+391,Bowl de Carne
+391,Nachos com Guacamole
+392,Burrito de Frango
+392,Porção Extra de Nachos
+392,Refrigerante em Lata
+393,Burrito de Carne
+393,Refrigerante em Lata
+394,Burrito de Porco Desfiado
+394,Bowl de Salada Vegetariano
+395,Tacos Macios de Carne
+395,Nachos com Molho de Tomate Fresco
+396,Refrigerante em Lata
+396,Refrigerante em Lata
+396,Burrito de Frango
+396,Tacos Macios de Frango
+397,Burrito de Carne
+397,Tacos Macios de Carne
+398,Tacos Macios de Frango
+398,Água Mineral
+399,Nachos com Guacamole
+399,Burrito Vegetariano
+400,Burrito Vegetariano
+400,Burrito de Porco Desfiado
+400,Bowl de Frango
+401,Bowl de Frango
+402,Bowl de Frango
+402,Nachos com Guacamole
+402,Bowl de Frango
+402,Bowl de Frango
+403,Burrito de Carne Desfiada
+403,Nachos com Molho Verde Apimentado
+404,Burrito de Frango
+404,Bowl de Porco Desfiado
+404,Nachos
+405,Burrito de Frango
+405,Refrigerante em Lata
+406,Tacos Macios de Carne Desfiada
+406,Refrigerante em Lata
+407,Burrito de Frango
+407,Burrito de Carne
+408,Refrigerante em Lata
+408,Bowl de Frango
+408,Bowl de Frango
+409,Bowl de Frango
+409,Bowl de Frango
+410,Burrito de Frango
+410,Refrigerante em Lata
+410,Tacos Macios de Frango
+411,Bowl de Frango
+411,Bowl de Frango
+412,Água Mineral
+412,Água Mineral
+412,Bowl de Frango
+412,Nachos com Guacamole
+413,Tacos Crocantes de Frango
+413,Refrigerante em Lata
+413,Tacos Crocantes de Porco Desfiado
+414,Burrito de Frango
+414,Nachos com Molho Verde Apimentado
+415,Bowl de Carne
+415,Nachos com Guacamole
+416,Burrito de Carne
+416,Bowl de Frango
+417,Burrito de Carne
+417,Porção Extra de Nachos
+418,Bowl de Frango
+419,Nachos com Molho Verde Apimentado
+419,Tacos Crocantes de Carne Desfiada
+419,Tacos Crocantes de Carne
+420,Burrito de Frango
+420,Nachos com Guacamole
+421,Bowl de Frango
+421,Nachos com Guacamole
+422,Burrito de Carne
+422,Pack com 6 Refrigerantes
+423,Tacos Crocantes de Frango
+423,Burrito de Frango
+424,Burrito de Frango
+424,Refrigerante em Lata
+424,Porção Extra de Nachos
+425,Bowl de Carne Desfiada
+425,Nachos com Guacamole
+426,Bowl de Frango
+426,Refrigerante em Lata
+426,Nachos com Molho de Tomate Fresco
+427,Nachos com Guacamole
+427,Burrito Vegetariano
+428,Bowl de Carne
+428,Bowl de Carne
+428,Nachos
+429,Bowl de Carne
+430,Bowl de Frango
+430,Nachos
+430,Refrigerante em Lata
+431,Burrito de Frango
+431,Nachos
+431,Refrigerante em Lata
+432,Burrito de Frango
+432,Burrito de Frango
+432,Pack com 6 Refrigerantes
+433,Porção Extra de Nachos
+433,Bowl de Carne
+434,Burrito de Frango
+434,Burrito de Carne Desfiada
+435,Burrito de Frango
+435,Refrigerante em Lata
+436,Bowl de Frango
+436,Soda de Frutas Izze
+437,Bowl de Frango
+437,Nachos
+437,Refrigerante em Lata
+438,Burrito de Porco Desfiado
+438,Burrito de Frango
+439,Salada com Frango
+439,Bowl de Frango
+440,Nachos com Molho de Milho e Pimenta Assada
+440,Bowl de Carne Desfiada
+440,Burrito de Carne
+441,Burrito de Carne
+441,Nachos com Guacamole
+442,Burrito de Carne
+443,Bowl de Frango
+443,Burrito Vegetariano
+443,Nachos com Guacamole
+444,Porção Extra de Nachos
+444,Bowl de Carne
+445,Bowl de Frango
+445,Nachos com Guacamole
+445,Água Mineral
+446,Bowl de Carne
+446,Nachos
+447,Burrito de Carne
+447,Nachos com Molho Verde Apimentado
+448,Burrito de Frango
+448,Nachos com Molho de Tomate Fresco
+448,Refrigerante em Lata
+449,Bowl de Frango
+449,Nachos
+449,Refrigerante em Lata
+450,Refrigerante em Lata
+450,Refrigerante em Lata
+450,Burrito de Carne
+451,Tacos Macios de Frango
+451,Nachos com Molho de Tomate Fresco
+451,Bowl de Carne
+452,Burrito de Porco Desfiado
+452,Refrigerante em Lata
+453,Burrito de Frango
+454,Burrito de Carne Desfiada
+454,Nachos com Molho Vermelho Apimentado
+455,Burrito de Carne
+455,Nachos com Guacamole
+456,Bowl de Frango
+456,Burrito Vegetariano
+457,Bowl de Frango
+457,Burrito de Frango
+458,Bowl de Frango
+458,Bowl de Salada com Frango
+459,Bowl de Salada com Frango
+460,Bowl de Carne
+460,Bowl de Frango
+460,Nachos com Guacamole
+461,Burrito de Carne
+461,Refrigerante em Lata
+462,Burrito de Frango
+462,Burrito de Frango
+462,Nachos com Molho de Tomate Fresco
+463,Burrito de Carne Desfiada
+463,Porção Extra de Nachos
+464,Burrito de Frango
+464,Nachos com Guacamole
+465,Bowl de Frango
+465,Pack com 6 Refrigerantes
+466,Burrito de Frango
+466,Nachos com Guacamole
+466,Burrito de Porco Desfiado
+467,Nachos com Guacamole
+467,Tacos Macios de Carne Desfiada
+467,Burrito de Carne
+468,Nachos com Guacamole
+468,Bowl de Salada com Porco Desfiado
+468,Bowl de Carne
+469,Bowl de Frango
+469,Nachos com Molho de Tomate Fresco
+469,Água Mineral
+470,Nachos com Guacamole
+470,Burrito de Frango
+471,Burrito de Carne
+471,Água Mineral
+471,Burrito de Carne
+471,Refrigerante em Lata
+471,Nachos com Guacamole
+472,Burrito de Carne
+472,Burrito Vegetariano
+473,Burrito de Carne
+473,Nachos com Guacamole
+474,Bowl de Carne
+475,Tacos Macios de Carne Desfiada
+475,Nachos com Molho de Milho e Pimenta Assada
+475,Burrito de Carne Desfiada
+476,Burrito de Frango
+476,Burrito de Carne
+477,Burrito de Carne
+477,Burrito de Frango
+478,Bowl de Frango
+478,Nachos com Molho Verde Apimentado
+478,Nachos com Guacamole
+478,Bowl de Salada com Carne
+479,Burrito de Frango
+479,Burrito de Frango
+479,Porção Extra de Nachos
+480,Bowl de Frango
+480,Nachos
+480,Refrigerante em Lata
+481,Burrito de Frango
+481,Pack com 6 Refrigerantes
+481,Tacos Crocantes de Carne
+481,Nachos
+482,Burrito de Frango
+482,Nachos com Guacamole
+482,Bowl de Frango
+482,Refrigerante em Lata
+483,Bowl de Carne Desfiada
+483,Bowl de Carne Desfiada
+484,Bowl de Carne
+484,Água Mineral
+485,Bowl de Frango
+485,Bowl de Carne Desfiada
+485,Nachos com Molho de Milho e Pimenta Assada
+485,Nachos com Molho Vermelho Apimentado
+485,Água Mineral
+486,Bowl de Frango
+486,Nachos com Guacamole
+487,Burrito de Frango
+487,Tacos Macios de Porco Desfiado
+488,Burrito de Carne Desfiada
+488,Bowl de Frango
+488,Bowl de Salada com Frango
+488,Nachos com Guacamole
+488,Nachos com Molho Vermelho Apimentado
+488,Bowl de Carne
+489,Burrito Vegetariano
+489,Tacos Macios de Frango
+490,Tacos Crocantes de Porco Desfiado
+490,Porção Extra de Nachos
+491,Burrito de Porco Desfiado
+491,Bowl de Frango
+491,Burrito de Carne
+491,Bowl de Porco Desfiado
+491,Burrito de Frango
+491,Burrito de Carne Desfiada
+491,Burrito de Frango
+491,Bowl de Frango
+491,Bowl de Frango
+491,Bowl de Frango
+492,Bowl de Frango
+493,Burrito de Frango
+493,Nachos com Guacamole
+494,Bowl de Frango
+494,Burrito de Frango
+495,Bowl de Porco Desfiado
+495,Soda de Frutas Izze
+496,Nachos com Guacamole
+496,Burrito de Carne
+496,Refrigerante em Lata
+496,Refrigerante em Lata
+496,Nachos com Molho Verde Apimentado
+497,Burrito de Frango
+497,Nachos com Guacamole
+498,Bowl de Frango
+498,Bowl de Frango
+498,Nachos com Guacamole
+499,Bowl de Carne
+499,Nachos com Guacamole
+500,Bowl de Frango
+500,Nachos
+500,Refrigerante em Lata
+501,Bowl de Salada com Carne Desfiada
+501,Nachos com Molho de Tomate Fresco
+502,Burrito de Carne
+502,Refrigerante em Lata
+503,Burrito de Frango
+503,Nachos com Guacamole
+504,Bowl de Carne Desfiada
+504,Bowl de Carne Desfiada
+505,Nachos com Molho de Tomate Fresco
+505,Burrito de Porco Desfiado
+506,Burrito de Frango
+506,Tacos Macios de Carne Desfiada
+506,Nachos com Molho de Tomate Fresco
+507,Bowl Vegetariano
+507,Refrigerante em Lata
+507,Bowl de Porco Desfiado
+507,Refrigerante em Lata
+508,Bowl de Carne
+508,Nachos com Molho de Tomate Fresco
+509,Refrigerante em Lata
+509,Tacos Macios de Frango
+509,Refrigerante em Lata
+509,Burrito de Frango
+510,Burrito Vegetariano
+510,Nachos com Guacamole
+511,Burrito de Frango
+511,Burrito de Carne
+511,Burrito Vegetariano
+511,Nachos com Molho de Tomate Fresco
+511,Nachos com Guacamole
+511,Nachos com Molho Verde Apimentado
+511,Pack com 6 Refrigerantes
+512,Burrito Vegetariano
+513,Burrito de Carne
+513,Nachos com Molho Verde Apimentado
+514,Bowl de Carne Desfiada
+514,Bowl de Frango
+514,Nachos
+515,Tacos Macios de Frango
+515,Nachos com Guacamole
+516,Burrito de Frango
+516,Porção Extra de Nachos
+517,Burrito de Frango
+517,Burrito de Carne
+518,Burrito de Frango
+519,Nachos com Guacamole
+519,Burrito de Carne
+519,Burrito de Carne
+520,Nachos com Guacamole
+520,Tacos Macios de Frango
+520,Pack com 6 Refrigerantes
+521,Burrito de Frango
+521,Bowl de Frango
+522,Burrito de Carne
+522,Refrigerante em Lata
+522,Nachos com Guacamole
+523,Burrito de Frango
+523,Porção Extra de Nachos
+524,Burrito de Porco Desfiado
+524,Nachos com Guacamole
+525,Burrito de Carne
+525,Refrigerante em Lata
+526,Bowl de Frango
+526,Nachos com Molho de Milho e Pimenta Assada
+527,Bowl de Carne
+527,Bowl de Porco Desfiado
+527,Nachos com Guacamole
+528,Bowl de Frango
+529,Bowl Vegetariano
+529,Bowl de Frango
+529,Bowl de Frango
+530,Burrito de Carne Desfiada
+530,Nachos
+530,Bowl de Frango
+531,Bowl de Frango
+531,Nachos com Guacamole
+532,Porção Extra de Nachos
+532,Bowl de Carne
+533,Bowl de Frango
+533,Porção Extra de Nachos
+534,Burrito de Carne
+534,Burrito de Frango
+534,Bowl de Salada com Carne
+535,Bowl de Carne
+535,Nachos com Molho Vermelho Apimentado
+535,Bowl de Carne
+535,Nachos com Molho de Tomate Fresco
+536,Bowl de Salada Vegetariano
+536,Nachos com Guacamole
+537,Nachos com Guacamole
+537,Bowl Vegetariano
+538,Burrito de Frango
+539,Burrito de Carne
+539,Burrito de Frango
+540,Burrito de Carne
+540,Nachos com Guacamole
+541,Burrito de Carne
+541,Bowl de Salada com Carne Desfiada
+542,Tacos Crocantes de Carne
+542,Burrito de Frango
+543,Bowl de Frango
+543,Bowl de Carne
+544,Burrito de Frango
+544,Bowl de Frango
+545,Burrito de Carne
+545,Tacos Macios de Carne Desfiada
+545,Nachos com Guacamole
+546,Burrito de Frango
+546,Burrito de Porco Desfiado
+546,Refrigerante em Lata
+547,Burrito de Carne
+547,Porção Extra de Nachos
+548,Bowl de Porco Desfiado
+548,Nachos
+549,Refrigerante em Lata
+549,Bowl de Porco Desfiado
+549,Tacos Crocantes de Frango
+549,Nachos com Guacamole
+550,Bowl de Carne Desfiada
+550,Nachos com Molho Vermelho Apimentado
+551,Burrito Vegetariano
+551,Burrito de Frango
+552,Nachos com Guacamole
+552,Bowl de Salada com Frango
+552,Tacos Macios de Carne
+553,Bowl de Carne
+553,Porção Extra de Nachos
+553,Suco Nantucket Nectar
+554,Bowl de Carne Desfiada
+554,Nachos com Molho de Milho e Pimenta Assada
+555,Bowl de Porco Desfiado
+555,Porção Extra de Nachos
+555,Tacos Macios de Frango
+556,Burrito de Frango
+557,Bowl Vegetariano
+557,Nachos com Molho de Tomate Fresco
+558,Tacos Macios de Carne
+558,Porção Extra de Nachos
+559,Bowl de Frango
+559,Nachos
+559,Refrigerante em Lata
+560,Bowl de Frango
+560,Nachos com Molho de Milho e Pimenta Assada
+560,Burrito de Carne
+560,Refrigerante em Lata
+561,Bowl Vegetariano
+561,Refrigerante em Lata
+561,Bowl de Porco Desfiado
+561,Refrigerante em Lata
+561,Bowl de Frango
+561,Água Mineral
+561,Tacos Macios de Frango
+561,Refrigerante em Lata
+561,Nachos com Molho Vermelho Apimentado
+562,Bowl de Carne Desfiada
+562,Burrito de Carne
+563,Bowl de Frango
+563,Bowl de Frango
+563,Nachos
+564,Burrito de Carne
+564,Refrigerante em Lata
+565,Tacos Macios de Porco Desfiado
+565,Tacos Macios de Carne Desfiada
+566,Pack com 6 Refrigerantes
+566,Bowl de Porco Desfiado
+567,Burrito Vegetariano
+567,Tacos Macios Vegetarianos
+567,Refrigerante em Lata
+568,Bowl de Frango
+569,Burrito de Frango
+569,Refrigerante em Lata
+569,Nachos
+570,Bowl de Frango
+570,Água Mineral
+571,Burrito de Frango
+571,Bowl Vegetariano
+572,Bowl de Frango
+572,Burrito de Frango
+573,Bowl de Frango
+573,Água Mineral
+573,Refrigerante em Lata
+573,Água Mineral
+574,Bowl de Frango
+574,Refrigerante em Lata
+574,Nachos
+575,Salada
+575,Salada
+575,Nachos com Guacamole
+576,Bowl de Carne Desfiada
+576,Bowl de Salada com Carne Desfiada
+576,Bowl de Carne Desfiada
+576,Bowl de Carne Desfiada
+576,Bowl de Salada com Carne Desfiada
+577,Bowl de Salada com Frango
+577,Nachos com Guacamole
+577,Burrito de Frango
+577,Água Mineral
+577,Tacos Macios de Frango
+577,Bowl de Frango
+577,Bowl Vegetariano
+578,Bowl de Frango
+579,Bowl de Porco Desfiado
+579,Refrigerante em Lata
+580,Bowl de Frango
+580,Bowl Vegetariano
+581,Burrito de Frango
+582,Burrito de Frango
+582,Água Mineral
+583,Tacos Macios de Porco Desfiado
+583,Tacos Macios de Frango
+584,Nachos com Guacamole
+584,Burrito Vegetariano
+585,Bowl Vegetariano
+585,Bowl de Frango
+585,Burrito de Frango
+586,Burrito de Frango
+586,Burrito de Frango
+587,Bowl de Carne
+587,Água Mineral
+588,Burrito de Frango
+588,Bowl de Frango
+588,Nachos com Molho de Milho e Pimenta Assada
+589,Tacos Crocantes de Carne
+589,Burrito de Frango
+590,Burrito de Carne
+590,Bowl Vegetariano
+590,Nachos com Guacamole
+591,Bowl de Frango
+591,Refrigerante em Lata
+591,Nachos com Molho de Milho e Pimenta Assada
+592,Burrito Vegetariano
+592,Bowl de Salada com Frango
+593,Bowl de Carne
+594,Burrito de Porco Desfiado
+594,Burrito de Frango
+595,Burrito de Frango
+595,Nachos com Molho de Tomate Fresco
+596,Burrito de Frango
+596,Tacos Macios de Frango
+596,Nachos com Guacamole
+597,Burrito de Carne
+597,Nachos com Guacamole
+598,Bowl de Salada com Frango
+598,Nachos
+598,Refrigerante em Lata
+599,Bowl de Frango
+599,Bowl de Carne
+600,Tacos Macios de Frango
+600,Água Mineral
+601,Bowl de Frango
+601,Nachos
+601,Refrigerante em Lata
+602,Burrito de Frango
+602,Bowl de Carne
+602,Bowl de Salada com Frango
+603,Bowl de Frango
+603,Água Mineral
+604,Burrito de Frango
+604,Refrigerante em Lata
+604,Nachos com Guacamole
+605,Tacos Macios de Frango
+606,Bowl de Frango
+606,Nachos com Molho Vermelho Apimentado
+606,Refrigerante em Lata
+607,Burrito de Frango
+607,Nachos com Molho de Tomate Fresco
+607,Refrigerante em Lata
+608,Tacos Macios de Frango
+608,Burrito Vegetariano
+608,Nachos com Molho de Tomate Fresco
+609,Bowl de Frango
+609,Refrigerante em Lata
+610,Burrito de Frango
+610,Burrito de Frango
+611,Bowl de Carne
+611,Bowl de Frango
+612,Bowl de Salada com Carne
+612,Refrigerante em Lata
+613,Bowl de Frango
+613,Nachos
+613,Refrigerante em Lata
+614,Burrito de Carne
+614,Refrigerante em Lata
+615,Bowl de Frango
+615,Nachos com Guacamole
+616,Bowl de Frango
+617,Bowl de Frango
+617,Nachos com Guacamole
+618,Burrito de Carne
+618,Nachos com Molho Verde Apimentado
+619,Bowl de Frango
+619,Burrito de Frango
+620,Burrito de Carne
+620,Burrito de Frango
+621,Bowl de Frango
+621,Bowl de Salada com Frango
+622,Bowl de Frango
+622,Nachos com Guacamole
+622,Refrigerante em Lata
+623,Bowl de Frango
+623,Bowl de Frango
+623,Bowl de Frango
+623,Burrito de Carne Desfiada
+624,Burrito de Carne Desfiada
+624,Nachos com Molho Vermelho Apimentado
+624,Nachos com Molho Vermelho Apimentado
+624,Nachos com Guacamole
+625,Bowl de Frango
+625,Nachos com Guacamole
+626,Nachos
+626,Bowl de Carne
+626,Refrigerante em Lata
+627,Burrito de Frango
+627,Tacos Macios de Carne
+628,Bowl de Frango
+628,Nachos com Guacamole
+628,Bowl de Frango
+628,Nachos
+628,Bowl de Salada com Frango
+628,Nachos com Guacamole
+629,Burrito de Frango
+629,Burrito de Frango
+629,Refrigerante em Lata
+630,Bowl de Frango
+630,Nachos
+631,Bowl de Frango
+631,Nachos com Molho de Milho e Pimenta Assada
+632,Bowl de Carne
+632,Refrigerante em Lata
+633,Burrito de Carne
+633,Refrigerante em Lata
+634,Tacos Macios de Frango
+634,Refrigerante em Lata
+634,Nachos com Guacamole
+635,Bowl de Carne
+635,Nachos com Guacamole
+635,Burrito de Frango
+635,Bowl de Carne
+636,Burrito de Frango
+636,Nachos com Molho Verde Apimentado
+636,Burrito de Frango
+637,Bowl de Frango
+637,Bowl de Salada com Carne
+637,Nachos com Guacamole
+637,Nachos com Molho Verde Apimentado
+637,Refrigerante em Lata
+638,Bowl de Frango
+638,Nachos com Guacamole
+638,Nachos com Molho Verde Apimentado
+638,Refrigerante em Lata
+639,Bowl de Frango
+639,Nachos
+639,Refrigerante em Lata
+640,Burrito de Carne
+640,Nachos com Molho Verde Apimentado
+641,Burrito de Carne Desfiada
+641,Suco Nantucket Nectar
+642,Burrito de Carne
+642,Tacos Macios de Porco Desfiado
+643,Bowl de Frango
+643,Nachos com Molho Verde Apimentado
+644,Bowl de Salada com Carne
+644,Água Mineral
+645,Bowl de Frango
+645,Nachos com Molho Verde Apimentado
+646,Bowl de Porco Desfiado
+646,Burrito de Frango
+647,Bowl de Frango
+647,Nachos com Molho de Milho e Pimenta Assada
+648,Bowl de Frango
+648,Burrito de Carne Desfiada
+648,Nachos
+649,Bowl de Salada com Frango
+649,Bowl de Frango
+649,Bowl de Frango
+649,Bowl de Frango
+649,Nachos
+650,Burrito de Frango
+650,Refrigerante em Lata
+650,Nachos
+651,Bowl de Frango
+651,Bowl de Frango
+651,Soda de Frutas Izze
+651,Soda de Frutas Izze
+652,Burrito de Frango
+652,Tacos Macios de Frango
+652,Nachos com Molho Verde Apimentado
+653,Burrito de Frango
+653,Tacos Macios de Carne
+654,Bowl de Carne
+654,Refrigerante em Lata
+654,Nachos com Molho Vermelho Apimentado
+654,Bowl de Salada com Frango
+654,Bowl Vegetariano
+655,Bowl de Carne
+655,Nachos com Guacamole
+655,Água Mineral
+656,Suco Nantucket Nectar
+656,Burrito de Porco Desfiado
+656,Nachos com Molho de Milho e Pimenta Assada
+657,Bowl de Frango
+657,Nachos
+658,Burrito Vegetariano
+658,Tacos Crocantes de Porco Desfiado
+659,Burrito de Carne
+659,Nachos com Guacamole
+660,Burrito de Carne
+660,Nachos com Guacamole
+661,Burrito de Carne
+661,Bowl de Frango
+662,Burrito de Frango
+662,Burrito de Carne
+663,Burrito de Frango
+663,Tacos Macios de Carne Desfiada
+664,Bowl de Carne Desfiada
+664,Bowl Vegetariano
+665,Bowl de Frango
+665,Nachos com Guacamole
+666,Nachos com Guacamole
+666,Burrito de Carne Desfiada
+667,Bowl de Frango
+667,Bowl de Carne Desfiada
+667,Bowl de Frango
+668,Burrito Vegetariano
+668,Tacos Crocantes Vegetarianos
+669,Burrito de Frango
+669,Nachos
+670,Burrito de Frango
+670,Tacos Macios de Frango
+670,Nachos com Molho de Milho e Pimenta Assada
+671,Burrito de Frango
+671,Bowl de Frango
+672,Burrito de Frango
+672,Refrigerante em Lata
+673,Burrito de Frango
+673,Nachos
+674,Nachos com Molho Vermelho Apimentado
+674,Refrigerante em Lata
+674,Burrito de Frango
+675,Tacos Macios de Porco Desfiado
+675,Tacos Macios de Carne Desfiada
+676,Bowl de Carne Desfiada
+676,Nachos com Molho Vermelho Apimentado
+677,Bowl de Frango
+677,Nachos
+677,Refrigerante em Lata
+678,Burrito de Carne
+678,Nachos com Guacamole
+679,Burrito de Porco Desfiado
+679,Nachos
+680,Bowl de Porco Desfiado
+680,Soda de Frutas Izze
+681,Burrito de Carne
+681,Tacos Macios de Frango
+682,Bowl de Frango
+682,Bowl de Frango
+682,Nachos com Guacamole
+683,Bowl de Frango
+683,Nachos
+683,Refrigerante em Lata
+684,Burrito de Carne
+684,Nachos com Guacamole
+685,Burrito de Carne
+685,Nachos com Molho de Tomate Fresco
+686,Bowl de Frango
+686,Salada Vegetariana
+687,Burrito Vegetariano
+687,Tacos Macios de Frango
+687,Nachos com Guacamole
+688,Burrito de Frango
+688,Tacos Macios Vegetarianos
+688,Burrito de Frango
+688,Bowl de Frango
+688,Nachos com Guacamole
+689,Bowl de Frango
+689,Porção Extra de Nachos
+690,Bowl de Frango
+690,Suco Nantucket Nectar
+691,Burrito de Frango
+691,Bowl de Salada com Frango
+691,Burrito de Carne
+691,Burrito de Frango
+691,Bowl de Frango
+691,Burrito de Frango
+691,Burrito de Carne
+691,Burrito de Frango
+691,Burrito de Carne
+691,Bowl de Frango
+691,Burrito de Carne
+692,Burrito de Frango
+693,Bowl de Frango
+693,Porção Extra de Nachos
+694,Tacos Macios de Carne
+694,Bowl de Carne
+695,Burrito de Frango
+695,Porção Extra de Nachos
+696,Bowl de Carne
+696,Nachos
+696,Água Mineral
+697,Burrito de Frango
+697,Água Mineral
+698,Bowl de Frango
+698,Bowl de Frango
+698,Nachos com Molho Vermelho Apimentado
+699,Bowl de Frango
+699,Porção Extra de Nachos
+700,Bowl de Frango
+700,Nachos com Molho Vermelho Apimentado
+700,Refrigerante em Lata
+701,Bowl de Salada com Frango
+701,Nachos
+702,Bowl de Porco Desfiado
+703,Bowl de Frango
+703,Bowl de Frango
+703,Bowl de Frango
+704,Bowl de Carne
+704,Refrigerante em Lata
+705,Bowl de Carne Desfiada
+705,Burrito de Frango
+706,Burrito de Frango
+706,Bowl Vegetariano
+706,Nachos com Guacamole
+707,Burrito de Frango
+707,Água Mineral
+708,Burrito de Carne
+708,Tacos Macios de Carne Desfiada
+708,Pack com 6 Refrigerantes
+709,Bowl de Salada com Frango
+709,Nachos com Guacamole
+709,Pack com 6 Refrigerantes
+710,Bowl de Frango
+710,Refrigerante em Lata
+710,Nachos
+711,Bowl de Frango
+711,Nachos com Molho Vermelho Apimentado
+712,Burrito de Frango
+712,Burrito de Carne
+712,Nachos com Guacamole
+713,Bowl de Porco Desfiado
+713,Burrito Vegetariano
+714,Burrito de Carne
+714,Nachos com Molho de Tomate Fresco
+715,Burrito de Carne
+715,Tacos Macios de Porco Desfiado
+716,Burrito de Carne
+716,Burrito de Frango
+717,Burrito de Frango
+717,Burrito de Frango
+718,Bowl de Frango
+719,Burrito Vegetariano
+719,Bowl de Carne
+720,Bowl de Frango
+720,Tacos Macios de Frango
+720,Nachos
+721,Bowl de Frango
+721,Nachos
+722,Nachos com Guacamole
+722,Bowl de Carne
+723,Bowl de Frango
+723,Nachos com Molho de Tomate Fresco
+724,Tacos Macios de Porco Desfiado
+724,Refrigerante em Lata
+724,Refrigerante em Lata
+724,Refrigerante em Lata
+725,Refrigerante em Lata
+725,Bowl de Frango
+725,Nachos
+726,Bowl de Frango
+726,Porção Extra de Nachos
+727,Bowl de Frango
+727,Água Mineral
+728,Burrito de Frango
+728,Tacos Macios de Frango
+729,Bowl de Frango
+729,Nachos com Guacamole
+730,Bowl de Carne Desfiada
+730,Refrigerante em Lata
+731,Bowl de Salada com Frango
+731,Refrigerante em Lata
+732,Burrito de Frango
+732,Nachos com Molho de Tomate Fresco
+732,Tacos Macios de Frango
+733,Bowl de Frango
+733,Burrito de Carne Desfiada
+734,Bowl de Salada com Frango
+734,Nachos com Guacamole
+734,Bowl de Salada com Frango
+734,Bowl de Salada com Carne
+735,Burrito de Carne
+735,Tacos Macios de Frango
+736,Burrito de Frango
+736,Nachos com Guacamole
+737,Burrito de Frango
+737,Bowl de Carne
+737,Bowl de Carne
+737,Nachos com Guacamole
+738,Bowl de Salada com Carne Desfiada
+738,Nachos com Molho de Tomate Fresco
+739,Burrito de Frango
+739,Nachos com Guacamole
+740,Bowl de Frango
+740,Nachos
+740,Refrigerante em Lata
+741,Bowl de Frango
+742,Bowl Vegetariano
+742,Porção Extra de Nachos
+743,Burrito de Frango
+743,Nachos com Guacamole
+744,Tacos Macios de Frango
+744,Tacos Crocantes de Porco Desfiado
+745,Bowl de Frango
+745,Nachos com Guacamole
+746,Bowl Vegetariano
+746,Burrito de Frango
+746,Nachos com Molho de Tomate Fresco
+746,Tacos Crocantes de Frango
+747,Burrito de Frango
+748,Burrito de Carne Desfiada
+748,Nachos com Molho Verde Apimentado
+749,Bowl de Frango
+749,Pack com 6 Refrigerantes
+750,Nachos
+750,Bowl de Frango
+751,Bowl de Frango
+751,Nachos
+751,Água Mineral
+752,Bowl de Frango
+752,Bowl de Frango
+752,Nachos com Molho Vermelho Apimentado
+753,Burrito de Carne
+753,Nachos com Guacamole
+754,Pack com 6 Refrigerantes
+754,Burrito de Carne
+754,Nachos com Guacamole
+755,Bowl Vegetariano
+755,Porção Extra de Nachos
+756,Bowl de Salada com Porco Desfiado
+756,Tacos Crocantes de Carne Desfiada
+757,Bowl de Carne
+757,Nachos com Molho de Tomate Fresco
+758,Burrito de Frango
+758,Nachos
+758,Refrigerante em Lata
+759,Bowl de Frango
+759,Bowl de Porco Desfiado
+759,Tacos Macios de Frango
+759,Bowl Vegetariano
+759,Bowl de Frango
+759,Bowl de Frango
+759,Refrigerante em Lata
+759,Refrigerante em Lata
+759,Água Mineral
+759,Nachos com Guacamole
+759,Nachos com Molho de Tomate Fresco
+760,Bowl de Salada com Frango
+760,Bowl de Salada Vegetariano
+761,Burrito de Frango
+761,Burrito de Frango
+762,Bowl de Frango
+762,Nachos
+762,Água Mineral
+763,Bowl de Carne
+763,Refrigerante em Lata
+763,Água Mineral
+763,Nachos
+764,Refrigerante em Lata
+764,Bowl de Frango
+764,Nachos com Molho Vermelho Apimentado
+765,Tacos Macios de Frango
+765,Nachos com Guacamole
+766,Bowl de Salada com Frango
+766,Nachos
+767,Bowl de Carne
+767,Nachos
+768,Tacos Crocantes de Carne Desfiada
+769,Bowl de Frango
+769,Nachos com Molho de Tomate Fresco
+770,Bowl de Frango
+770,Nachos com Guacamole
+770,Bowl de Porco Desfiado
+771,Burrito de Porco Desfiado
+771,Nachos com Guacamole
+772,Burrito de Carne
+772,Tacos Macios de Carne
+773,Água Mineral
+773,Bowl de Frango
+773,Nachos com Molho Vermelho Apimentado
+774,Pack com 6 Refrigerantes
+774,Bowl de Porco Desfiado
+775,Burrito de Frango
+775,Burrito de Carne
+776,Bowl de Frango
+776,Nachos com Guacamole
+776,Pack com 6 Refrigerantes
+777,Bowl de Salada com Frango
+778,Bowl de Carne
+778,Nachos com Molho de Milho e Pimenta Assada
+779,Bowl de Frango
+779,Porção Extra de Nachos
+780,Bowl de Frango
+781,Bowl de Frango
+781,Nachos com Guacamole
+782,Bowl de Frango
+782,Nachos com Molho Vermelho Apimentado
+783,Bowl de Carne
+783,Bowl de Frango
+783,Nachos com Molho Verde Apimentado
+784,Burrito de Carne
+784,Pack com 6 Refrigerantes
+784,Tacos Macios de Frango
+785,Burrito de Carne
+785,Nachos com Molho de Tomate Fresco
+786,Bowl de Carne
+786,Porção Extra de Nachos
+787,Bowl de Carne
+787,Refrigerante em Lata
+787,Refrigerante em Lata
+787,Burrito de Carne
+787,Burrito de Porco Desfiado
+788,Refrigerante em Lata
+788,Burrito de Carne
+789,Burrito de Carne
+789,Tacos Macios de Frango
+790,Bowl de Frango
+790,Refrigerante em Lata
+791,Burrito de Carne
+791,Bowl de Carne
+791,Bowl de Salada com Frango
+791,Burrito de Frango
+791,Nachos
+792,Burrito Vegetariano
+792,Tacos Macios de Frango
+792,Nachos com Guacamole
+792,Nachos com Molho de Milho e Pimenta Assada
+793,Tacos Macios de Porco Desfiado
+793,Água Mineral
+794,Burrito de Carne
+794,Bowl de Frango
+794,Nachos com Molho Verde Apimentado
+795,Burrito de Frango
+795,Nachos
+795,Bowl de Carne Desfiada
+796,Água Mineral
+796,Bowl de Frango
+796,Nachos
+797,Nachos com Guacamole
+797,Bowl de Carne
+798,Pack com 6 Refrigerantes
+798,Bowl de Salada com Frango
+798,Nachos com Guacamole
+799,Tacos Macios de Carne
+799,Nachos com Guacamole
+800,Burrito de Frango
+801,Burrito Vegetariano
+801,Refrigerante em Lata
+802,Bowl de Frango
+803,Tacos Macios de Carne Desfiada
+803,Nachos com Guacamole
+803,Refrigerante em Lata
+803,Água Mineral
+804,Bowl de Frango
+804,Nachos com Guacamole
+805,Nachos com Guacamole
+805,Nachos com Molho Vermelho Apimentado
+805,Burrito de Carne
+806,Bowl de Frango
+806,Nachos
+806,Bowl de Frango
+806,Bowl de Frango
+806,Nachos com Guacamole
+807,Nachos com Molho Vermelho Apimentado
+807,Tacos Macios de Porco Desfiado
+807,Bowl de Frango
+807,Refrigerante em Lata
+808,Bowl de Frango
+808,Nachos com Molho Vermelho Apimentado
+808,Refrigerante em Lata
+809,Bowl de Frango
+809,Nachos com Guacamole
+810,Burrito de Carne
+810,Burrito de Carne
+811,Bowl de Frango
+811,Nachos com Molho Vermelho Apimentado
+812,Bowl de Frango
+812,Bowl de Carne Desfiada
+812,Nachos
+813,Água Mineral
+813,Nachos
+813,Bowl de Frango
+814,Bowl de Frango
+814,Nachos com Guacamole
+814,Bowl de Frango
+815,Bowl de Frango
+815,Refrigerante em Lata
+816,Nachos com Guacamole
+816,Burrito de Carne
+816,Tacos Crocantes de Carne
+816,Burrito de Frango
+817,Bowl de Porco Desfiado
+817,Bowl Vegetariano
+817,Burrito de Frango
+818,Bowl de Carne
+818,Bowl de Salada com Frango
+818,Burrito de Porco Desfiado
+818,Bowl de Porco Desfiado
+818,Bowl Vegetariano
+818,Bowl de Frango
+818,Nachos com Guacamole
+818,Nachos com Molho de Tomate Fresco
+819,Bowl de Frango
+820,Bowl Vegetariano
+820,Burrito de Frango
+821,Burrito de Frango
+822,Bowl de Carne
+822,Bowl de Carne
+823,Burrito de Carne
+823,Burrito de Frango
+823,Bowl de Carne
+824,Nachos com Guacamole
+824,Tacos Macios de Frango
+825,Bowl de Frango
+825,Porção Extra de Nachos
+826,Burrito de Frango
+827,Burrito de Carne
+827,Nachos com Molho de Milho e Pimenta Assada
+828,Burrito de Carne
+828,Nachos com Molho de Tomate Fresco
+829,Refrigerante em Lata
+829,Bowl de Frango
+829,Nachos com Molho Vermelho Apimentado
+830,Burrito de Carne
+830,Tacos Macios de Frango
+831,Burrito de Frango
+832,Bowl de Frango
+832,Bowl Vegetariano
+832,Nachos com Molho de Tomate Fresco
+833,Bowl de Frango
+833,Água Mineral
+834,Burrito Vegetariano
+834,Água Mineral
+834,Refrigerante em Lata
+835,Bowl de Frango
+835,Nachos com Guacamole
+836,Bowl de Carne
+836,Bowl de Carne Desfiada
+836,Nachos com Guacamole
+837,Bowl de Frango
+838,Tacos Macios de Frango
+838,Nachos com Guacamole
+838,Tacos Macios de Frango
+839,Tacos Macios de Frango
+839,Tacos Macios de Porco Desfiado
+840,Burrito de Carne
+840,Nachos com Molho de Tomate Fresco
+841,Tacos Macios de Carne Desfiada
+841,Burrito Vegetariano
+842,Burrito de Frango
+842,Tacos Macios de Frango
+842,Nachos com Guacamole
+842,Soda de Frutas Izze
+843,Bowl de Carne
+843,Água Mineral
+844,Nachos com Guacamole
+844,Burrito de Porco Desfiado
+844,Burrito de Frango
+845,Refrigerante em Lata
+845,Bowl de Carne
+846,Burrito Vegetariano
+846,Água Mineral
+846,Burrito de Frango
+847,Bowl de Frango
+847,Nachos
+847,Água Mineral
+848,Burrito de Frango
+848,Nachos com Molho Vermelho Apimentado
+848,Bowl de Frango
+848,Burrito de Frango
+848,Bowl de Frango
+848,Burrito de Frango
+849,Pack com 6 Refrigerantes
+849,Nachos com Guacamole
+849,Burrito de Frango
+850,Bowl de Salada com Frango
+850,Nachos
+850,Bowl de Salada com Frango
+851,Bowl de Frango
+851,Nachos com Guacamole
+852,Burrito de Carne
+852,Nachos com Molho de Tomate Fresco
+853,Burrito de Carne
+853,Tacos Macios de Porco Desfiado
+854,Burrito de Carne
+854,Nachos com Guacamole
+855,Burrito de Carne
+855,Bowl Vegetariano
+855,Nachos com Molho de Tomate Fresco
+855,Nachos
+856,Burrito de Frango
+856,Burrito de Frango
+857,Bowl de Frango
+857,Nachos
+857,Água Mineral
+858,Burrito de Carne Desfiada
+858,Nachos com Guacamole
+859,Burrito de Frango
+859,Burrito de Carne
+859,Refrigerante em Lata
+860,Burrito de Frango
+860,Nachos com Guacamole
+860,Refrigerante em Lata
+861,Tacos Macios de Carne
+861,Nachos com Molho de Milho e Pimenta Assada
+862,Nachos com Guacamole
+862,Burrito de Frango
+863,Burrito de Frango
+864,Tacos Macios de Carne
+864,Água Mineral
+865,Bowl de Frango
+866,Bowl de Carne
+866,Bowl de Frango
+866,Nachos com Guacamole
+867,Burrito de Carne
+867,Tacos Macios de Frango
+868,Nachos com Guacamole
+868,Burrito de Frango
+868,Burrito de Frango
+868,Burrito de Carne
+869,Bowl de Salada Vegetariano
+869,Bowl de Frango
+870,Burrito de Frango
+871,Burrito de Frango
+872,Burrito de Frango
+872,Nachos com Molho Verde Apimentado
+872,Suco Nantucket Nectar
+873,Bowl de Frango
+873,Refrigerante em Lata
+873,Nachos com Molho de Tomate Fresco
+874,Bowl de Carne
+874,Água Mineral
+875,Bowl de Frango
+875,Porção Extra de Nachos
+876,Nachos com Guacamole
+876,Burrito de Frango
+877,Bowl de Frango
+877,Bowl de Frango
+878,Bowl de Frango
+878,Nachos com Guacamole
+879,Burrito de Carne
+879,Burrito Vegetariano
+879,Bowl de Frango
+879,Bowl de Frango
+880,Nachos com Guacamole
+880,Bowl de Carne
+880,Burrito de Frango
+881,Bowl de Frango
+881,Burrito de Frango
+881,Burrito de Frango
+882,Nachos com Guacamole
+882,Bowl de Frango
+883,Nachos com Guacamole
+883,Refrigerante em Lata
+883,Bowl de Frango
+884,Bowl de Frango
+884,Água Mineral
+884,Nachos
+885,Bowl de Porco Desfiado
+885,Burrito de Carne
+886,Bowl de Carne
+886,Bowl de Carne
+887,Bowl de Carne
+887,Água Mineral
+888,Burrito de Frango
+888,Tacos Macios de Porco Desfiado
+888,Refrigerante em Lata
+888,Burrito de Frango
+888,Nachos
+889,Burrito de Carne
+889,Refrigerante em Lata
+890,Nachos com Guacamole
+890,Burrito de Frango
+890,Bowl de Carne
+891,Nachos
+891,Bowl de Frango
+891,Burrito de Frango
+892,Refrigerante em Lata
+892,Bowl de Carne
+892,Nachos
+893,Burrito de Carne
+893,Burrito de Frango
+894,Burrito Vegetariano
+894,Burrito Vegetariano
+894,Nachos com Guacamole
+895,Burrito de Frango
+895,Porção Extra de Nachos
+896,Bowl de Salada Vegetariano
+896,Bowl de Salada com Frango
+897,Burrito de Carne
+897,Tacos Macios de Frango
+898,Tacos Crocantes de Carne
+898,Bowl de Frango
+898,Nachos com Molho Vermelho Apimentado
+899,Nachos com Guacamole
+899,Tacos Crocantes de Carne
+899,Pack com 6 Refrigerantes
+900,Bowl de Porco Desfiado
+900,Bowl de Carne
+901,Refrigerante em Lata
+901,Burrito de Carne
+901,Burrito de Carne
+901,Burrito de Frango
+902,Burrito de Porco Desfiado
+903,Bowl de Frango
+903,Nachos
+903,Água Mineral
+904,Burrito de Carne Desfiada
+904,Porção Extra de Nachos
+905,Bowl de Frango
+905,Refrigerante em Lata
+906,Tacos Macios de Porco Desfiado
+906,Tacos Macios de Carne Desfiada
+907,Tacos Macios de Frango
+907,Tacos Macios de Carne
+907,Nachos com Guacamole
+907,Nachos
+907,Bowl de Carne Desfiada
+908,Burrito de Frango
+908,Burrito de Frango
+909,Bowl de Frango
+909,Burrito de Carne Desfiada
+909,Nachos
+910,Tacos Macios de Carne Desfiada
+910,Bowl de Frango
+911,Burrito de Frango
+911,Nachos
+911,Refrigerante em Lata
+912,Bowl de Frango
+912,Refrigerante em Lata
+912,Bowl de Frango
+912,Nachos com Molho de Tomate Fresco
+913,Bowl de Porco Desfiado
+913,Bowl de Salada Vegetariano
+913,Burrito de Porco Desfiado
+913,Nachos com Guacamole
+914,Bowl de Carne
+914,Bowl de Carne
+915,Refrigerante em Lata
+915,Bowl de Carne
+915,Nachos
+916,Bowl de Carne
+916,Água Mineral
+916,Refrigerante em Lata
+916,Burrito Vegetariano
+916,Nachos com Molho Vermelho Apimentado
+916,Bowl de Frango
+916,Tacos Macios de Frango
+916,Tacos Macios de Frango
+917,Burrito de Frango
+918,Burrito de Frango
+918,Tacos Macios de Frango
+919,Burrito de Frango
+919,Nachos
+919,Refrigerante em Lata
+920,Burrito de Frango
+921,Bowl de Frango
+921,Nachos
+921,Água Mineral
+922,Bowl de Frango
+922,Nachos com Molho Verde Apimentado
+922,Refrigerante em Lata
+923,Tacos Macios de Porco Desfiado
+923,Tacos Macios de Porco Desfiado
+924,Burrito de Frango
+924,Nachos com Molho de Milho e Pimenta Assada
+925,Burrito de Frango
+925,Nachos com Guacamole
+926,Burrito de Carne
+926,Bowl de Frango
+926,Bowl de Frango
+926,Bowl de Frango
+926,Bowl de Carne
+926,Bowl de Frango
+926,Burrito de Carne
+926,Burrito de Frango
+926,Bowl de Frango
+926,Bowl de Frango
+926,Bowl de Salada com Frango
+926,Bowl de Carne
+926,Burrito de Frango
+926,Bowl de Carne
+926,Bowl de Frango
+926,Bowl de Carne
+926,Burrito de Frango
+926,Bowl de Frango
+926,Bowl de Frango
+926,Burrito de Carne Desfiada
+926,Burrito de Frango
+926,Bowl de Carne
+926,Bowl Vegetariano
+927,Burrito de Carne
+927,Burrito de Carne
+928,Bowl de Frango
+928,Nachos com Molho Vermelho Apimentado
+928,Refrigerante em Lata
+929,Bowl de Carne
+929,Água Mineral
+930,Bowl de Frango
+930,Bowl de Frango
+931,Bowl de Frango
+931,Água Mineral
+931,Nachos
+932,Bowl de Frango
+933,Bowl de Carne
+933,Água Mineral
+934,Bowl de Frango
+934,Nachos
+934,Água Mineral
+935,Burrito de Frango
+935,Nachos com Molho de Milho e Pimenta Assada
+935,Refrigerante em Lata
+936,Refrigerante em Lata
+936,Burrito de Carne
+936,Nachos com Guacamole
+937,Bowl de Frango
+937,Burrito de Frango
+937,Nachos com Guacamole
+938,Bowl de Frango
+938,Nachos
+938,Refrigerante em Lata
+939,Bowl de Frango
+939,Porção Extra de Nachos
+940,Burrito de Frango
+940,Refrigerante em Lata
+940,Bowl de Frango
+940,Refrigerante em Lata
+941,Bowl de Frango
+941,Burrito de Frango
+941,Bowl de Frango
+942,Burrito de Frango
+942,Porção Extra de Nachos
+943,Bowl de Porco Desfiado
+943,Burrito de Carne
+944,Bowl de Frango
+944,Nachos com Molho de Milho e Pimenta Assada
+945,Bowl de Carne Desfiada
+945,Nachos com Molho de Milho e Pimenta Assada
+945,Pack com 6 Refrigerantes
+945,Tacos Crocantes de Frango
+946,Bowl Vegetariano
+946,Burrito de Carne
+946,Bowl de Frango
+947,Suco Nantucket Nectar
+947,Burrito de Carne
+947,Suco Nantucket Nectar
+948,Burrito de Porco Desfiado
+948,Bowl de Frango
+948,Tacos Macios Vegetarianos
+949,Nachos com Guacamole
+949,Bowl de Carne
+949,Bowl de Carne
+949,Burrito de Frango
+949,Pack com 6 Refrigerantes
+950,Burrito de Carne
+950,Nachos com Molho de Tomate Fresco
+951,Bowl Vegetariano
+951,Burrito de Frango
+952,Burrito de Carne
+952,Nachos com Guacamole
+952,Bowl de Frango
+952,Nachos
+953,Burrito de Carne Desfiada
+953,Bowl de Carne Desfiada
+953,Burrito de Carne Desfiada
+953,Bowl de Salada com Carne
+953,Bowl de Carne
+953,Bowl de Salada com Frango
+953,Bowl de Porco Desfiado
+953,Burrito de Carne
+954,Bowl de Frango
+954,Bowl de Frango
+955,Bowl de Frango
+955,Porção Extra de Nachos
+955,Água Mineral
+956,Bowl de Frango
+956,Água Mineral
+957,Burrito de Frango
+957,Burrito de Frango
+958,Bowl de Carne
+958,Água Mineral
+959,Burrito de Frango
+959,Tacos Crocantes de Carne
+960,Bowl de Salada com Frango
+961,Burrito de Frango
+961,Nachos
+962,Tacos Crocantes de Frango
+962,Bowl de Salada com Frango
+962,Nachos
+963,Burrito Vegetariano
+963,Nachos com Molho Vermelho Apimentado
+964,Nachos com Guacamole
+964,Bowl de Frango
+965,Bowl de Frango
+965,Suco Nantucket Nectar
+965,Nachos com Molho de Tomate Fresco
+966,Bowl de Carne
+966,Nachos
+966,Tacos Macios de Carne Desfiada
+967,Burrito de Carne
+967,Nachos com Molho de Tomate Fresco
+968,Bowl de Frango
+968,Burrito de Carne
+969,Bowl de Salada com Carne
+969,Refrigerante em Lata
+970,Água Mineral
+970,Bowl de Salada com Carne Desfiada
+971,Refrigerante em Lata
+971,Bowl Vegetariano
+971,Nachos com Molho de Tomate Fresco
+972,Bowl de Frango
+972,Burrito de Frango
+972,Bowl de Frango
+973,Bowl de Frango
+973,Tacos Macios de Carne
+973,Bowl de Frango
+973,Bowl de Frango
+973,Nachos com Guacamole
+974,Burrito de Porco Desfiado
+974,Tacos Macios de Frango
+975,Burrito de Frango
+975,Bowl de Carne
+975,Água Mineral
+976,Água Mineral
+976,Bowl de Frango
+976,Tacos Crocantes de Carne
+977,Burrito de Carne Desfiada
+977,Burrito de Frango
+978,Nachos com Guacamole
+978,Tacos Macios de Frango
+978,Nachos
+979,Burrito de Carne
+979,Burrito de Frango
+979,Nachos com Guacamole
+980,Porção Extra de Nachos
+980,Bowl Vegetariano
+981,Bowl de Carne
+981,Bowl de Carne
+982,Burrito de Carne
+982,Nachos com Guacamole
+983,Bowl de Frango
+983,Nachos com Guacamole
+983,Bowl de Frango
+984,Refrigerante em Lata
+984,Burrito de Carne
+984,Nachos com Guacamole
+985,Burrito Vegetariano
+986,Bowl de Frango
+986,Bowl de Frango
+987,Burrito de Carne
+987,Burrito de Frango
+988,Bowl de Frango
+988,Bowl de Porco Desfiado
+989,Nachos com Guacamole
+989,Refrigerante em Lata
+989,Burrito de Frango
+990,Burrito de Carne
+990,Refrigerante em Lata
+990,Nachos com Molho de Tomate Fresco
+991,Bowl de Frango
+991,Nachos
+992,Bowl de Frango
+992,Nachos com Guacamole
+993,Burrito de Frango
+993,Porção Extra de Nachos
+994,Burrito de Frango
+994,Porção Extra de Nachos
+995,Burrito de Carne
+995,Nachos com Guacamole
+995,Bowl de Frango
+996,Tacos Macios de Frango
+996,Tacos Crocantes de Frango
+996,Burrito de Carne
+996,Tacos Macios de Frango
+997,Bowl de Frango
+998,Bowl de Frango
+998,Nachos com Molho de Tomate Fresco
+999,Refrigerante em Lata
+999,Tacos Macios de Frango
+999,Tacos Crocantes de Frango
+999,Burrito de Carne
+1000,Bowl de Carne Desfiada
+1000,Bowl de Frango
+1001,Burrito de Carne
+1001,Refrigerante em Lata
+1002,Burrito de Carne Desfiada
+1002,Porção Extra de Nachos
+1003,Burrito de Porco Desfiado
+1003,Refrigerante em Lata
+1004,Bowl de Frango
+1005,Burrito de Frango
+1005,Nachos
+1005,Refrigerante em Lata
+1006,Tacos Macios de Frango
+1006,Bowl Vegetariano
+1006,Bowl de Carne
+1006,Burrito de Frango
+1006,Bowl de Frango
+1006,Burrito de Frango
+1006,Burrito de Frango
+1006,Nachos
+1007,Bowl de Porco Desfiado
+1007,Refrigerante em Lata
+1007,Porção Extra de Nachos
+1008,Bowl de Frango
+1008,Nachos
+1008,Refrigerante em Lata
+1009,Bowl de Frango
+1009,Refrigerante em Lata
+1009,Água Mineral
+1009,Porção Extra de Nachos
+1010,Bowl de Porco Desfiado
+1010,Bowl de Frango
+1010,Tacos Crocantes de Frango
+1010,Nachos com Molho Vermelho Apimentado
+1011,Tacos Macios de Porco Desfiado
+1011,Refrigerante em Lata
+1011,Refrigerante em Lata
+1011,Refrigerante em Lata
+1012,Bowl de Frango
+1012,Tacos Crocantes de Frango
+1013,Bowl de Porco Desfiado
+1013,Nachos com Guacamole
+1013,Bowl de Frango
+1013,Nachos com Guacamole
+1014,Burrito de Carne
+1014,Refrigerante em Lata
+1015,Bowl de Salada com Frango
+1015,Nachos
+1016,Bowl Vegetariano
+1016,Bowl de Carne
+1016,Bowl de Porco Desfiado
+1017,Bowl Vegetariano
+1017,Bowl de Frango
+1018,Bowl de Carne
+1018,Nachos com Molho de Tomate Fresco
+1019,Burrito de Frango
+1019,Nachos com Guacamole
+1020,Bowl de Frango
+1020,Nachos com Molho Vermelho Apimentado
+1020,Nachos com Molho Vermelho Apimentado
+1021,Bowl de Frango
+1021,Água Mineral
+1022,Burrito de Frango
+1023,Bowl de Frango
+1024,Burrito de Porco Desfiado
+1025,Bowl de Frango
+1025,Nachos com Guacamole
+1025,Refrigerante em Lata
+1026,Burrito de Carne Desfiada
+1026,Burrito de Porco Desfiado
+1026,Burrito de Frango
+1026,Nachos com Guacamole
+1027,Burrito de Frango
+1028,Bowl de Frango
+1028,Nachos com Guacamole
+1029,Bowl de Frango
+1029,Refrigerante em Lata
+1029,Nachos com Guacamole
+1030,Burrito de Carne
+1030,Burrito de Frango
+1030,Bowl de Frango
+1031,Burrito de Frango
+1031,Nachos com Guacamole
+1032,Bowl de Salada com Carne
+1032,Refrigerante em Lata
+1032,Nachos com Molho de Milho e Pimenta Assada
+1033,Bowl de Frango
+1033,Tacos Crocantes de Frango
+1033,Burrito Vegetariano
+1034,Bowl de Frango
+1034,Nachos
+1035,Nachos com Guacamole
+1035,Bowl de Frango
+1035,Bowl de Salada com Porco Desfiado
+1036,Bowl de Frango
+1037,Burrito de Frango
+1037,Nachos com Guacamole
+1038,Bowl de Frango
+1038,Bowl de Salada com Frango
+1039,Bowl de Frango
+1039,Burrito de Frango
+1040,Burrito de Frango
+1040,Soda de Frutas Izze
+1041,Bowl de Carne Desfiada
+1041,Bowl de Frango
+1041,Nachos com Molho Vermelho Apimentado
+1042,Água Mineral
+1042,Bowl de Salada com Carne
+1043,Burrito de Carne
+1043,Nachos com Molho de Tomate Fresco
+1044,Água Mineral
+1044,Bowl de Frango
+1044,Tacos Crocantes de Carne
+1045,Bowl de Frango
+1045,Nachos
+1045,Água Mineral
+1046,Burrito de Frango
+1046,Soda de Frutas Izze
+1047,Bowl de Carne
+1047,Refrigerante em Lata
+1048,Burrito de Frango
+1049,Burrito Vegetariano
+1049,Refrigerante em Lata
+1050,Burrito de Frango
+1050,Nachos com Molho Verde Apimentado
+1050,Refrigerante em Lata
+1051,Burrito de Frango
+1051,Bowl de Carne
+1051,Nachos com Guacamole
+1051,Bowl de Frango
+1051,Bowl de Porco Desfiado
+1052,Burrito de Frango
+1052,Burrito de Frango
+1052,Nachos com Guacamole
+1052,Tacos Crocantes de Frango
+1053,Burrito de Frango
+1053,Suco Nantucket Nectar
+1054,Tacos Macios de Carne
+1054,Nachos com Molho Verde Apimentado
+1055,Nachos com Molho Verde Apimentado
+1055,Nachos com Molho de Tomate Fresco
+1055,Nachos com Guacamole
+1056,Burrito de Carne
+1056,Burrito de Carne Desfiada
+1057,Tacos Macios de Frango
+1057,Tacos Macios de Frango
+1057,Bowl de Frango
+1058,Bowl de Frango
+1058,Nachos com Molho Vermelho Apimentado
+1058,Nachos com Guacamole
+1059,Bowl de Carne Desfiada
+1059,Tacos Crocantes de Frango
+1059,Nachos com Guacamole
+1060,Burrito de Frango
+1060,Tacos Macios de Frango
+1061,Bowl de Frango
+1062,Bowl Vegetariano
+1062,Nachos com Guacamole
+1063,Burrito de Carne
+1063,Burrito de Frango
+1064,Bowl de Carne
+1064,Nachos com Guacamole
+1064,Água Mineral
+1064,Refrigerante em Lata
+1065,Burrito de Frango
+1065,Burrito de Frango
+1066,Bowl de Salada Vegetariano
+1066,Bowl de Frango
+1067,Burrito Vegetariano
+1067,Burrito de Porco Desfiado
+1068,Burrito de Frango
+1068,Nachos com Molho de Tomate Fresco
+1068,Refrigerante em Lata
+1069,Burrito de Frango
+1069,Água Mineral
+1070,Burrito de Frango
+1070,Nachos com Guacamole
+1070,Burrito de Carne
+1070,Tacos Macios de Frango
+1071,Burrito de Frango
+1071,Burrito de Porco Desfiado
+1071,Burrito de Frango
+1071,Nachos com Guacamole
+1071,Água Mineral
+1072,Bowl de Frango
+1072,Bowl de Frango
+1073,Burrito de Frango
+1073,Porção Extra de Nachos
+1074,Bowl de Frango
+1074,Nachos
+1074,Burrito de Carne Desfiada
+1074,Nachos
+1075,Água Mineral
+1075,Bowl de Frango
+1076,Bowl de Carne
+1076,Nachos
+1076,Pack com 6 Refrigerantes
+1077,Burrito de Carne
+1077,Tacos Macios de Porco Desfiado
+1078,Bowl de Frango
+1078,Bowl de Frango
+1079,Burrito de Carne Desfiada
+1079,Bowl de Porco Desfiado
+1080,Burrito de Carne
+1080,Burrito de Frango
+1081,Burrito de Frango
+1081,Nachos
+1081,Refrigerante em Lata
+1082,Bowl de Porco Desfiado
+1082,Bowl de Carne
+1082,Burrito de Frango
+1083,Bowl de Salada com Frango
+1083,Nachos com Molho de Tomate Fresco
+1084,Burrito de Frango
+1084,Nachos com Guacamole
+1085,Tacos Macios de Carne
+1085,Bowl de Porco Desfiado
+1085,Nachos com Guacamole
+1086,Burrito de Frango
+1086,Nachos com Guacamole
+1087,Burrito de Frango
+1087,Bowl de Frango
+1087,Nachos
+1088,Bowl de Salada com Carne
+1088,Bowl de Frango
+1089,Bowl de Frango
+1089,Nachos com Molho Vermelho Apimentado
+1089,Água Mineral
+1090,Burrito de Frango
+1090,Nachos
+1091,Bowl de Frango
+1091,Bowl de Frango
+1091,Bowl de Carne Desfiada
+1092,Bowl de Carne
+1092,Nachos
+1092,Burrito de Frango
+1093,Bowl de Carne
+1093,Água Mineral
+1094,Burrito Vegetariano
+1094,Salada Vegetariana
+1095,Burrito de Frango
+1095,Soda de Frutas Izze
+1095,Burrito de Carne
+1096,Bowl de Frango
+1096,Nachos com Guacamole
+1097,Bowl de Carne Desfiada
+1097,Nachos
+1097,Tacos Macios de Frango
+1097,Nachos com Guacamole
+1097,Refrigerante em Lata
+1098,Burrito de Carne
+1098,Refrigerante em Lata
+1099,Burrito de Frango
+1099,Burrito de Frango
+1100,Bowl de Frango
+1101,Nachos com Guacamole
+1101,Bowl Vegetariano
+1101,Refrigerante em Lata
+1102,Burrito de Frango
+1102,Nachos com Molho de Tomate Fresco
+1102,Bowl de Frango
+1103,Burrito de Frango
+1103,Nachos com Molho de Tomate Fresco
+1103,Tacos Macios de Carne Desfiada
+1104,Bowl de Frango
+1104,Nachos
+1105,Burrito de Carne
+1105,Nachos com Guacamole
+1106,Nachos com Guacamole
+1106,Burrito de Carne Desfiada
+1106,Tacos Crocantes de Carne Desfiada
+1107,Bowl de Carne
+1107,Nachos
+1108,Burrito de Porco Desfiado
+1108,Burrito de Frango
+1109,Burrito de Frango
+1109,Pack com 6 Refrigerantes
+1110,Bowl de Frango
+1110,Bowl Vegetariano
+1110,Nachos com Molho de Tomate Fresco
+1111,Burrito de Frango
+1111,Nachos com Guacamole
+1112,Água Mineral
+1112,Bowl de Carne Desfiada
+1112,Nachos
+1113,Tacos Macios de Frango
+1113,Bowl Vegetariano
+1114,Bowl de Salada com Carne
+1114,Nachos com Guacamole
+1114,Água Mineral
+1114,Refrigerante em Lata
+1115,Bowl de Frango
+1115,Bowl de Frango
+1115,Nachos com Guacamole
+1116,Bowl de Frango
+1116,Tacos Crocantes de Carne
+1117,Bowl de Frango
+1117,Refrigerante em Lata
+1117,Água Mineral
+1117,Porção Extra de Nachos
+1118,Burrito de Carne
+1118,Suco Nantucket Nectar
+1119,Burrito de Carne
+1119,Porção Extra de Nachos
+1120,Burrito de Frango
+1120,Burrito de Carne
+1121,Água Mineral
+1121,Burrito de Carne
+1122,Burrito de Carne
+1122,Refrigerante em Lata
+1123,Bowl de Frango
+1123,Porção Extra de Nachos
+1124,Nachos com Guacamole
+1124,Tacos Macios de Frango
+1124,Refrigerante em Lata
+1125,Burrito de Frango
+1125,Burrito de Frango
+1126,Burrito de Carne
+1126,Burrito de Frango
+1127,Burrito de Carne
+1127,Bowl de Frango
+1128,Suco Nantucket Nectar
+1128,Burrito de Carne
+1128,Tacos Macios de Carne
+1128,Nachos com Molho de Tomate Fresco
+1129,Tacos Crocantes de Carne
+1129,Bowl de Frango
+1130,Tacos Macios de Carne
+1130,Burrito de Carne
+1131,Burrito de Carne
+1131,Nachos com Guacamole
+1131,Nachos com Molho Verde Apimentado
+1132,Burrito Vegetariano
+1132,Refrigerante em Lata
+1132,Tacos Macios Vegetarianos
+1133,Burrito de Carne
+1133,Suco Nantucket Nectar
+1134,Tacos Macios de Frango
+1134,Refrigerante em Lata
+1135,Bowl de Carne
+1135,Nachos com Guacamole
+1136,Bowl de Salada com Frango
+1136,Nachos com Guacamole
+1136,Pack com 6 Refrigerantes
+1137,Burrito de Frango
+1137,Tacos Crocantes de Carne
+1138,Bowl de Salada com Frango
+1138,Bowl de Frango
+1139,Burrito de Frango
+1139,Refrigerante em Lata
+1140,Bowl de Frango
+1140,Bowl de Carne
+1140,Nachos com Guacamole
+1140,Refrigerante em Lata
+1141,Burrito de Frango
+1141,Refrigerante em Lata
+1141,Nachos
+1142,Tacos Crocantes de Carne
+1142,Burrito de Carne
+1143,Bowl de Frango
+1143,Nachos com Molho Vermelho Apimentado
+1143,Refrigerante em Lata
+1144,Tacos Macios de Carne
+1144,Água Mineral
+1144,Água Mineral
+1145,Burrito de Frango
+1145,Bowl de Salada com Frango
+1146,Burrito de Porco Desfiado
+1147,Burrito de Carne
+1147,Porção Extra de Nachos
+1148,Bowl de Porco Desfiado
+1148,Porção Extra de Nachos
+1149,Burrito de Frango
+1149,Nachos com Guacamole
+1149,Soda de Frutas Izze
+1150,Bowl de Carne
+1150,Nachos
+1151,Burrito de Carne
+1151,Nachos com Molho de Tomate Fresco
+1152,Bowl de Frango
+1152,Bowl de Salada com Frango
+1153,Tacos Macios de Porco Desfiado
+1153,Bowl de Frango
+1154,Burrito de Carne
+1154,Burrito de Frango
+1154,Nachos com Guacamole
+1155,Bowl Vegetariano
+1155,Refrigerante em Lata
+1156,Refrigerante em Lata
+1156,Refrigerante em Lata
+1156,Nachos com Molho de Milho e Pimenta Assada
+1156,Tacos Crocantes de Frango
+1156,Burrito de Carne
+1156,Nachos com Molho de Tomate Fresco
+1157,Burrito Vegetariano
+1157,Tacos Crocantes de Frango
+1158,Bowl de Porco Desfiado
+1158,Bowl de Porco Desfiado
+1159,Bowl de Frango
+1159,Nachos com Guacamole
+1159,Nachos
+1160,Bowl de Frango
+1160,Bowl de Frango
+1161,Nachos com Guacamole
+1161,Bowl de Carne
+1162,Água Mineral
+1162,Bowl de Carne
+1163,Burrito de Frango
+1163,Água Mineral
+1164,Bowl de Porco Desfiado
+1164,Nachos com Guacamole
+1165,Nachos com Guacamole
+1165,Bowl de Carne
+1165,Nachos
+1166,Bowl de Frango
+1166,Tacos Macios de Frango
+1166,Nachos com Guacamole
+1167,Burrito de Frango
+1167,Burrito de Carne Desfiada
+1167,Nachos
+1167,Bowl de Frango
+1168,Bowl de Salada com Frango
+1168,Bowl Vegetariano
+1169,Bowl de Frango
+1169,Bowl de Carne
+1170,Bowl de Frango
+1170,Burrito de Carne
+1170,Porção Extra de Nachos
+1170,Bowl de Frango
+1171,Burrito de Carne
+1171,Burrito de Frango
+1171,Nachos com Guacamole
+1172,Suco Nantucket Nectar
+1172,Burrito de Frango
+1173,Burrito de Porco Desfiado
+1173,Bowl de Frango
+1174,Burrito de Frango
+1175,Burrito de Carne
+1176,Bowl de Frango
+1176,Bowl de Frango
+1176,Bowl de Salada com Carne
+1176,Bowl de Frango
+1177,Bowl de Frango
+1177,Porção Extra de Nachos
+1177,Refrigerante em Lata
+1178,Burrito de Carne Desfiada
+1178,Tacos Crocantes de Carne
+1179,Burrito de Carne
+1179,Tacos Crocantes de Frango
+1180,Burrito de Carne Desfiada
+1180,Nachos com Molho de Milho e Pimenta Assada
+1181,Salada com Frango
+1181,Nachos com Guacamole
+1182,Bowl de Carne
+1182,Bowl de Frango
+1182,Nachos com Molho Vermelho Apimentado
+1182,Bowl de Frango
+1182,Bowl de Carne
+1183,Burrito de Frango
+1184,Bowl de Carne
+1184,Bowl de Carne
+1185,Burrito de Frango
+1185,Refrigerante em Lata
+1186,Bowl de Porco Desfiado
+1186,Água Mineral
+1187,Bowl de Frango
+1187,Nachos com Guacamole
+1188,Bowl de Frango
+1188,Nachos
+1188,Burrito de Carne Desfiada
+1189,Bowl de Frango
+1189,Bowl de Salada com Frango
+1189,Bowl de Salada com Frango
+1190,Burrito de Frango
+1190,Nachos com Guacamole
+1190,Refrigerante em Lata
+1191,Burrito de Carne
+1191,Burrito de Carne
+1191,Refrigerante em Lata
+1192,Salada Vegetariana
+1192,Burrito de Carne
+1192,Água Mineral
+1193,Bowl de Frango
+1193,Nachos com Guacamole
+1193,Bowl de Salada com Frango
+1193,Bowl de Carne
+1194,Bowl de Frango
+1194,Bowl de Porco Desfiado
+1194,Porção Extra de Nachos
+1195,Refrigerante em Lata
+1195,Bowl de Carne
+1195,Burrito de Carne Desfiada
+1196,Bowl de Frango
+1196,Pack com 6 Refrigerantes
+1196,Bowl de Frango
+1197,Bowl de Frango
+1197,Nachos com Guacamole
+1198,Burrito de Carne
+1198,Porção Extra de Nachos
+1199,Bowl de Carne
+1200,Bowl de Carne Desfiada
+1200,Refrigerante em Lata
+1201,Bowl de Frango
+1201,Refrigerante em Lata
+1201,Água Mineral
+1201,Porção Extra de Nachos
+1202,Bowl de Frango
+1202,Nachos com Molho de Milho e Pimenta Assada
+1203,Bowl de Carne Desfiada
+1203,Refrigerante em Lata
+1204,Burrito de Frango
+1204,Porção Extra de Nachos
+1205,Burrito Vegetariano
+1205,Porção Extra de Nachos
+1206,Burrito de Carne Desfiada
+1206,Nachos com Guacamole
+1206,Bowl de Salada com Frango
+1207,Bowl de Frango
+1207,Nachos com Guacamole
+1208,Burrito Vegetariano
+1208,Burrito Vegetariano
+1209,Bowl de Frango
+1209,Bowl de Frango
+1210,Nachos com Guacamole
+1210,Tacos Crocantes de Frango
+1210,Água Mineral
+1211,Tacos Macios de Frango
+1211,Nachos com Guacamole
+1212,Salada com Frango
+1212,Nachos com Guacamole
+1213,Bowl de Carne
+1213,Nachos com Guacamole
+1214,Burrito de Frango
+1214,Nachos com Guacamole
+1215,Bowl de Frango
+1215,Nachos com Molho Vermelho Apimentado
+1216,Bowl de Frango
+1216,Nachos com Molho de Milho e Pimenta Assada
+1217,Nachos com Guacamole
+1217,Burrito Vegetariano
+1218,Refrigerante em Lata
+1218,Bowl de Frango
+1218,Nachos com Guacamole
+1219,Burrito de Carne Desfiada
+1219,Nachos com Guacamole
+1220,Refrigerante em Lata
+1220,Burrito de Carne
+1220,Nachos com Guacamole
+1221,Bowl de Frango
+1221,Nachos com Guacamole
+1221,Tacos Macios de Porco Desfiado
+1222,Bowl de Frango
+1222,Bowl de Salada com Frango
+1223,Bowl de Frango
+1223,Tacos Macios de Frango
+1223,Tacos Crocantes de Frango
+1224,Bowl de Frango
+1224,Bowl de Frango
+1225,Tacos Crocantes de Carne
+1225,Bowl de Frango
+1226,Tacos Crocantes de Frango
+1226,Tacos Crocantes de Frango
+1226,Nachos com Guacamole
+1227,Bowl de Frango
+1228,Bowl de Carne
+1228,Bowl Vegetariano
+1228,Bowl de Carne
+1228,Nachos com Guacamole
+1229,Tacos Crocantes de Carne
+1229,Nachos com Molho de Tomate Fresco
+1230,Bowl de Frango
+1230,Porção Extra de Nachos
+1231,Refrigerante em Lata
+1231,Nachos com Guacamole
+1231,Bowl de Carne
+1232,Água Mineral
+1232,Bowl de Frango
+1233,Burrito de Carne
+1234,Bowl Vegetariano
+1234,Nachos
+1235,Burrito de Frango
+1235,Bowl de Salada com Carne
+1236,Tacos Crocantes de Frango
+1236,Nachos com Guacamole
+1237,Bowl de Frango
+1237,Nachos com Molho de Tomate Fresco
+1238,Bowl de Porco Desfiado
+1238,Porção Extra de Nachos
+1239,Tacos Macios de Carne
+1239,Nachos com Guacamole
+1240,Bowl de Frango
+1240,Porção Extra de Nachos
+1241,Burrito de Carne
+1241,Nachos com Molho de Tomate Fresco
+1242,Burrito de Frango
+1242,Porção Extra de Nachos
+1243,Burrito Vegetariano
+1243,Nachos com Guacamole
+1243,Bowl de Salada com Porco Desfiado
+1243,Burrito de Carne
+1243,Bowl de Salada com Frango
+1244,Burrito de Frango
+1244,Nachos com Guacamole
+1244,Bowl de Salada com Carne
+1244,Nachos com Guacamole
+1245,Nachos com Guacamole
+1245,Burrito de Frango
+1246,Bowl de Frango
+1246,Burrito de Frango
+1246,Nachos
+1247,Burrito de Frango
+1247,Refrigerante em Lata
+1248,Burrito de Carne
+1248,Burrito de Frango
+1248,Nachos com Guacamole
+1248,Pack com 6 Refrigerantes
+1249,Bowl de Frango
+1250,Burrito de Carne
+1250,Refrigerante em Lata
+1250,Nachos com Molho Vermelho Apimentado
+1251,Nachos com Guacamole
+1251,Burrito de Frango
+1252,Burrito de Frango
+1252,Burrito de Carne
+1253,Pack com 6 Refrigerantes
+1253,Bowl de Carne
+1254,Nachos com Molho Verde Apimentado
+1254,Bowl de Carne
+1254,Refrigerante em Lata
+1255,Bowl Vegetariano
+1255,Nachos com Guacamole
+1255,Bowl Vegetariano
+1256,Burrito de Carne Desfiada
+1256,Porção Extra de Nachos
+1257,Bowl de Frango
+1258,Refrigerante em Lata
+1258,Burrito de Carne
+1259,Bowl de Carne
+1259,Nachos com Molho de Tomate Fresco
+1260,Burrito de Carne Desfiada
+1260,Porção Extra de Nachos
+1261,Nachos com Guacamole
+1261,Refrigerante em Lata
+1261,Tacos Macios de Frango
+1262,Burrito de Carne
+1262,Refrigerante em Lata
+1263,Salada Vegetariana
+1263,Burrito Vegetariano
+1264,Bowl Vegetariano
+1264,Nachos com Guacamole
+1265,Bowl de Salada com Frango
+1266,Burrito de Frango
+1266,Burrito de Carne
+1267,Burrito de Frango
+1267,Nachos com Molho Vermelho Apimentado
+1268,Bowl de Frango
+1268,Nachos com Guacamole
+1269,Bowl de Frango
+1269,Bowl de Salada com Frango
+1270,Burrito de Carne
+1270,Bowl de Frango
+1271,Bowl de Frango
+1271,Bowl de Frango
+1271,Bowl de Frango
+1271,Burrito de Carne
+1272,Bowl de Frango
+1272,Nachos com Guacamole
+1273,Tacos Macios de Carne Desfiada
+1274,Bowl de Frango
+1274,Refrigerante em Lata
+1274,Nachos
+1275,Burrito de Carne
+1275,Nachos com Guacamole
+1276,Bowl de Carne
+1276,Nachos
+1276,Tacos Crocantes de Frango
+1277,Burrito de Carne
+1277,Nachos com Molho de Milho e Pimenta Assada
+1278,Bowl de Carne Desfiada
+1278,Bowl de Carne
+1279,Burrito de Carne
+1279,Nachos com Molho de Tomate Fresco
+1280,Burrito de Carne
+1280,Água Mineral
+1281,Bowl de Carne
+1281,Nachos com Guacamole
+1281,Água Mineral
+1282,Burrito de Carne
+1282,Tacos Macios de Carne
+1282,Nachos com Molho de Milho e Pimenta Assada
+1283,Bowl de Frango
+1283,Bowl de Salada com Carne Desfiada
+1283,Nachos
+1283,Refrigerante em Lata
+1284,Tacos Macios de Carne Desfiada
+1284,Nachos com Guacamole
+1285,Bowl de Frango
+1285,Bowl de Frango
+1286,Bowl de Frango
+1286,Nachos com Guacamole
+1287,Bowl de Frango
+1287,Nachos
+1287,Nachos com Guacamole
+1288,Bowl de Frango
+1288,Refrigerante em Lata
+1288,Nachos com Guacamole
+1289,Bowl de Salada Vegetariano
+1289,Bowl de Frango
+1290,Bowl de Frango
+1290,Nachos com Molho de Tomate Fresco
+1291,Burrito de Carne
+1291,Nachos com Molho de Tomate Fresco
+1292,Bowl de Frango
+1292,Nachos
+1293,Burrito de Frango
+1293,Nachos com Molho de Tomate Fresco
+1293,Refrigerante em Lata
+1294,Burrito Vegetariano
+1294,Burrito Vegetariano
+1295,Burrito de Frango
+1296,Burrito de Carne
+1296,Bowl de Carne
+1297,Bowl de Frango
+1297,Tacos Crocantes de Frango
+1298,Nachos com Guacamole
+1298,Refrigerante em Lata
+1298,Tacos Macios de Frango
+1299,Bowl de Porco Desfiado
+1299,Bowl de Carne Desfiada
+1299,Porção Extra de Nachos
+1300,Burrito de Carne
+1300,Porção Extra de Nachos
+1301,Bowl de Frango
+1301,Refrigerante em Lata
+1302,Burrito de Carne
+1302,Burrito de Porco Desfiado
+1303,Bowl de Carne Desfiada
+1303,Refrigerante em Lata
+1304,Burrito de Frango
+1304,Burrito de Frango
+1304,Nachos com Molho Verde Apimentado
+1304,Refrigerante em Lata
+1305,Bowl de Salada com Frango
+1305,Refrigerante em Lata
+1305,Bowl de Salada com Frango
+1306,Bowl de Frango
+1306,Nachos
+1306,Refrigerante em Lata
+1307,Bowl de Frango
+1307,Nachos com Guacamole
+1308,Burrito de Frango
+1308,Nachos com Molho de Milho e Pimenta Assada
+1309,Bowl de Frango
+1309,Nachos com Molho Vermelho Apimentado
+1310,Burrito de Frango
+1310,Nachos com Guacamole
+1311,Burrito de Carne
+1312,Burrito Vegetariano
+1312,Bowl Vegetariano
+1313,Burrito de Carne Desfiada
+1314,Bowl de Frango
+1314,Bowl de Carne
+1315,Tacos Macios de Frango
+1315,Nachos com Guacamole
+1316,Água Mineral
+1316,Bowl de Frango
+1317,Bowl de Frango
+1317,Bowl de Frango
+1318,Bowl de Frango
+1318,Nachos com Guacamole
+1319,Bowl de Carne
+1319,Nachos com Guacamole
+1320,Burrito de Frango
+1320,Tacos Macios de Frango
+1320,Nachos
+1320,Nachos com Molho Vermelho Apimentado
+1321,Bowl de Salada Vegetariano
+1321,Água Mineral
+1322,Burrito de Carne
+1322,Burrito de Frango
+1322,Nachos com Guacamole
+1323,Bowl de Frango
+1323,Bowl de Frango
+1323,Burrito de Frango
+1323,Burrito de Carne Desfiada
+1324,Bowl de Frango
+1324,Nachos
+1324,Refrigerante em Lata
+1325,Bowl de Frango
+1325,Nachos
+1325,Refrigerante em Lata
+1326,Tacos Macios de Porco Desfiado
+1326,Tacos Crocantes de Frango
+1327,Bowl de Salada com Frango
+1327,Bowl de Frango
+1327,Refrigerante em Lata
+1328,Burrito de Carne
+1328,Água Mineral
+1329,Bowl de Salada com Frango
+1329,Burrito de Frango
+1330,Nachos com Guacamole
+1330,Suco Nantucket Nectar
+1330,Burrito de Frango
+1330,Nachos com Molho Verde Apimentado
+1330,Tacos Crocantes de Carne Desfiada
+1331,Água Mineral
+1331,Bowl de Frango
+1331,Tacos Crocantes de Frango
+1332,Bowl de Frango
+1332,Bowl de Frango
+1332,Nachos
+1333,Bowl de Frango
+1333,Nachos
+1333,Refrigerante em Lata
+1334,Burrito de Frango
+1335,Burrito de Frango
+1335,Porção Extra de Nachos
+1336,Bowl de Carne
+1337,Bowl de Carne
+1337,Água Mineral
+1338,Bowl de Carne
+1338,Bowl de Porco Desfiado
+1339,Burrito de Carne
+1340,Tacos Macios de Porco Desfiado
+1340,Tacos Macios de Porco Desfiado
+1341,Burrito de Frango
+1341,Bowl de Frango
+1341,Burrito de Frango
+1341,Burrito de Carne Desfiada
+1341,Bowl de Frango
+1342,Burrito de Frango
+1342,Nachos
+1342,Refrigerante em Lata
+1343,Bowl de Salada com Carne
+1343,Burrito Vegetariano
+1344,Burrito de Carne
+1344,Nachos com Guacamole
+1345,Bowl de Carne
+1346,Bowl de Carne
+1346,Bowl de Salada com Carne Desfiada
+1347,Bowl de Frango
+1347,Nachos com Molho Vermelho Apimentado
+1348,Bowl de Frango
+1348,Porção Extra de Nachos
+1348,Água Mineral
+1349,Burrito de Carne
+1349,Salada com Frango
+1349,Refrigerante em Lata
+1350,Bowl de Frango
+1350,Refrigerante em Lata
+1351,Burrito Vegetariano
+1351,Suco Nantucket Nectar
+1352,Burrito de Frango
+1352,Nachos com Guacamole
+1353,Burrito de Frango
+1353,Tacos Crocantes de Frango
+1354,Burrito de Frango
+1354,Porção Extra de Nachos
+1355,Burrito de Frango
+1356,Bowl de Carne Desfiada
+1356,Burrito de Carne
+1356,Burrito de Carne
+1356,Refrigerante em Lata
+1357,Bowl de Salada com Frango
+1357,Bowl de Salada com Frango
+1358,Burrito de Frango
+1358,Bowl de Frango
+1359,Bowl de Frango
+1359,Refrigerante em Lata
+1359,Refrigerante em Lata
+1359,Refrigerante em Lata
+1360,Burrito de Frango
+1360,Pack com 6 Refrigerantes
+1360,Burrito de Carne
+1360,Burrito de Carne Desfiada
+1360,Nachos com Guacamole
+1361,Bowl de Frango
+1361,Bowl de Carne Desfiada
+1362,Bowl de Frango
+1362,Bowl de Frango
+1363,Bowl Vegetariano
+1363,Nachos com Molho de Milho e Pimenta Assada
+1364,Burrito de Carne
+1364,Burrito de Frango
+1365,Burrito de Frango
+1365,Nachos com Molho Verde Apimentado
+1365,Água Mineral
+1366,Burrito Vegetariano
+1366,Nachos com Molho de Tomate Fresco
+1367,Tacos Crocantes de Carne
+1367,Nachos com Molho de Tomate Fresco
+1367,Bowl de Carne
+1367,Bowl de Frango
+1368,Bowl de Salada com Frango
+1368,Bowl de Salada com Frango
+1369,Bowl Vegetariano
+1369,Nachos com Guacamole
+1370,Burrito de Frango
+1370,Refrigerante em Lata
+1371,Burrito de Frango
+1371,Nachos com Molho de Tomate Fresco
+1371,Refrigerante em Lata
+1372,Burrito de Carne
+1372,Burrito de Carne Desfiada
+1373,Burrito de Porco Desfiado
+1373,Pack com 6 Refrigerantes
+1374,Bowl de Frango
+1375,Bowl de Frango
+1375,Porção Extra de Nachos
+1376,Burrito de Frango
+1376,Nachos com Guacamole
+1377,Bowl de Frango
+1377,Nachos com Molho Vermelho Apimentado
+1377,Nachos com Molho Vermelho Apimentado
+1378,Burrito de Frango
+1378,Bowl de Carne
+1379,Burrito de Carne
+1379,Refrigerante em Lata
+1380,Burrito de Frango
+1380,Nachos com Guacamole
+1380,Refrigerante em Lata
+1381,Bowl de Frango
+1381,Tacos Crocantes de Carne
+1382,Bowl de Frango
+1382,Burrito de Porco Desfiado
+1383,Bowl de Salada com Frango
+1383,Água Mineral
+1384,Bowl de Frango
+1384,Nachos
+1385,Burrito de Frango
+1386,Burrito de Frango
+1386,Bowl de Carne
+1387,Nachos com Molho de Milho e Pimenta Assada
+1387,Burrito de Frango
+1388,Bowl de Frango
+1388,Tacos Macios de Carne
+1389,Burrito de Frango
+1389,Burrito de Carne
+1389,Tacos Macios de Frango
+1390,Bowl de Frango
+1390,Bowl de Frango
+1390,Refrigerante em Lata
+1391,Bowl de Frango
+1391,Água Mineral
+1391,Nachos
+1392,Burrito de Frango
+1392,Burrito de Frango
+1392,Bowl de Frango
+1393,Burrito de Frango
+1393,Burrito de Frango
+1394,Bowl de Frango
+1394,Nachos com Guacamole
+1395,Burrito Vegetariano
+1395,Burrito Vegetariano
+1395,Salada Vegetariana
+1396,Tacos Crocantes de Frango
+1396,Tacos Macios de Carne
+1396,Porção Extra de Nachos
+1396,Nachos com Molho de Tomate Fresco
+1396,Refrigerante em Lata
+1396,Refrigerante em Lata
+1397,Burrito Vegetariano
+1397,Nachos com Molho Verde Apimentado
+1398,Bowl de Porco Desfiado
+1399,Bowl de Frango
+1399,Nachos com Molho Vermelho Apimentado
+1399,Refrigerante em Lata
+1400,Bowl de Frango
+1400,Nachos
+1401,Bowl de Carne
+1401,Nachos com Guacamole
+1402,Burrito de Frango
+1402,Bowl de Frango
+1402,Burrito de Frango
+1402,Nachos com Guacamole
+1403,Refrigerante em Lata
+1403,Bowl de Salada com Carne
+1404,Bowl de Frango
+1404,Nachos
+1404,Refrigerante em Lata
+1405,Bowl de Frango
+1405,Refrigerante em Lata
+1405,Água Mineral
+1405,Porção Extra de Nachos
+1406,Burrito de Carne
+1406,Salada com Carne
+1407,Tacos Crocantes de Carne
+1407,Nachos com Molho de Tomate Fresco
+1408,Bowl de Frango
+1408,Nachos com Molho de Tomate Fresco
+1409,Bowl de Salada com Frango
+1410,Bowl de Frango
+1411,Bowl de Frango
+1411,Bowl de Frango
+1411,Porção Extra de Nachos
+1412,Burrito de Carne Desfiada
+1412,Nachos com Molho Verde Apimentado
+1413,Bowl de Frango
+1413,Bowl de Frango
+1414,Burrito de Frango
+1414,Burrito de Carne
+1414,Tacos Macios de Frango
+1415,Burrito de Frango
+1415,Burrito de Frango
+1416,Burrito de Frango
+1416,Nachos com Molho Verde Apimentado
+1416,Água Mineral
+1417,Refrigerante em Lata
+1417,Bowl de Porco Desfiado
+1417,Nachos com Guacamole
+1418,Burrito de Carne
+1418,Burrito de Frango
+1419,Burrito de Porco Desfiado
+1419,Burrito de Carne
+1419,Nachos com Guacamole
+1420,Burrito de Carne
+1420,Porção Extra de Nachos
+1421,Nachos com Guacamole
+1421,Burrito de Carne
+1422,Bowl de Frango
+1422,Nachos com Guacamole
+1422,Nachos
+1423,Burrito de Frango
+1423,Burrito de Carne
+1424,Nachos com Guacamole
+1424,Burrito Vegetariano
+1425,Refrigerante em Lata
+1425,Burrito de Frango
+1425,Bowl de Frango
+1426,Bowl de Salada com Carne Desfiada
+1426,Bowl de Carne Desfiada
+1426,Tacos Macios de Carne Desfiada
+1426,Bowl de Carne Desfiada
+1427,Bowl de Frango
+1427,Nachos
+1427,Água Mineral
+1428,Burrito de Carne
+1428,Nachos com Guacamole
+1429,Nachos com Guacamole
+1429,Burrito de Carne
+1429,Burrito de Frango
+1429,Nachos com Molho Vermelho Apimentado
+1430,Refrigerante em Lata
+1430,Nachos com Molho Verde Apimentado
+1430,Bowl de Frango
+1431,Nachos com Molho Verde Apimentado
+1431,Burrito de Carne
+1431,Burrito de Carne
+1431,Burrito de Carne
+1431,Burrito de Frango
+1431,Nachos
+1432,Burrito de Carne
+1432,Tacos Macios de Carne
+1433,Suco Nantucket Nectar
+1433,Burrito de Frango
+1433,Tacos Macios de Frango
+1433,Nachos com Molho Verde Apimentado
+1434,Burrito de Frango
+1434,Refrigerante em Lata
+1434,Refrigerante em Lata
+1434,Burrito de Frango
+1435,Bowl de Salada com Frango
+1435,Refrigerante em Lata
+1436,Bowl de Carne
+1436,Água Mineral
+1437,Bowl de Frango
+1437,Nachos
+1437,Água Mineral
+1438,Nachos com Guacamole
+1438,Bowl de Frango
+1439,Bowl de Frango
+1439,Nachos
+1439,Água Mineral
+1440,Burrito de Frango
+1440,Bowl de Frango
+1440,Refrigerante em Lata
+1441,Tacos Crocantes de Frango
+1441,Nachos
+1441,Água Mineral
+1442,Nachos com Guacamole
+1442,Tacos Macios de Carne
+1443,Nachos com Molho de Tomate Fresco
+1443,Água Mineral
+1443,Pack com 6 Refrigerantes
+1443,Burrito Vegetariano
+1443,Burrito de Frango
+1443,Burrito de Carne
+1443,Água Mineral
+1444,Bowl de Frango
+1444,Tacos Crocantes de Carne
+1445,Bowl de Frango
+1445,Nachos com Molho de Tomate Fresco
+1446,Refrigerante em Lata
+1446,Tacos Macios de Frango
+1446,Nachos com Guacamole
+1447,Bowl de Frango
+1448,Burrito de Frango
+1448,Pack com 6 Refrigerantes
+1449,Burrito de Frango
+1449,Burrito de Carne
+1449,Bowl Vegetariano
+1449,Bowl de Frango
+1449,Burrito de Porco Desfiado
+1449,Tacos Macios de Porco Desfiado
+1449,Tacos Macios de Frango
+1450,Burrito de Carne
+1450,Bowl de Salada com Frango
+1450,Nachos com Molho Verde Apimentado
+1451,Tacos Macios de Carne
+1451,Nachos com Molho Verde Apimentado
+1452,Burrito de Carne
+1452,Nachos com Molho de Milho e Pimenta Assada
+1453,Burrito de Frango
+1453,Nachos com Guacamole
+1453,Tacos Crocantes de Frango
+1453,Burrito de Carne Desfiada
+1454,Pack com 6 Refrigerantes
+1454,Burrito de Frango
+1454,Tacos Macios de Frango
+1454,Burrito de Frango
+1454,Tacos Macios de Frango
+1454,Tacos Crocantes de Frango
+1455,Bowl de Frango
+1455,Bowl de Salada com Frango
+1455,Nachos
+1456,Refrigerante em Lata
+1456,Burrito de Carne
+1457,Burrito de Frango
+1457,Nachos
+1457,Água Mineral
+1458,Bowl de Frango
+1458,Nachos
+1459,Burrito de Carne
+1459,Nachos com Molho Vermelho Apimentado
+1460,Bowl de Frango
+1460,Bowl de Frango
+1460,Nachos
+1461,Bowl de Frango
+1461,Bowl de Frango
+1461,Bowl de Salada com Frango
+1462,Nachos com Molho Verde Apimentado
+1462,Tacos Macios de Frango
+1463,Bowl Vegetariano
+1463,Nachos com Molho Vermelho Apimentado
+1464,Burrito de Carne
+1464,Nachos com Molho de Tomate Fresco
+1465,Bowl de Frango
+1466,Bowl de Frango
+1466,Nachos com Guacamole
+1467,Bowl de Carne
+1467,Água Mineral
+1468,Burrito de Carne
+1468,Soda de Frutas Izze
+1469,Burrito de Carne
+1469,Nachos com Guacamole
+1470,Bowl de Frango
+1470,Bowl de Frango
+1471,Burrito de Frango
+1472,Bowl de Frango
+1472,Refrigerante em Lata
+1472,Bowl Vegetariano
+1473,Burrito de Carne
+1473,Nachos com Guacamole
+1474,Bowl de Frango
+1474,Bowl de Salada com Frango
+1475,Burrito de Carne
+1475,Refrigerante em Lata
+1476,Bowl de Frango
+1476,Bowl de Frango
+1476,Porção Extra de Nachos
+1477,Bowl de Salada com Frango
+1477,Tacos Macios de Porco Desfiado
+1478,Burrito de Frango
+1479,Bowl de Frango
+1479,Nachos com Guacamole
+1480,Burrito de Frango
+1480,Pack com 6 Refrigerantes
+1480,Tacos Crocantes de Carne
+1481,Tacos Macios de Porco Desfiado
+1481,Burrito de Carne Desfiada
+1482,Burrito de Frango
+1482,Nachos com Guacamole
+1482,Refrigerante em Lata
+1483,Bowl de Frango
+1483,Bowl de Carne
+1483,Burrito de Frango
+1483,Bowl de Carne
+1483,Burrito de Carne
+1483,Tacos Macios de Carne
+1483,Bowl de Salada com Frango
+1483,Bowl de Carne
+1483,Bowl de Frango
+1483,Bowl de Frango
+1483,Tacos Macios de Carne
+1483,Bowl de Porco Desfiado
+1483,Bowl de Salada com Frango
+1483,Bowl de Carne
+1484,Burrito de Frango
+1484,Refrigerante em Lata
+1484,Refrigerante em Lata
+1485,Bowl de Frango
+1485,Refrigerante em Lata
+1485,Porção Extra de Nachos
+1486,Bowl de Frango
+1486,Refrigerante em Lata
+1487,Bowl de Frango
+1487,Nachos
+1487,Água Mineral
+1488,Bowl de Frango
+1488,Porção Extra de Nachos
+1489,Refrigerante em Lata
+1489,Bowl de Frango
+1489,Nachos com Molho Vermelho Apimentado
+1490,Salada com Frango
+1490,Nachos com Guacamole
+1491,Burrito de Frango
+1491,Salada com Frango
+1492,Burrito de Frango
+1492,Bowl Vegetariano
+1492,Nachos
+1493,Água Mineral
+1493,Bowl de Carne
+1494,Burrito de Carne
+1494,Refrigerante em Lata
+1495,Bowl de Frango
+1496,Bowl de Frango
+1497,Bowl de Frango
+1497,Refrigerante em Lata
+1498,Bowl Vegetariano
+1498,Nachos com Guacamole
+1499,Nachos com Guacamole
+1499,Refrigerante em Lata
+1499,Bowl de Salada com Porco Desfiado
+1500,Salada com Porco Desfiado
+1500,Burrito de Carne
+1501,Burrito de Frango
+1501,Nachos com Guacamole
+1502,Bowl de Carne
+1503,Burrito Vegetariano
+1503,Nachos com Guacamole
+1504,Burrito de Porco Desfiado
+1504,Nachos com Guacamole
+1505,Nachos com Guacamole
+1505,Burrito de Carne
+1506,Burrito de Frango
+1506,Nachos com Guacamole
+1507,Burrito de Frango
+1507,Burrito de Frango
+1508,Burrito de Carne
+1508,Pack com 6 Refrigerantes
+1509,Burrito de Frango
+1509,Nachos com Guacamole
+1510,Burrito de Frango
+1510,Nachos com Molho de Tomate Fresco
+1510,Água Mineral
+1511,Burrito de Frango
+1511,Bowl de Frango
+1511,Burrito de Frango
+1511,Nachos com Guacamole
+1511,Burrito Vegetariano
+1512,Bowl de Frango
+1512,Tacos Crocantes de Carne
+1513,Burrito de Frango
+1513,Nachos com Molho de Milho e Pimenta Assada
+1514,Bowl de Frango
+1514,Nachos com Guacamole
+1514,Água Mineral
+1514,Refrigerante em Lata
+1515,Nachos com Molho de Tomate Fresco
+1515,Burrito de Carne Desfiada
+1516,Bowl de Carne
+1516,Nachos com Molho Verde Apimentado
+1517,Pack com 6 Refrigerantes
+1517,Bowl de Salada com Frango
+1517,Nachos com Guacamole
+1518,Bowl de Porco Desfiado
+1518,Refrigerante em Lata
+1519,Burrito de Frango
+1520,Burrito de Carne Desfiada
+1520,Tacos Macios de Carne
+1521,Bowl de Salada com Frango
+1521,Bowl de Salada com Frango
+1522,Burrito de Carne
+1522,Bowl de Salada com Frango
+1523,Bowl de Frango
+1523,Refrigerante em Lata
+1524,Burrito de Porco Desfiado
+1524,Nachos com Guacamole
+1525,Burrito de Carne
+1525,Pack com 6 Refrigerantes
+1526,Burrito de Carne
+1526,Bowl de Carne
+1527,Burrito de Carne Desfiada
+1527,Nachos com Molho Verde Apimentado
+1528,Bowl de Frango
+1528,Bowl de Frango
+1529,Burrito de Carne Desfiada
+1529,Tacos Macios de Porco Desfiado
+1530,Refrigerante em Lata
+1530,Tacos Crocantes de Frango
+1530,Nachos com Molho Verde Apimentado
+1531,Burrito de Carne
+1531,Nachos
+1532,Bowl Vegetariano
+1532,Burrito Vegetariano
+1533,Bowl de Carne Desfiada
+1533,Burrito de Frango
+1533,Burrito de Frango
+1533,Nachos com Guacamole
+1533,Nachos com Molho de Tomate Fresco
+1534,Burrito de Carne Desfiada
+1534,Burrito de Frango
+1534,Burrito de Frango
+1535,Bowl de Frango
+1535,Nachos com Guacamole
+1536,Burrito de Frango
+1536,Tacos Macios de Frango
+1537,Burrito de Carne
+1537,Burrito de Frango
+1537,Pack com 6 Refrigerantes
+1537,Nachos com Molho de Tomate Fresco
+1538,Bowl de Frango
+1538,Bowl de Frango
+1538,Nachos
+1539,Burrito de Carne
+1539,Burrito de Carne
+1540,Bowl de Frango
+1541,Burrito de Frango
+1541,Suco Nantucket Nectar
+1541,Porção Extra de Nachos
+1541,Burrito Vegetariano
+1542,Bowl de Frango
+1542,Nachos com Guacamole
+1543,Bowl de Frango
+1543,Nachos com Guacamole
+1544,Burrito de Frango
+1544,Bowl de Frango
+1545,Burrito de Frango
+1545,Nachos
+1546,Bowl de Carne
+1546,Nachos com Guacamole
+1547,Burrito de Frango
+1547,Burrito de Carne
+1547,Tacos Macios de Frango
+1548,Burrito de Carne
+1549,Água Mineral
+1549,Bowl de Frango
+1549,Nachos
+1550,Bowl de Carne
+1550,Refrigerante em Lata
+1550,Nachos com Guacamole
+1551,Bowl de Frango
+1551,Água Mineral
+1552,Tacos Macios de Carne
+1552,Nachos com Molho Verde Apimentado
+1553,Burrito de Carne
+1553,Água Mineral
+1554,Bowl de Frango
+1554,Pack com 6 Refrigerantes
+1554,Nachos com Guacamole
+1554,Bowl Vegetariano
+1555,Burrito de Frango
+1555,Nachos com Guacamole
+1556,Refrigerante em Lata
+1556,Burrito de Frango
+1556,Burrito de Porco Desfiado
+1557,Nachos com Guacamole
+1557,Burrito de Carne
+1558,Bowl de Frango
+1558,Pack com 6 Refrigerantes
+1559,Porção Extra de Nachos
+1559,Tacos Macios de Frango
+1559,Tacos Macios Vegetarianos
+1559,Tacos Crocantes de Porco Desfiado
+1559,Tacos Crocantes de Frango
+1560,Bowl de Frango
+1560,Bowl de Frango
+1561,Bowl de Frango
+1561,Bowl de Frango
+1562,Burrito de Frango
+1562,Refrigerante em Lata
+1562,Porção Extra de Nachos
+1563,Refrigerante em Lata
+1563,Tacos Macios de Carne
+1563,Nachos com Molho Verde Apimentado
+1564,Burrito de Carne Desfiada
+1564,Burrito de Frango
+1565,Burrito de Frango
+1565,Nachos com Molho de Milho e Pimenta Assada
+1566,Burrito de Frango
+1566,Nachos com Molho de Tomate Fresco
+1567,Bowl de Frango
+1568,Burrito de Carne
+1568,Tacos Macios de Carne
+1569,Porção Extra de Nachos
+1569,Burrito Vegetariano
+1570,Bowl de Frango
+1570,Burrito de Frango
+1571,Bowl de Frango
+1571,Nachos com Guacamole
+1572,Nachos com Guacamole
+1572,Burrito de Frango
+1573,Burrito de Frango
+1573,Nachos com Guacamole
+1574,Bowl de Frango
+1574,Nachos
+1574,Água Mineral
+1574,Água Mineral
+1575,Bowl de Carne
+1575,Refrigerante em Lata
+1576,Bowl de Frango
+1576,Nachos com Guacamole
+1577,Bowl de Frango
+1577,Bowl de Frango
+1577,Bowl de Frango
+1577,Nachos
+1578,Bowl de Frango
+1578,Porção Extra de Nachos
+1578,Água Mineral
+1578,Refrigerante em Lata
+1579,Bowl de Frango
+1579,Nachos
+1579,Água Mineral
+1580,Tacos Macios de Porco Desfiado
+1580,Burrito de Frango
+1580,Nachos com Guacamole
+1581,Bowl de Frango
+1581,Nachos
+1581,Refrigerante em Lata
+1582,Tacos Crocantes de Carne
+1582,Nachos com Molho de Tomate Fresco
+1583,Burrito de Frango
+1583,Nachos com Guacamole
+1584,Tacos Crocantes de Carne
+1584,Nachos com Molho de Tomate Fresco
+1585,Nachos com Guacamole
+1585,Burrito de Carne
+1585,Burrito Vegetariano
+1586,Burrito de Frango
+1586,Burrito de Frango
+1586,Burrito de Frango
+1586,Burrito de Carne
+1586,Burrito de Frango
+1586,Nachos com Guacamole
+1587,Burrito de Frango
+1587,Refrigerante em Lata
+1588,Burrito de Carne
+1588,Burrito de Frango
+1588,Nachos com Guacamole
+1588,Nachos com Molho de Tomate Fresco
+1589,Burrito de Frango
+1590,Bowl de Frango
+1590,Burrito de Frango
+1591,Burrito de Carne
+1592,Bowl de Carne
+1592,Burrito de Carne
+1592,Refrigerante em Lata
+1592,Bowl de Salada com Frango
+1592,Nachos com Molho Verde Apimentado
+1593,Bowl de Frango
+1594,Bowl de Frango
+1594,Nachos com Molho de Tomate Fresco
+1595,Bowl de Frango
+1595,Nachos
+1595,Água Mineral
+1596,Salada com Frango
+1596,Nachos com Molho de Tomate Fresco
+1597,Bowl de Carne
+1597,Nachos
+1597,Refrigerante em Lata
+1598,Burrito de Frango
+1598,Burrito de Carne
+1598,Salada com Frango
+1598,Burrito de Frango
+1599,Burrito de Frango
+1599,Nachos com Molho Verde Apimentado
+1599,Refrigerante em Lata
+1600,Tacos Crocantes de Carne
+1600,Nachos com Molho Verde Apimentado
+1601,Bowl de Frango
+1601,Bowl de Salada com Frango
+1601,Bowl de Frango
+1601,Bowl de Frango
+1602,Burrito de Carne
+1602,Água Mineral
+1603,Burrito de Carne Desfiada
+1603,Burrito de Carne
+1603,Nachos com Guacamole
+1604,Bowl de Frango
+1604,Nachos com Guacamole
+1604,Nachos com Molho Verde Apimentado
+1604,Refrigerante em Lata
+1605,Burrito de Carne
+1605,Bowl de Frango
+1606,Bowl de Frango
+1606,Bowl de Salada com Frango
+1607,Bowl de Frango
+1607,Tacos Crocantes de Carne
+1608,Nachos com Guacamole
+1608,Refrigerante em Lata
+1608,Tacos Macios de Frango
+1609,Burrito Vegetariano
+1609,Suco Nantucket Nectar
+1610,Burrito de Frango
+1610,Bowl de Carne
+1610,Nachos com Guacamole
+1610,Refrigerante em Lata
+1611,Bowl de Frango
+1611,Nachos
+1611,Nachos com Guacamole
+1611,Refrigerante em Lata
+1612,Bowl de Carne
+1612,Nachos com Guacamole
+1613,Tacos Macios de Frango
+1613,Nachos
+1613,Bowl de Carne
+1614,Burrito de Carne
+1614,Refrigerante em Lata
+1615,Bowl de Salada com Frango
+1615,Bowl de Salada com Carne
+1615,Burrito de Frango
+1615,Tacos Macios de Carne
+1616,Burrito de Carne Desfiada
+1616,Nachos com Molho Vermelho Apimentado
+1617,Burrito de Porco Desfiado
+1617,Nachos com Guacamole
+1618,Refrigerante em Lata
+1618,Bowl de Porco Desfiado
+1618,Bowl de Frango
+1619,Bowl de Carne Desfiada
+1619,Água Mineral
+1620,Bowl de Frango
+1620,Nachos com Guacamole
+1621,Bowl de Carne
+1621,Refrigerante em Lata
+1622,Tacos Macios de Carne
+1622,Nachos com Molho de Tomate Fresco
+1623,Bowl de Carne
+1623,Porção Extra de Nachos
+1624,Bowl de Carne Desfiada
+1624,Porção Extra de Nachos
+1625,Bowl de Frango
+1625,Nachos com Guacamole
+1626,Bowl de Frango
+1626,Burrito de Frango
+1626,Nachos com Guacamole
+1627,Bowl de Frango
+1627,Bowl de Salada com Frango
+1627,Nachos com Molho de Tomate Fresco
+1627,Água Mineral
+1628,Burrito de Frango
+1628,Burrito de Carne
+1629,Água Mineral
+1629,Porção Extra de Nachos
+1629,Bowl de Frango
+1630,Burrito de Frango
+1630,Nachos com Molho de Tomate Fresco
+1630,Refrigerante em Lata
+1631,Bowl de Frango
+1631,Nachos com Guacamole
+1632,Bowl de Frango
+1632,Suco Nantucket Nectar
+1633,Bowl de Salada com Frango
+1633,Bowl Vegetariano
+1633,Nachos
+1634,Bowl de Carne
+1635,Burrito Vegetariano
+1635,Salada Vegetariana
+1636,Bowl de Salada com Frango
+1636,Água Mineral
+1637,Bowl de Frango
+1637,Nachos com Molho Vermelho Apimentado
+1638,Burrito de Carne
+1638,Nachos com Molho de Tomate Fresco
+1639,Burrito de Carne
+1639,Nachos com Guacamole
+1640,Burrito de Frango
+1641,Burrito de Carne
+1641,Tacos Macios de Porco Desfiado
+1642,Bowl de Frango
+1642,Nachos com Guacamole
+1642,Refrigerante em Lata
+1643,Bowl de Frango
+1643,Nachos com Guacamole
+1643,Burrito de Carne
+1643,Nachos com Molho de Tomate Fresco
+1644,Refrigerante em Lata
+1644,Nachos com Guacamole
+1644,Bowl de Frango
+1645,Refrigerante em Lata
+1645,Água Mineral
+1645,Burrito de Carne
+1646,Bowl de Salada Vegetariano
+1646,Bowl de Frango
+1647,Bowl de Frango
+1647,Bowl de Frango
+1648,Burrito de Carne
+1648,Burrito de Frango
+1648,Nachos com Guacamole
+1648,Tacos Crocantes de Frango
+1649,Burrito de Carne
+1649,Tacos Macios de Frango
+1650,Tacos Macios de Frango
+1650,Nachos com Guacamole
+1651,Bowl de Frango
+1651,Refrigerante em Lata
+1651,Nachos
+1652,Bowl de Frango
+1652,Burrito de Frango
+1652,Nachos
+1653,Bowl de Frango
+1653,Refrigerante em Lata
+1653,Nachos com Molho Verde Apimentado
+1654,Tacos Macios de Carne
+1654,Nachos com Molho Vermelho Apimentado
+1655,Nachos com Guacamole
+1655,Bowl de Frango
+1655,Burrito Vegetariano
+1655,Bowl de Carne Desfiada
+1655,Tacos Macios de Porco Desfiado
+1655,Água Mineral
+1656,Burrito de Carne
+1656,Refrigerante em Lata
+1657,Bowl de Carne Desfiada
+1657,Burrito de Porco Desfiado
+1657,Refrigerante em Lata
+1657,Refrigerante em Lata
+1658,Bowl de Carne
+1658,Nachos com Guacamole
+1659,Burrito de Frango
+1659,Tacos Macios de Porco Desfiado
+1660,Burrito de Frango
+1660,Nachos
+1660,Refrigerante em Lata
+1660,Bowl de Frango
+1660,Água Mineral
+1660,Bowl Vegetariano
+1660,Nachos com Guacamole
+1660,Nachos com Guacamole
+1660,Nachos com Molho Vermelho Apimentado
+1661,Bowl de Frango
+1661,Nachos
+1662,Refrigerante em Lata
+1662,Água Mineral
+1662,Burrito de Frango
+1662,Tacos Macios de Frango
+1662,Nachos com Molho de Tomate Fresco
+1663,Burrito de Frango
+1663,Refrigerante em Lata
+1664,Nachos
+1664,Bowl de Frango
+1664,Bowl de Porco Desfiado
+1664,Pack com 6 Refrigerantes
+1665,Refrigerante em Lata
+1665,Burrito de Frango
+1665,Nachos
+1666,Bowl de Frango
+1666,Pack com 6 Refrigerantes
+1667,Burrito de Frango
+1667,Água Mineral
+1668,Bowl Vegetariano
+1668,Nachos com Guacamole
+1669,Burrito de Frango
+1669,Nachos com Guacamole
+1670,Tacos Macios de Carne
+1670,Tacos Macios de Carne Desfiada
+1670,Refrigerante em Lata
+1670,Refrigerante em Lata
+1671,Bowl de Frango
+1671,Água Mineral
+1672,Bowl de Frango
+1672,Refrigerante em Lata
+1673,Água Mineral
+1673,Bowl de Carne
+1673,Nachos
+1673,Bowl de Frango
+1673,Nachos com Guacamole
+1674,Bowl de Frango
+1674,Nachos com Guacamole
+1675,Bowl de Frango
+1675,Nachos com Guacamole
+1676,Burrito de Carne
+1676,Nachos com Guacamole
+1676,Refrigerante em Lata
+1677,Bowl de Salada Vegetariano
+1677,Nachos com Guacamole
+1678,Bowl de Frango
+1678,Nachos com Guacamole
+1679,Bowl de Salada com Frango
+1679,Nachos
+1679,Bowl de Salada com Frango
+1679,Nachos com Guacamole
+1679,Bowl de Frango
+1680,Bowl de Carne
+1680,Água Mineral
+1681,Burrito de Frango
+1681,Nachos com Guacamole
+1682,Bowl de Frango
+1682,Nachos
+1682,Água Mineral
+1683,Bowl de Frango
+1683,Nachos com Guacamole
+1684,Burrito de Frango
+1684,Bowl de Carne
+1685,Bowl de Frango
+1685,Burrito de Frango
+1686,Bowl de Salada com Frango
+1686,Bowl Vegetariano
+1687,Água Mineral
+1687,Bowl de Frango
+1687,Nachos
+1688,Bowl de Carne
+1688,Nachos
+1689,Tacos Macios de Carne
+1689,Nachos com Molho de Tomate Fresco
+1690,Bowl de Carne
+1690,Refrigerante em Lata
+1690,Nachos com Guacamole
+1691,Bowl de Frango
+1691,Bowl de Frango
+1691,Nachos com Guacamole
+1692,Bowl de Salada com Frango
+1692,Bowl de Salada com Porco Desfiado
+1692,Refrigerante em Lata
+1693,Bowl de Salada com Carne
+1693,Nachos com Guacamole
+1694,Bowl de Frango
+1694,Nachos
+1694,Água Mineral
+1695,Burrito de Carne
+1695,Tacos Macios de Frango
+1695,Burrito de Carne
+1696,Burrito de Porco Desfiado
+1696,Nachos com Guacamole
+1696,Refrigerante em Lata
+1696,Burrito de Frango
+1697,Bowl de Carne
+1697,Nachos com Molho Verde Apimentado
+1698,Bowl de Frango
+1698,Burrito de Frango
+1698,Nachos
+1699,Burrito de Frango
+1699,Bowl de Frango
+1699,Bowl de Frango
+1700,Bowl de Salada Vegetariano
+1700,Burrito de Carne
+1701,Burrito de Frango
+1701,Nachos
+1701,Bowl Vegetariano
+1701,Nachos
+1702,Bowl de Carne
+1702,Burrito de Carne
+1703,Burrito de Frango
+1703,Burrito de Carne
+1703,Tacos Macios de Carne Desfiada
+1703,Burrito de Frango
+1704,Bowl de Frango
+1704,Nachos com Guacamole
+1705,Burrito de Frango
+1705,Refrigerante em Lata
+1705,Nachos com Guacamole
+1706,Burrito Vegetariano
+1706,Refrigerante em Lata
+1707,Burrito de Frango
+1707,Burrito de Frango
+1708,Bowl Vegetariano
+1708,Bowl de Frango
+1709,Refrigerante em Lata
+1709,Refrigerante em Lata
+1709,Refrigerante em Lata
+1709,Tacos Macios de Carne
+1710,Burrito de Carne Desfiada
+1710,Nachos
+1711,Tacos Macios de Frango
+1711,Nachos com Guacamole
+1712,Bowl de Frango
+1712,Nachos com Guacamole
+1713,Bowl de Frango
+1713,Bowl de Carne
+1714,Burrito de Frango
+1714,Tacos Macios de Carne
+1714,Nachos com Guacamole
+1715,Burrito de Carne
+1715,Nachos com Guacamole
+1715,Refrigerante em Lata
+1716,Nachos com Guacamole
+1716,Bowl de Carne
+1717,Bowl de Carne
+1717,Bowl de Frango
+1717,Nachos
+1718,Bowl de Carne
+1718,Bowl de Carne
+1718,Nachos
+1719,Burrito de Carne
+1719,Tacos Macios de Frango
+1719,Nachos com Molho Vermelho Apimentado
+1720,Bowl de Salada com Carne
+1720,Nachos com Guacamole
+1721,Bowl Vegetariano
+1721,Nachos com Guacamole
+1722,Burrito de Carne
+1722,Nachos com Molho de Tomate Fresco
+1723,Burrito Vegetariano
+1723,Nachos com Molho Vermelho Apimentado
+1724,Burrito de Frango
+1724,Tacos Crocantes de Frango
+1725,Bowl de Frango
+1725,Nachos com Molho de Tomate Fresco
+1726,Burrito de Carne
+1726,Tacos Macios de Porco Desfiado
+1727,Burrito de Carne
+1727,Nachos com Molho Verde Apimentado
+1728,Bowl de Frango
+1728,Nachos
+1729,Burrito de Carne
+1729,Nachos com Guacamole
+1730,Bowl de Salada com Frango
+1730,Burrito de Frango
+1731,Bowl de Salada com Frango
+1731,Bowl Vegetariano
+1732,Bowl de Frango
+1732,Nachos
+1732,Refrigerante em Lata
+1733,Bowl de Frango
+1733,Refrigerante em Lata
+1734,Bowl de Frango
+1734,Nachos com Guacamole
+1735,Refrigerante em Lata
+1735,Bowl de Frango
+1735,Tacos Crocantes de Frango
+1736,Burrito de Carne Desfiada
+1736,Refrigerante em Lata
+1737,Bowl de Salada com Frango
+1737,Burrito de Frango
+1737,Bowl de Frango
+1738,Bowl de Salada com Frango
+1738,Burrito de Frango
+1738,Tacos Macios de Carne
+1739,Burrito de Carne Desfiada
+1739,Refrigerante em Lata
+1740,Nachos com Guacamole
+1740,Burrito de Carne Desfiada
+1741,Pack com 6 Refrigerantes
+1741,Nachos com Guacamole
+1741,Burrito de Frango
+1742,Bowl de Frango
+1742,Pack com 6 Refrigerantes
+1742,Bowl de Carne
+1743,Burrito de Frango
+1743,Bowl de Carne
+1744,Bowl de Frango
+1744,Nachos
+1745,Bowl de Frango
+1745,Nachos com Guacamole
+1745,Tacos Crocantes de Frango
+1745,Nachos com Guacamole
+1746,Burrito de Frango
+1746,Bowl de Porco Desfiado
+1746,Nachos com Guacamole
+1746,Refrigerante em Lata
+1746,Refrigerante em Lata
+1747,Bowl de Frango
+1747,Burrito de Frango
+1748,Bowl de Carne Desfiada
+1748,Nachos
+1748,Burrito de Carne
+1749,Nachos com Guacamole
+1749,Burrito de Carne
+1749,Refrigerante em Lata
+1750,Burrito de Porco Desfiado
+1750,Bowl de Carne
+1751,Bowl de Salada com Frango
+1751,Nachos
+1751,Bowl de Salada com Carne Desfiada
+1752,Bowl de Salada com Carne
+1752,Bowl de Frango
+1753,Refrigerante em Lata
+1753,Burrito de Carne
+1753,Nachos com Guacamole
+1754,Bowl de Frango
+1754,Refrigerante em Lata
+1755,Bowl de Frango
+1755,Refrigerante em Lata
+1755,Nachos com Molho Verde Apimentado
+1756,Bowl de Frango
+1756,Nachos com Guacamole
+1757,Burrito de Frango
+1757,Água Mineral
+1757,Nachos com Guacamole
+1758,Nachos com Guacamole
+1758,Burrito de Carne
+1759,Bowl de Frango
+1759,Nachos com Molho Vermelho Apimentado
+1759,Refrigerante em Lata
+1760,Bowl de Frango
+1760,Nachos com Molho Vermelho Apimentado
+1761,Bowl de Frango
+1761,Burrito de Frango
+1761,Burrito de Frango
+1761,Burrito de Frango
+1761,Nachos
+1762,Burrito de Carne
+1762,Bowl de Salada com Carne
+1763,Nachos com Guacamole
+1763,Burrito de Porco Desfiado
+1763,Refrigerante em Lata
+1764,Bowl de Frango
+1764,Nachos com Guacamole
+1764,Nachos com Molho de Tomate Fresco
+1764,Nachos
+1764,Bowl de Carne
+1765,Bowl de Porco Desfiado
+1765,Nachos
+1765,Refrigerante em Lata
+1766,Burrito de Carne
+1766,Nachos com Guacamole
+1766,Bowl de Frango
+1766,Burrito de Carne
+1767,Bowl de Frango
+1768,Bowl de Frango
+1768,Burrito de Porco Desfiado
+1768,Tacos Macios de Frango
+1769,Bowl de Salada com Frango
+1769,Nachos com Guacamole
+1770,Bowl de Carne Desfiada
+1770,Água Mineral
+1771,Bowl de Frango
+1771,Bowl de Frango
+1772,Burrito de Carne
+1772,Burrito de Carne
+1772,Burrito de Frango
+1773,Nachos com Guacamole
+1773,Bowl de Carne
+1774,Tacos Crocantes de Porco Desfiado
+1774,Nachos com Guacamole
+1775,Bowl Vegetariano
+1775,Tacos Crocantes de Frango
+1775,Burrito de Frango
+1776,Nachos
+1776,Água Mineral
+1776,Burrito de Frango
+1777,Nachos com Guacamole
+1777,Bowl de Carne
+1778,Burrito de Frango
+1778,Água Mineral
+1778,Refrigerante em Lata
+1778,Refrigerante em Lata
+1779,Refrigerante em Lata
+1779,Bowl de Frango
+1779,Nachos com Molho Vermelho Apimentado
+1780,Bowl de Salada com Frango
+1780,Bowl Vegetariano
+1781,Água Mineral
+1781,Bowl de Carne
+1782,Burrito Vegetariano
+1782,Nachos
+1783,Burrito de Carne
+1783,Tacos Macios de Frango
+1784,Bowl de Porco Desfiado
+1784,Nachos com Molho Verde Apimentado
+1785,Água Mineral
+1785,Burrito de Frango
+1785,Água Mineral
+1785,Refrigerante em Lata
+1786,Bowl de Frango
+1786,Burrito de Porco Desfiado
+1786,Bowl de Frango
+1786,Bowl de Frango
+1786,Bowl de Carne Desfiada
+1786,Bowl de Frango
+1786,Burrito de Porco Desfiado
+1786,Bowl de Frango
+1786,Nachos com Guacamole
+1786,Refrigerante em Lata
+1786,Refrigerante em Lata
+1787,Burrito de Frango
+1787,Nachos com Molho Verde Apimentado
+1787,Refrigerante em Lata
+1788,Bowl de Frango
+1788,Refrigerante em Lata
+1788,Nachos
+1789,Bowl de Frango
+1789,Refrigerante em Lata
+1789,Bowl de Porco Desfiado
+1790,Refrigerante em Lata
+1790,Tacos Macios de Frango
+1790,Nachos com Molho de Tomate Fresco
+1791,Bowl de Porco Desfiado
+1791,Nachos
+1792,Bowl de Frango
+1792,Água Mineral
+1793,Burrito de Carne
+1793,Nachos
+1793,Bowl de Carne Desfiada
+1794,Bowl de Frango
+1794,Nachos com Guacamole
+1794,Refrigerante em Lata
+1795,Tacos Macios de Frango
+1795,Nachos com Guacamole
+1795,Refrigerante em Lata
+1796,Água Mineral
+1796,Bowl de Carne
+1797,Burrito Vegetariano
+1797,Bowl de Salada com Frango
+1798,Burrito de Frango
+1798,Pack com 6 Refrigerantes
+1798,Tacos Crocantes de Carne
+1799,Burrito de Frango
+1799,Nachos
+1799,Refrigerante em Lata
+1800,Pack com 6 Refrigerantes
+1800,Burrito de Frango
+1800,Nachos com Guacamole
+1801,Burrito de Frango
+1801,Nachos com Guacamole
+1802,Bowl de Frango
+1802,Burrito de Frango
+1803,Nachos com Guacamole
+1803,Pack com 6 Refrigerantes
+1803,Burrito de Carne
+1804,Bowl de Frango
+1804,Refrigerante em Lata
+1804,Nachos com Guacamole
+1805,Bowl de Frango
+1805,Bowl de Salada Vegetariano
+1806,Água Mineral
+1806,Burrito de Frango
+1806,Água Mineral
+1806,Refrigerante em Lata
+1807,Burrito de Carne
+1807,Bowl de Salada com Carne
+1808,Nachos com Guacamole
+1808,Tacos Macios de Carne
+1809,Tacos Macios de Frango
+1809,Nachos com Guacamole
+1809,Refrigerante em Lata
+1810,Bowl de Frango
+1810,Tacos Crocantes de Carne
+1811,Bowl de Frango
+1811,Burrito de Frango
+1811,Tacos Macios de Porco Desfiado
+1812,Burrito de Frango
+1812,Burrito de Frango
+1812,Refrigerante em Lata
+1813,Bowl de Salada com Frango
+1814,Bowl de Porco Desfiado
+1814,Nachos com Guacamole
+1815,Bowl de Frango
+1815,Refrigerante em Lata
+1816,Burrito de Frango
+1816,Nachos com Guacamole
+1817,Água Mineral
+1817,Burrito de Frango
+1817,Água Mineral
+1817,Refrigerante em Lata
+1818,Bowl de Salada com Carne
+1818,Bowl de Salada Vegetariano
+1819,Bowl de Frango
+1819,Nachos com Guacamole
+1820,Bowl de Frango
+1820,Refrigerante em Lata
+1821,Burrito de Porco Desfiado
+1821,Nachos com Guacamole
+1822,Bowl de Salada com Frango
+1822,Bowl de Frango
+1822,Água Mineral
+1823,Bowl de Frango
+1823,Nachos
+1823,Refrigerante em Lata
+1824,Bowl de Frango
+1824,Bowl de Frango
+1824,Nachos com Guacamole
+1825,Bowl de Frango
+1825,Bowl de Frango
+1825,Bowl de Frango
+1825,Burrito de Carne Desfiada
+1825,Bowl de Porco Desfiado
+1825,Bowl de Carne Desfiada
+1826,Bowl de Frango
+1826,Nachos com Guacamole
+1826,Refrigerante em Lata
+1826,Água Mineral
+1827,Bowl de Frango
+1827,Nachos com Guacamole
+1827,Refrigerante em Lata
+1827,Burrito de Carne Desfiada
+1827,Burrito de Carne Desfiada
+1828,Bowl de Frango
+1828,Nachos com Guacamole
+1828,Refrigerante em Lata
+1829,Burrito de Carne
+1829,Burrito Vegetariano
+1829,Refrigerante em Lata
+1830,Burrito de Carne
+1830,Burrito Vegetariano
+1831,Bowl de Porco Desfiado
+1831,Nachos
+1831,Água Mineral
+1832,Tacos Macios de Frango
+1832,Nachos com Guacamole
+1833,Burrito de Carne
+1833,Burrito de Carne
+1834,Bowl de Salada com Frango
+1834,Bowl de Salada com Frango
+1834,Bowl de Salada com Frango

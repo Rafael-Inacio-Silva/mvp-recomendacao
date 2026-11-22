@@ -5,3 +5,4 @@ __pycache__/
 *.pyc
 .env
 dados/pedidos_limpos.csv
+dados/regras.csv

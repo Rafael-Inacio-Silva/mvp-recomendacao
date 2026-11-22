@@ -4,7 +4,12 @@ import pandas as pd
 from mlxtend.frequent_patterns import apriori, association_rules
 
 CAMINHO_PEDIDOS_LIMPOS = "dados/pedidos_limpos.csv"
+CAMINHO_REGRAS = "dados/regras.csv"
 COLUNAS_REGRAS = ["antecedents", "consequents", "support", "confidence", "lift"]
+
+# Limites escolhidos na comparação de combinações
+SUPORTE_MINIMO = 0.01
+CONFIANCA_MINIMA = 0.2
 
 
 def carregar_pedidos_limpos(caminho=CAMINHO_PEDIDOS_LIMPOS):
@@ -17,7 +22,7 @@ def montar_cestas(df):
     return pd.crosstab(df["id_pedido"], df["item"]).astype(bool)
 
 
-def calcular_regras(cestas, suporte_minimo, confianca_minima):
+def calcular_regras(cestas, suporte_minimo=SUPORTE_MINIMO, confianca_minima=CONFIANCA_MINIMA):
     """Calcula as regras com suporte e confiança acima dos limites e lift maior que 1."""
     frequentes = apriori(cestas, min_support=suporte_minimo, use_colnames=True)
 
@@ -65,3 +70,19 @@ def testar_limites(cestas, suportes, confiancas):
             })
 
     return pd.DataFrame(resultados)
+
+
+def formatar_regras(regras):
+    """Converte as regras para colunas em português, com os itens em texto."""
+    return pd.DataFrame({
+        "antecedente": regras["antecedents"].apply(lambda itens: " + ".join(sorted(itens))),
+        "consequente": regras["consequents"].apply(lambda itens: " + ".join(sorted(itens))),
+        "suporte": regras["support"].round(4),
+        "confianca": regras["confidence"].round(4),
+        "lift": regras["lift"].round(4),
+    }).sort_values(["lift", "confianca"], ascending=False).reset_index(drop=True)
+
+
+def salvar_regras(regras, caminho=CAMINHO_REGRAS):
+    """Salva as regras formatadas em CSV."""
+    regras.to_csv(caminho, index=False)

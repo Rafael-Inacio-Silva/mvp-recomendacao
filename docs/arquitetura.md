@@ -62,7 +62,13 @@ As linhas de `pedidos.csv` são agrupadas por `id_pedido`. Cada pedido vira um c
 
 O Apriori encontra os conjuntos de itens frequentes, ou seja, com suporte acima do mínimo. A partir deles, são geradas as regras A → B com confiança acima do mínimo (RN-04). Cada regra guarda suporte, confiança e lift.
 
-Os dois limites serão escolhidos na análise exploratória, observando a quantidade de regras e a cobertura dos carrinhos. Como a base tem 1.834 pedidos, um suporte mínimo muito alto deixaria de fora os itens menos pedidos, e um muito baixo aceitaria combinações que aconteceram poucas vezes.
+Não há um valor padrão para os limites. Eles foram escolhidos comparando 12 combinações de suporte e confiança pela quantidade de regras, pela cobertura dos pedidos e pelo lift médio:
+
+- **suporte mínimo de 1%**, cerca de 18 pedidos, para que a regra tenha evidência suficiente. Sem esse limite, 88% das regras viriam de apenas 1 ou 2 pedidos;
+- **confiança mínima de 20%**, ou seja, pelo menos 1 em cada 5 pedidos com o antecedente também tem o consequente;
+- **lift maior que 1**, para manter apenas as associações positivas.
+
+Com esses valores, são geradas 23 regras, que se aplicam a 76,4% dos pedidos. Os limites são provisórios e serão confirmados pela avaliação offline (seção 5).
 
 ### Recomendador
 

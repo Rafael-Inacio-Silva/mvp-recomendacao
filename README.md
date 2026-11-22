@@ -3,6 +3,8 @@
 Projeto preparado para a entrevista a partir de um cenário fictício. A Sabor na Mesa, um restaurante de culinária mexicana em São Paulo, pede à PratoTech um MVP que recomende itens com base no carrinho do delivery, usando regras de associação calculadas a partir dos pedidos.
 
 - [Solicitação do cliente](docs/solicitacao-cliente.md): e-mail com o escopo do MVP.
+- [Proposta](docs/proposta.md): propósito, escopo, requisitos (RF, RNF e regras de negócio), critérios de avaliação, prazo e riscos.
+- [Arquitetura](docs/arquitetura.md): componentes, tecnologias, organização do código e funcionamento do recomendador.
 
 ## Dados
 

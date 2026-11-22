@@ -16,3 +16,22 @@ Projeto preparado para a entrevista a partir de um cenário fictício. A Sabor n
 | `item` | nome do item do cardápio |
 
 Um mesmo item pode aparecer em mais de uma linha do mesmo pedido. Para as regras de associação, interessa apenas se o item está ou não no pedido, então cada pedido é tratado como um conjunto de itens.
+
+## Pipeline de dados
+
+Cada etapa da preparação dos dados fica em um módulo da pasta `pipeline/`, e o arquivo `analise_dados.py` executa as etapas em sequência.
+
+| Etapa | Módulo | O que faz |
+|---|---|---|
+| 1 | [etapa1_carregamento.py](pipeline/etapa1_carregamento.py) | lê `pedidos.csv` em um DataFrame e mostra tamanho, estrutura, primeiras linhas e contagens |
+
+## Como executar
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python analise_dados.py
+```
+
+No PyCharm, selecione o interpretador `.venv` do projeto e execute `analise_dados.py`.

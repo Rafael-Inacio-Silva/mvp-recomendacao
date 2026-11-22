@@ -3,6 +3,7 @@
 from pipeline.etapa1_carregamento import carregar_pedidos, mostrar_visao_geral
 from pipeline.etapa2_nulos_vazios import mostrar_nulos_vazios, tratar_nulos_vazios
 from pipeline.etapa3_duplicados import mostrar_duplicados, tratar_duplicados
+from pipeline.etapa4_outliers import mostrar_outliers, tratar_outliers
 
 
 def executar_pipeline():
@@ -17,6 +18,10 @@ def executar_pipeline():
     # Etapa 3: duplicados
     mostrar_duplicados(pedidos)
     pedidos = tratar_duplicados(pedidos)
+
+    # Etapa 4: outliers
+    mostrar_outliers(pedidos)
+    pedidos = tratar_outliers(pedidos)
 
     return pedidos
 

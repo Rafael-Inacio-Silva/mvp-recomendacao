@@ -36,6 +36,7 @@ Ao final, a base limpa é salva em `dados/pedidos_limpos.csv`, que é a entrada 
 | Módulo | O que faz |
 |---|---|
 | [modelo/regras.py](modelo/regras.py) | monta as cestas, calcula as regras de associação (Apriori) e compara limites de suporte e confiança |
+| [modelo/recomendador.py](modelo/recomendador.py) | recebe o carrinho e devolve até 3 sugestões, ordenadas por lift, cada uma com a regra que a gerou; sem regra aplicável, sugere os itens mais pedidos |
 
 O arquivo `gerar_regras.py` compara os limites e gera as regras finais, com suporte mínimo de 1%, confiança mínima de 20% e lift maior que 1. As regras são salvas em `dados/regras.csv`.
 

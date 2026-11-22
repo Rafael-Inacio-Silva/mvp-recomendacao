@@ -6,6 +6,8 @@ from pipeline.etapa3_duplicados import mostrar_duplicados, tratar_duplicados
 from pipeline.etapa4_outliers import mostrar_outliers, tratar_outliers
 from pipeline.etapa5_exploracao import mostrar_exploracao
 
+CAMINHO_PEDIDOS_LIMPOS = "dados/pedidos_limpos.csv"
+
 
 def executar_pipeline():
     # Etapa 1: carregamento dos dados
@@ -26,6 +28,10 @@ def executar_pipeline():
 
     # Etapa 5: exploração
     mostrar_exploracao(pedidos)
+
+    # Base limpa usada pelo modelo
+    pedidos.to_csv(CAMINHO_PEDIDOS_LIMPOS, index=False)
+    print(f"\nBase limpa salva em {CAMINHO_PEDIDOS_LIMPOS}")
 
     return pedidos
 

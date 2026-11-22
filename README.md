@@ -29,6 +29,16 @@ Cada etapa da preparação dos dados fica em um módulo da pasta `pipeline/`, e 
 | 4 | [etapa4_outliers.py](pipeline/etapa4_outliers.py) | identifica pedidos com quantidade atípica de itens (IQR) e itens raros; remove os pedidos acima do limite superior |
 | 5 | [etapa5_exploracao.py](pipeline/etapa5_exploracao.py) | mostra o resumo da base limpa e os itens e pares mais frequentes |
 
+Ao final, a base limpa é salva em `dados/pedidos_limpos.csv`, que é a entrada do modelo.
+
+## Modelo
+
+| Módulo | O que faz |
+|---|---|
+| [modelo/regras.py](modelo/regras.py) | monta as cestas, calcula as regras de associação (Apriori) e compara limites de suporte e confiança |
+
+O arquivo `gerar_regras.py` executa a comparação dos limites.
+
 ## Como executar
 
 ```bash
@@ -36,6 +46,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python analise_dados.py
+python gerar_regras.py
 ```
 
-No PyCharm, selecione o interpretador `.venv` do projeto e execute `analise_dados.py`.
+No PyCharm, selecione o interpretador `.venv` do projeto e execute `analise_dados.py` e, em seguida, `gerar_regras.py`.

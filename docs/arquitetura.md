@@ -5,13 +5,13 @@ Versão inicial, elaborada a partir da [proposta](proposta.md). Os limites das r
 ## 1. Visão geral
 
 ```
-pedidos.csv → cestas de itens → regras de associação → recomendador → explicação → tela
+pedidos.csv → pipeline de dados → pedidos_limpos.csv → cestas → regras de associação → recomendador → explicação → tela
 ```
 
 | Componente | Responsabilidade | Requisitos atendidos |
 |---|---|---|
-| `dados` | ler `pedidos.csv` e montar uma cesta (conjunto de itens) por pedido | RF-01, RN-01, RNF-05 |
-| `regras` | calcular as regras de associação com suporte, confiança e lift | RF-03, RN-04 |
+| `pipeline` | carregar `pedidos.csv`, tratar nulos, vazios, duplicados e outliers, explorar e salvar a base limpa | RF-01, RN-01, RNF-05 |
+| `regras` | montar uma cesta por pedido e calcular as regras de associação com suporte, confiança e lift | RF-03, RN-04 |
 | `recomendador` | escolher e ordenar as sugestões para um carrinho | RF-04, RF-05, RN-02, RN-03, RN-05, RN-06 |
 | `explicacao` | gerar a frase de cada sugestão, com IA ou frase padrão | RF-06, RN-07, RN-08, RNF-02, RNF-03, RNF-04 |
 | `app` | tela de demonstração e página “Como funciona” | RF-01, RF-02, RF-07, RF-08 |
@@ -33,14 +33,22 @@ O recomendador não depende da tela nem da explicação. Assim, ele pode ser tes
 
 ```
 mvp-recomendacao/
-├── dados/pedidos.csv
-├── src/
-│   ├── dados.py          # leitura e montagem das cestas
-│   ├── regras.py         # cálculo das regras de associação
-│   ├── recomendador.py   # sugestões para um carrinho
-│   └── explicacao.py     # frase da IA e frase padrão
-├── app.py                # tela em Streamlit
-├── notebooks/            # análise exploratória e avaliação
+├── dados/
+│   ├── pedidos.csv              # histórico enviado pelo restaurante
+│   └── pedidos_limpos.csv       # gerado pelo pipeline
+├── pipeline/                    # uma etapa por módulo
+│   ├── etapa1_carregamento.py
+│   ├── etapa2_nulos_vazios.py
+│   ├── etapa3_duplicados.py
+│   ├── etapa4_outliers.py
+│   └── etapa5_exploracao.py
+├── modelo/
+│   ├── regras.py                # cestas e regras de associação
+│   ├── recomendador.py          # sugestões para um carrinho
+│   └── explicacao.py            # frase da IA e frase padrão
+├── analise_dados.py             # executa o pipeline
+├── gerar_regras.py              # calcula e compara as regras
+├── app.py                       # tela em Streamlit
 └── tests/
 ```
 

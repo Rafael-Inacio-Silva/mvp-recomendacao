@@ -40,7 +40,7 @@ O restaurante enviou o histórico do delivery no arquivo `pedidos.csv`, com o n�
 | Pedidos com um único item | 338 (2,5%) |
 | Itens mais presentes | Arroz Pilau (35,2% dos pedidos), Naan Simples (28,0%), Papadum Simples (26,8%) |
 
-A partir desse histórico, o sistema identifica regras do tipo “quem pede A também costuma pedir B”. Quando o cliente coloca itens no carrinho, o sistema procura as regras que se aplicam a eles e mostra os itens sugeridos, cada um com uma frase explicando a relação. A frase é montada com os números da própria regra, sem IA, para que a explicação seja sempre exata, por exemplo: “52 de cada 100 clientes que pedem Frango Tikka Masala também levam Arroz Pilau”.
+A partir desse histórico, o sistema identifica regras do tipo “quem pede A também costuma pedir B”. Quando o cliente coloca itens no carrinho, o sistema procura as regras que se aplicam a eles e mostra os itens sugeridos, cada um com uma frase explicando a relação. A frase é montada com os números da própria regra, sem IA, para que a explicação seja sempre exata, por exemplo: “52 de cada 100 pedidos com Frango Tikka Masala também têm Arroz Pilau”.
 
 Uma página separada mostra ao restaurante como o sistema chegou às sugestões: o resumo dos dados, a lista de regras e os resultados da avaliação.
 
@@ -78,7 +78,7 @@ Uma página separada mostra ao restaurante como o sistema chegou às sugestões:
 | RN-04 | Só são usadas as regras com suporte de pelo menos 1% e confiança de pelo menos 10%, limites definidos na avaliação offline. | RF-03 |
 | RN-05 | As sugestões são ordenadas pela confiança da regra. Em caso de empate, vale o maior lift. | RF-05 |
 | RN-06 | Quando as regras geram menos de 3 sugestões, as vagas restantes são completadas com os itens mais pedidos que ainda não estão no carrinho. | RF-04 |
-| RN-07 | A explicação é montada a partir da regra que gerou a sugestão: “{N} de cada 100 clientes que pedem {item do carrinho} também levam {item sugerido}”, em que N vem da confiança da regra. | RF-06 |
+| RN-07 | A explicação é montada a partir da regra que gerou a sugestão: “{N} de cada 100 pedidos com {itens do carrinho} também têm {item sugerido}”, em que N vem da confiança da regra. | RF-06 |
 | RN-08 | Quando a sugestão vem dos mais vendidos, e não de uma regra, a explicação é “Um dos itens mais pedidos da casa”. | RF-06 |
 
 ## 7. Abordagem

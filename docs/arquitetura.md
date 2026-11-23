@@ -95,7 +95,7 @@ As regras ficam em uma lista, com o antecedente como conjunto de itens, para que
 
 ### Explicação
 
-A frase de cada sugestão é montada com os dados da regra que a gerou (RN-07). A confiança vira uma contagem fácil de entender: confiança de 0,42 para a regra Água Mineral → Bowl de Frango vira “42 de cada 100 clientes que pedem Água Mineral também levam Bowl de Frango”. Quando a regra tem mais de um item no lado A, os itens são citados juntos (“Bowl de Frango e Água Mineral”). As sugestões que vêm dos mais vendidos recebem a frase “Um dos itens mais pedidos da casa” (RN-08).
+A frase de cada sugestão é montada com os dados da regra que a gerou (RN-07). A confiança vira uma contagem fácil de entender: confiança de 0,42 para a regra Água Mineral → Bowl de Frango vira “42 de cada 100 pedidos com Água Mineral também têm Bowl de Frango”. Quando a regra tem mais de um item no lado A, os itens são citados juntos (“Bowl de Frango e Água Mineral”). As sugestões que vêm dos mais vendidos recebem a frase “Um dos itens mais pedidos da casa” (RN-08).
 
 A explicação não usa modelo de linguagem: como a frase só repete números que o sistema já calculou, um modelo de linguagem acrescentaria custo, demora e risco de citar algo fora da regra, sem acrescentar informação.
 

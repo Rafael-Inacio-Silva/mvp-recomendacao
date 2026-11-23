@@ -150,7 +150,7 @@ A marcação da Sabor na Mesa ficou salva em `dados/mexicano/gabarito_cardapio.c
 
 ## API
 
-O backend expõe as rotas que o site chama (`api.py`, em FastAPI). Os detalhes estão na [arquitetura](docs/arquitetura.md#api).
+O backend expõe as rotas que o site chama, em FastAPI, organizado em camadas: o controller (`api.py`) recebe a requisição e devolve a resposta, os serviços (`servicos/`) fazem as validações e as regras de negócio, o domínio (`modelo/` e `agente/`) recomenda e conversa, e o repositório (`dados_loja.py`) lê os arquivos de cada loja. Os detalhes estão na [arquitetura](docs/arquitetura.md#api).
 
 | Rota | O que faz |
 |---|---|
@@ -159,7 +159,7 @@ O backend expõe as rotas que o site chama (`api.py`, em FastAPI). Os detalhes e
 | `GET /api/lojas/{loja}/cardapio` | itens da loja, com categoria e descrição |
 | `POST /api/lojas/{loja}/sugestoes` | valida o carrinho e devolve as 3 sugestões com a frase |
 | `POST /api/lojas/{loja}/chat` | envia uma mensagem ao assistente e devolve a resposta |
-| `POST /api/lojas/{loja}/chat/reiniciar` | apaga o histórico da conversa |
+| `DELETE /api/lojas/{loja}/chat/{conversa_id}` | apaga o histórico da conversa |
 
 Exemplo de sugestões:
 
@@ -171,7 +171,7 @@ POST /api/lojas/mexicano/sugestoes
      {"item": "Nachos", "frase": "Já que você escolheu um bowl de frango e uma água mineral, que tal incluir uma porção de nachos no pedido?", "origem": "regra"}, ...]}
 ```
 
-Um carrinho inválido volta com status 400 e a lista de erros, por exemplo `{"field": "carrinho[0]", "code": "unknown_item"}`.
+Todo erro volta no mesmo formato, com o campo, o código e um texto. Um carrinho inválido, por exemplo, volta com status 400 e `{"field": "carrinho[0]", "code": "unknown_item", "message": "Item fora do cardápio da loja."}`. Loja que não existe volta com 404, e chat sem a chave da OpenAI, com 503.
 
 ## Assistente de conversa
 

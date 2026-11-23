@@ -14,8 +14,8 @@ pedidos.csv → pipeline (etapas 1 a 5) → pedidos_limpos.csv → gerar_regras.
 **Uso** (a cada ação do cliente no site):
 
 ```
-site (Vercel) → API (Render) → validação → recomendador → explicação → sugestões com a frase
-site (Vercel) → API (Render) → assistente: orquestrador (coordenador) → analistas → resposta do chat
+site (Vercel) → API (Render) → serviço de recomendação → validação → recomendador → explicação → sugestões com a frase
+site (Vercel) → API (Render) → serviço do chat → assistente: orquestrador (coordenador) → analistas → resposta do chat
 ```
 
 | Componente | Responsabilidade | Requisitos atendidos |
@@ -29,7 +29,8 @@ site (Vercel) → API (Render) → assistente: orquestrador (coordenador) → an
 | `explicacao` | montar a frase de cada sugestão a partir da regra que a gerou | RF-06, RN-07, RN-08, RNF-02, RNF-04 |
 | `dados_loja` | carregar uma vez os arquivos de cada loja e mantê-los em memória | RNF-01 |
 | `agente` | assistente de conversa: orquestrador, analistas, fontes de dados e prompts | RF-07, RF-08, RN-10, RN-11, RNF-03 |
-| `api` | rotas que o site chama: cardápio, sugestões e chat | RF-01, RF-02, RF-04, RF-06, RF-07, RF-08 |
+| `servicos` | validações e regras de negócio das rotas: lojas, cardápio, sugestões e conversas do chat | RF-01, RF-02, RF-04, RF-06, RF-07, RF-08, RN-09 |
+| `api` | controller: recebe as requisições do site, chama os serviços e converte os erros em status HTTP | RF-01, RF-02, RF-04, RF-06, RF-07, RF-08 |
 | site | página “Monte seu pedido” e chat, na Vercel (próxima etapa) | RF-01, RF-02, RF-07 |
 
 O recomendador não depende do site, da explicação nem do assistente. Assim, ele pode ser testado sozinho, e a forma de explicar pode mudar sem afetar as sugestões.
@@ -46,7 +47,7 @@ O recomendador não depende do site, da explicação nem do assistente. Assim, e
 | Assistente de conversa | OpenAI `gpt-6-luna` (Responses API, function calling) | coordenador e analistas entendem as perguntas e escrevem as respostas; os fatos vêm dos dados da loja |
 | API | FastAPI e uvicorn, no Render (plano gratuito) | rotas em Python sobre o código que já existe; o Render atualiza a cada envio ao GitHub |
 | Site | React e Vite, na Vercel | interface separada do backend; a Vercel repassa as chamadas `/api` ao Render |
-| Testes | pytest | testes das regras de negócio, da montagem do assistente e da API |
+| Testes | pytest | testes das regras de negócio, da montagem do assistente, dos serviços e da API |
 
 ## 3. Organização do código
 
@@ -90,7 +91,11 @@ mvp-recomendacao/
 │       ├── cardapio/            # prompt.md
 │       ├── combinacoes/         # prompt.md
 │       └── loja/                # prompt.md
-├── api.py                       # API em FastAPI
+├── servicos/                    # camada de serviço, chamada pela API
+│   ├── recomendacao.py          # lojas, cardápio e sugestões
+│   ├── chat.py                  # validação das mensagens e conversas em memória
+│   └── erros.py                 # erros dos serviços, com código e texto
+├── api.py                       # controller: rotas da API em FastAPI
 ├── dados_loja.py                # arquivos de cada loja em memória
 ├── lojas.py                     # lojas, assistentes e caminhos dos arquivos
 ├── analise_dados.py             # executa o pipeline
@@ -156,7 +161,16 @@ A explicação não usa modelo de linguagem: como a frase só cita itens da regr
 
 ### API
 
-A API em FastAPI (`api.py`) é a porta de entrada do backend: o site chama as rotas, e a API usa o código dos outros componentes. Os dados de cada loja são carregados uma vez (`dados_loja.py`) e ficam em memória.
+A API em FastAPI é a porta de entrada do backend. O código é organizado em camadas, e cada camada só chama a de baixo:
+
+| Camada | Arquivos | Responsabilidade |
+|---|---|---|
+| controller | `api.py` | recebe a requisição, extrai os parâmetros da rota e do corpo, chama o serviço e devolve a resposta em JSON; converte os erros dos serviços em status HTTP |
+| serviço | `servicos/recomendacao.py`, `servicos/chat.py` | validações e regras de negócio: conferir se a loja existe, validar o carrinho e as mensagens, ordenar o cardápio, montar as sugestões e guardar as conversas abertas |
+| domínio | `modelo/`, `agente/` | recomendador, validador, explicação e assistente de conversa |
+| repositório | `dados_loja.py` | leitura dos arquivos de cada loja, carregados uma vez e mantidos em memória |
+
+O controller não acessa os dados diretamente, e os serviços não conhecem HTTP: quando encontram um problema, lançam um erro (`EntradaInvalida`, `NaoEncontrado` ou `Indisponivel`), e o controller escolhe o status.
 
 | Rota | O que faz |
 |---|---|
@@ -165,9 +179,23 @@ A API em FastAPI (`api.py`) é a porta de entrada do backend: o site chama as ro
 | `GET /api/lojas/{loja}/cardapio` | itens da loja com categoria e descrição, do mais pedido para o menos pedido |
 | `POST /api/lojas/{loja}/sugestoes` | recebe `{"carrinho": [...]}`, valida (RN-09), recomenda e devolve as 3 sugestões com a frase |
 | `POST /api/lojas/{loja}/chat` | recebe `{"conversa_id": ..., "mensagem": ...}` e devolve a resposta do assistente |
-| `POST /api/lojas/{loja}/chat/reiniciar` | apaga o histórico da conversa |
+| `DELETE /api/lojas/{loja}/chat/{conversa_id}` | apaga o histórico da conversa, quando o cliente reinicia o chat |
 
-Entradas inválidas voltam com status 400 e a lista de erros no formato do validador (`{"ok": false, "errors": [{"field": ..., "code": ...}]}`). Loja desconhecida volta com 404, e loja sem os arquivos gerados, com 503. Sem a chave da OpenAI, só o chat responde 503; as sugestões continuam funcionando (RNF-03).
+Todo erro volta no mesmo formato, com o campo, o código e um texto explicativo:
+
+```
+{"ok": false, "errors": [{"field": "carrinho[0]", "code": "unknown_item", "message": "Item fora do cardápio da loja."}]}
+```
+
+| Status | Quando |
+|---|---|
+| 200 | requisição atendida |
+| 400 | entrada inválida: corpo que não é um objeto JSON, carrinho barrado pelo validador, mensagem ou `conversa_id` inválidos |
+| 404 | loja ou rota que não existe |
+| 405 | método que a rota não aceita |
+| 503 | loja sem os arquivos gerados ou chat sem a chave da OpenAI |
+
+Sem a chave da OpenAI, só o chat responde 503; as sugestões continuam funcionando (RNF-03).
 
 ### Assistente de conversa
 
@@ -200,7 +228,7 @@ Fluxo de uma mensagem:
 4. se o critério de avanço da etapa foi cumprido, o orquestrador chama `avancar_estagio`;
 5. o orquestrador escreve a resposta ao cliente, com a identidade da loja (Lupe na Sabor na Mesa, Maya na Casa Masala) e a instrução da etapa atual.
 
-**Histórico.** Cada conversa guarda a lista de mensagens em memória e a envia inteira a cada chamada, até o cliente reiniciar o chat. Os analistas não guardam histórico: recebem só a pergunta do orquestrador. Ao reiniciar o chat, a conversa volta para a etapa 1. A API mantém até 200 conversas; as mais antigas saem da memória.
+**Histórico.** Cada conversa guarda a lista de mensagens em memória e a envia inteira a cada chamada, até o cliente reiniciar o chat. Os analistas não guardam histórico: recebem só a pergunta do orquestrador. Ao reiniciar o chat, a conversa volta para a etapa 1. O serviço do chat mantém até 200 conversas; as mais antigas saem da memória.
 
 **Cuidados.** Os analistas respondem só com os dados que recebem (RN-10); o assistente não fecha pedidos (RN-11) e não pede dados pessoais. Há limite de 4 consultas aos analistas e de 8 chamadas de ferramenta por mensagem. As chamadas usam `store=False`, então a OpenAI não guarda as conversas. Se a OpenAI falhar, a mensagem sai do histórico e o cliente recebe um aviso para tentar de novo.
 
@@ -237,5 +265,6 @@ Os testes usam pytest (`python -m pytest`). Os das regras de negócio usam regra
 | `test_validacao.py` | carrinho válido é normalizado; repetidos contam uma vez; cada erro recebe o código certo, na ordem dos itens; a entrada não é alterada | RN-01, RN-09 |
 | `test_explicacao.py` | frase montada com os itens da regra | RN-07 |
 | `test_explicacao.py` | sugestão dos mais vendidos recebe a frase dos mais pedidos | RN-08 |
-| `test_api.py` | rotas de saúde, lojas, cardápio e sugestões; carrinho inválido barrado pelo validador; erros de entrada do chat antes de chamar o assistente | RF-01, RF-04, RN-09 |
+| `test_servicos.py` | cardápio do mais pedido para o menos pedido; loja desconhecida; carrinho inválido com código e texto; mensagem do chat validada antes de chamar o assistente | RF-01, RN-09 |
+| `test_api.py` | rotas de saúde, lojas, cardápio, sugestões e chat; status 400, 404, 405 e 503 com o mesmo formato de erro; JSON inválido; chat sem a chave da OpenAI; encerramento da conversa | RF-01, RF-04, RF-08, RN-09, RNF-03 |
 | `test_agente.py` | ferramentas do orquestrador; dados de cada analista completos (todos os produtos, todas as regras com “N de cada 100 pedidos”, documento da loja); etapas com nome, objetivo e instrução; só a etapa atual no prompt; marcadores preenchidos; datas de referência; a etapa só avança | RN-10 |

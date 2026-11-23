@@ -8,4 +8,5 @@ __pycache__/
 # Arquivos gerados pelo pipeline e pelo modelo
 dados/*/pedidos_limpos.csv
 dados/*/regras.csv
+dados/*/avaliacao.csv
 

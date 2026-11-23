@@ -1,5 +1,7 @@
 """Avalia as versões do recomendador com pedidos separados para teste, para cada loja."""
 
+import pandas as pd
+
 from lojas import LOJAS, caminho, lojas_disponiveis
 from modelo.avaliacao import DOBRAS, PROPORCAO_TESTE, avaliar_divisoes, dividir_em_dobras, dividir_pedidos
 from modelo.regras import carregar_pedidos_limpos
@@ -26,6 +28,22 @@ def executar(loja):
         cobertura = cruzada[nome]["cobertura_%"]
         texto_cobertura = f"{cobertura}%" if cobertura is not None else "-"
         print(f"  {nome:38} {unica[nome]['acerto_%']:>13}% {cruzada[nome]['acerto_%']:>14}% {texto_cobertura:>10}")
+
+    # Resultado salvo para a tela "Como funciona"
+    resultado = pd.DataFrame([
+        {
+            "versao": nome,
+            "acerto_divisao_unica_%": unica[nome]["acerto_%"],
+            "acerto_validacao_cruzada_%": cruzada[nome]["acerto_%"],
+            "cobertura_%": cruzada[nome]["cobertura_%"],
+            "casos_divisao_unica": casos_unica,
+            "casos_validacao_cruzada": casos_cruzada,
+        }
+        for nome in cruzada
+    ])
+    destino = caminho(loja, "avaliacao.csv")
+    resultado.to_csv(destino, index=False)
+    print(f"\nResultado salvo em {destino}")
 
 
 if __name__ == "__main__":

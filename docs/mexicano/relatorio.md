@@ -39,11 +39,16 @@ Para testar, pegamos pedidos antigos, tiramos um item de cada um e pedimos ao si
 | **Sistema de sugestões** | **47** |
 | Mostrar sempre os 3 itens mais vendidos | 44 |
 
-O sistema acerta mais do que simplesmente mostrar os mais vendidos e, além disso, adapta as sugestões ao que está no carrinho. Para quem já escolheu um Burrito de Frango, por exemplo, ele não oferece um segundo prato principal, como o Bowl de Frango, e sim um acompanhamento e uma bebida.
+O sistema acerta 8% mais do que simplesmente mostrar os mais vendidos e, além disso, adapta as sugestões ao que está no carrinho. Para quem já escolheu um Burrito de Frango, por exemplo, ele não oferece um segundo prato principal, como o Bowl de Frango, e sim um acompanhamento e uma bebida.
 
 ## O que aprendemos
 
-**A primeira versão acertava menos que os mais vendidos.** Com poucos pedidos no histórico, ela encontrava poucas combinações e deixava espaços vazios nas sugestões. Além disso, dava preferência a combinações curiosas, porém raras. Ajustamos o sistema para completar os espaços com os mais vendidos e para priorizar o que os clientes mais levam juntos.
+**A primeira versão acertava menos que os mais vendidos**, por dois motivos.
+
+1. **Deixava sugestões em branco.** Com poucos pedidos no histórico, ela encontrava poucas combinações. Para quem colocava um Bowl de Frango no carrinho, por exemplo, ela mostrava só 1 sugestão (Refrigerante em Lata), e as outras 2 posições ficavam vazias.
+2. **Colocava em primeiro lugar o item menos provável.** Para quem colocava Água Mineral no carrinho, ela mostrava primeiro o Nachos, e não o Bowl de Frango. O Nachos é pouco pedido no geral, mas aparece bastante junto com a água; mesmo assim, o Bowl de Frango sai em mais pedidos com água (42 de cada 100, contra 23 do Nachos).
+
+Ajustamos o sistema para preencher as posições vazias com os mais vendidos e para mostrar primeiro o item que mais clientes levaram junto.
 
 **A vantagem ainda é pequena, por causa do tamanho do histórico.** São poucos pedidos, com poucos itens cada, e três itens dominam as vendas. Para as sugestões ficarem melhores, ajudariam:
 

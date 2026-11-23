@@ -48,18 +48,29 @@ O arquivo `gerar_regras.py` compara os limites e gera as regras finais de cada l
 
 **Como testamos:** pegamos os pedidos antigos, tiramos um item de cada pedido e pedimos ao sistema 3 sugestões para o que sobrou. Contamos quantas vezes o item tirado estava entre as sugestões e comparamos com o jeito mais simples de sugerir: mostrar sempre os 3 itens mais vendidos.
 
+**As quatro formas de sugerir que comparamos** (os exemplos são da Sabor na Mesa):
+
+1. **Só os 3 mais vendidos:** mostra sempre os mesmos 3 itens, seja qual for o carrinho.
+   *Exemplo:* para qualquer carrinho, Bowl de Frango, Burrito de Frango e Nachos com Guacamole (tirando o que já estiver no carrinho).
+2. **Primeira versão:** mostra primeiro o item cuja venda mais aumenta quando está junto com o carrinho, mesmo que poucos clientes o peçam. Quando o histórico não traz combinação suficiente, a posição fica em branco.
+   *Exemplo:* com Água Mineral, mostra primeiro o Nachos (23 de cada 100 pedidos com água), e não o Bowl de Frango (42 de cada 100). Com Bowl de Frango, mostra só o Refrigerante em Lata, e as outras 2 posições ficam vazias.
+3. **Segunda versão:** igual à primeira, mas preenche as posições vazias com os mais vendidos.
+   *Exemplo:* com Bowl de Frango, mostra Refrigerante em Lata, Burrito de Frango e Nachos com Guacamole.
+4. **Versão final:** mostra primeiro o item que mais clientes levaram junto com o carrinho e preenche as posições vazias com os mais vendidos.
+   *Exemplo:* com Água Mineral, mostra Bowl de Frango, Nachos e Bowl de Carne.
+
 **Acertos a cada 100 carrinhos:**
 
 | Forma de sugerir | Sabor na Mesa | Casa Masala |
 |---|---|---|
-| Primeira versão: combinações mais “curiosas”, sem completar as vagas | 33 | 21 |
-| Segunda versão: a primeira + mais vendidos nas vagas vazias | 45 | 21 |
-| **Versão final: combinações mais frequentes + mais vendidos nas vagas** | **47** | **23** |
-| Só os 3 mais vendidos | 44 | 20 |
+| 1. Só os 3 mais vendidos | 44 | 20 |
+| 2. Primeira versão | 33 | 21 |
+| 3. Segunda versão | 45 | 21 |
+| **4. Versão final** | **47** | **23** |
 
 **O que os números mostram:**
 
-- **Sabor na Mesa:** com poucos pedidos, a primeira versão perdia para os mais vendidos, porque deixava vagas vazias e preferia combinações raras. A versão final ganha por pouco: 47 contra 44.
+- **Sabor na Mesa:** com poucos pedidos, a primeira versão perdia para os mais vendidos, porque deixava posições vazias e colocava em primeiro lugar itens pouco pedidos. A versão final acerta 8% mais que os mais vendidos (47 contra 44).
 - **Casa Masala:** com sete vezes mais pedidos, quase todo carrinho tem combinação conhecida, e a versão final acerta 16% mais que os mais vendidos (23 contra 20). O número é menor que o do mexicano porque o cardápio tem 243 itens, contra 45.
 - **Nas duas lojas,** o que fez a diferença foi priorizar o que os clientes mais levam juntos. Mais pedidos e mais variedade deixam a vantagem maior.
 

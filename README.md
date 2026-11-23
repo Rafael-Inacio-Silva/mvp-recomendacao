@@ -49,6 +49,7 @@ Ao final, a base limpa de cada loja é salva em `dados/<loja>/pedidos_limpos.csv
 |---|---|
 | [modelo/regras.py](modelo/regras.py) | monta as cestas, calcula as regras de associação (Apriori) e compara limites de suporte e confiança |
 | [modelo/recomendador.py](modelo/recomendador.py) | recebe o carrinho e devolve até 3 sugestões, ordenadas pela confiança, cada uma com a regra que a gerou; as vagas sem regra são completadas com os itens mais pedidos |
+| [modelo/explicacao.py](modelo/explicacao.py) | monta a frase de cada sugestão a partir da regra, por exemplo “42 de cada 100 pedidos com Água Mineral também têm Bowl de Frango” |
 | [modelo/avaliacao.py](modelo/avaliacao.py) | separa treino e teste, esconde um item de cada pedido de teste e mede o acerto no top 3 de cada versão |
 
 O arquivo `gerar_regras.py` compara os limites e gera as regras finais de cada loja, com suporte mínimo de 1% e confiança mínima de 10%. As regras são salvas em `dados/<loja>/regras.csv`.
@@ -94,6 +95,7 @@ pip install -r requirements.txt
 python analise_dados.py
 python gerar_regras.py
 python avaliar.py
+python -m pytest
 ```
 
-No PyCharm, selecione o interpretador `.venv` do projeto e execute, nesta ordem, `analise_dados.py`, `gerar_regras.py` e `avaliar.py`. Cada script processa as duas lojas.
+No PyCharm, selecione o interpretador `.venv` do projeto e execute, nesta ordem, `analise_dados.py`, `gerar_regras.py` e `avaliar.py`. Cada script processa as duas lojas, e `avaliar.py` salva o resultado em `dados/<loja>/avaliacao.csv`. Os testes ficam na pasta `tests/` e podem ser executados pelo PyCharm ou com `python -m pytest`.

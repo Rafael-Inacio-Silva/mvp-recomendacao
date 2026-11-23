@@ -61,7 +61,8 @@ mvp-recomendacao/
 ├── gerar_regras.py              # calcula e compara as regras
 ├── avaliar.py                   # executa a avaliação offline
 ├── app.py                       # tela em Streamlit
-└── tests/
+├── pytest.ini
+└── tests/                       # testes das regras de negócio
 ```
 
 ## 4. Funcionamento dos componentes
@@ -113,15 +114,22 @@ A explicação não usa modelo de linguagem: como a frase só repete números qu
 | 2 | confiança 20%, lift > 1 | lift | mais pedidos |
 | 3 (MVP) | confiança 10%, sem filtro de lift | confiança | mais pedidos |
 
+`avaliar.py` salva o resultado de cada loja em `dados/<loja>/avaliacao.csv`, que a página “Como funciona” lê sem precisar repetir a avaliação.
+
 Os resultados de cada loja estão nos relatórios: [Sabor na Mesa](mexicano/relatorio.md) e [Casa Masala](indiano/relatorio.md).
 
-## 6. Testes planejados
+## 6. Testes
 
-| Teste | Regra verificada |
-|---|---|
-| item repetido no mesmo pedido conta uma vez | RN-01 |
-| item do carrinho nunca aparece nas sugestões | RN-02 |
-| no máximo 3 sugestões | RN-03 |
-| sugestões em ordem de confiança, com desempate pelo lift | RN-05 |
-| vagas sem regra são completadas com os mais pedidos | RN-06 |
-| sugestão dos mais vendidos recebe a frase dos mais pedidos | RN-08 |
+Os testes usam pytest (`python -m pytest`) e regras pequenas montadas no próprio teste, para não depender dos dados das lojas. A exceção é o teste do tamanho das frases, que confere todas as regras geradas de cada loja.
+
+| Arquivo | Teste | Regra verificada |
+|---|---|---|
+| `test_dados_e_avaliacao.py` | item repetido no mesmo pedido conta uma vez | RN-01 |
+| `test_dados_e_avaliacao.py` | cada item de um pedido de teste é escondido uma vez; nenhum pedido fica no treino e no teste | avaliação |
+| `test_recomendador.py` | item do carrinho nunca aparece nas sugestões | RN-02 |
+| `test_recomendador.py` | no máximo 3 sugestões | RN-03 |
+| `test_recomendador.py` | sugestões em ordem de confiança, com desempate pelo lift; cada item sugerido uma vez | RN-05 |
+| `test_recomendador.py` | vagas sem regra são completadas com os mais pedidos | RN-06 |
+| `test_explicacao.py` | frase montada com a confiança e os itens da regra | RN-07 |
+| `test_explicacao.py` | sugestão dos mais vendidos recebe a frase dos mais pedidos | RN-08 |
+| `test_explicacao.py` | todas as frases das regras reais têm até 20 palavras | RNF-04 |

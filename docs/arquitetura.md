@@ -6,12 +6,13 @@ Elaborada a partir das propostas da [Sabor na Mesa](mexicano/proposta.md) e da [
 
 ```
 pedidos.csv → pipeline de dados → pedidos_limpos.csv → cestas → regras de associação → recomendador → explicação → tela
+                  └─ cardapio.csv (etapa 6, LLM) ─────────────────────────────────────────────────────────┘
 ```
 
 | Componente | Responsabilidade | Requisitos atendidos |
 |---|---|---|
 | `lojas` | lista das lojas e caminho dos arquivos de cada uma | RNF-05 |
-| `pipeline` | carregar `pedidos.csv`, tratar nulos, vazios, duplicados e outliers, explorar e salvar a base limpa | RF-01, RN-01, RNF-05 |
+| `pipeline` | carregar `pedidos.csv`, tratar nulos, vazios, duplicados e outliers, explorar, salvar a base limpa e gerar o cardápio com artigos (etapa 6) | RF-01, RN-01, RNF-05 |
 | `regras` | montar uma cesta por pedido e calcular as regras de associação com suporte, confiança e lift | RF-03, RN-04 |
 | `recomendador` | escolher e ordenar as sugestões para um carrinho | RF-04, RF-05, RN-02, RN-03, RN-05, RN-06 |
 | `avaliacao` | medir o acerto das versões do recomendador e da referência dos mais pedidos | RF-08 |
@@ -27,7 +28,8 @@ O recomendador não depende da tela nem da explicação. Assim, ele pode ser tes
 | Linguagem | Python | bibliotecas prontas para dados e regras de associação |
 | Dados | pandas | leitura e agrupamento dos pedidos |
 | Regras | mlxtend (Apriori) | implementação conhecida, que já calcula suporte, confiança e lift |
-| Explicação | frase montada em Python | exata, instantânea e sem custo, porque usa os números da própria regra |
+| Explicação | frase montada em Python | exata, instantânea e sem custo, porque só cita itens da própria regra |
+| Artigos do cardápio | OpenAI `gpt-6-luna` (Responses API, saída em JSON) | tarefa de linguagem; roda uma vez no pipeline e o resultado fica salvo |
 | Tela | Streamlit | demonstração em Python, sem front-end separado |
 | Testes | pytest | testes das regras de negócio |
 
@@ -39,6 +41,8 @@ mvp-recomendacao/
 │   ├── mexicano/
 │   │   ├── pedidos.csv          # histórico enviado pela Sabor na Mesa
 │   │   ├── pedidos_limpos.csv   # gerado pelo pipeline
+│   │   ├── cardapio.csv         # gerado pela etapa 6 (LLM)
+│   │   ├── gabarito_cardapio.csv  # conferência manual dos artigos
 │   │   └── regras.csv           # gerado por gerar_regras.py
 │   └── indiano/                 # mesma estrutura, para a Casa Masala
 ├── docs/
@@ -50,7 +54,8 @@ mvp-recomendacao/
 │   ├── etapa2_nulos_vazios.py
 │   ├── etapa3_duplicados.py
 │   ├── etapa4_outliers.py
-│   └── etapa5_exploracao.py
+│   ├── etapa5_exploracao.py
+│   └── etapa6_cardapio.py
 ├── modelo/
 │   ├── regras.py                # cestas e regras de associação
 │   ├── recomendador.py          # sugestões para um carrinho
@@ -60,7 +65,9 @@ mvp-recomendacao/
 ├── analise_dados.py             # executa o pipeline
 ├── gerar_regras.py              # calcula e compara as regras
 ├── avaliar.py                   # executa a avaliação offline
+├── avaliar_cardapio.py          # compara os artigos do LLM com o gabarito
 ├── app.py                       # tela em Streamlit
+├── .env.example                 # variáveis da OpenAI, sem a chave
 ├── pytest.ini
 └── tests/                       # testes das regras de negócio
 ```
@@ -70,6 +77,10 @@ mvp-recomendacao/
 ### Cestas de itens
 
 As linhas de `pedidos.csv` são agrupadas por `id_pedido`. Cada pedido vira um conjunto, então um item repetido no mesmo pedido conta uma vez só (RN-01). As cestas são convertidas em uma tabela de verdadeiro/falso (pedido × item), que é o formato esperado pelo Apriori.
+
+### Cardápio com artigos (etapa 6)
+
+A etapa 6 pede ao LLM, em lotes de 50 itens, a forma de cada item no meio de uma frase, com o artigo certo. A resposta vem em JSON e cada forma é conferida: precisa começar com um, uma, uns ou umas e conter o nome do item. O que não passar na conferência, ou todo o lote quando não há chave ou a chamada falha, fica com o nome do item, sem artigo. O resultado é salvo em `cardapio.csv`, e as próximas execuções só chamam o LLM para itens novos. O motivo da escolha do LLM e do modelo está no [README](../README.md#modelos-e-uso-de-llm).
 
 ### Regras de associação
 
@@ -96,7 +107,7 @@ As regras ficam em uma lista, com o antecedente como conjunto de itens, para que
 
 ### Explicação
 
-A frase de cada sugestão é montada com os itens da regra que a gerou (RN-07): a regra Água Mineral → Bowl de Frango vira “Já que você escolheu Água Mineral, que tal incluir Bowl de Frango no pedido?”. Quando a regra tem mais de um item no lado A, os itens são citados juntos (“Bowl de Frango e Água Mineral”). As sugestões que vêm dos mais vendidos recebem a frase “Um dos itens mais pedidos da casa” (RN-08).
+A frase de cada sugestão é montada com os itens da regra que a gerou (RN-07): a regra Água Mineral → Bowl de Frango vira “Já que você escolheu Água Mineral, que tal incluir Bowl de Frango no pedido?”. Quando a regra tem mais de um item no lado A, os itens são citados juntos. Com o `cardapio.csv` da etapa 6, cada item aparece com o artigo certo: “Já que você escolheu um bowl de frango e uma água mineral, que tal incluir uma porção de nachos no pedido?”. Sem o cardápio, a frase usa o nome do item. As sugestões que vêm dos mais vendidos recebem a frase “Um dos itens mais pedidos da casa” (RN-08).
 
 A explicação não usa modelo de linguagem: como a frase só cita itens da regra, um modelo de linguagem acrescentaria custo, demora e risco de citar algo fora da regra, sem acrescentar informação.
 

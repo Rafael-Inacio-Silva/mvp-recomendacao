@@ -40,7 +40,7 @@ O restaurante enviou o histórico do delivery no arquivo `pedidos.csv`, com o n�
 | Pedidos com um único item | 338 (2,5%) |
 | Itens mais presentes | Arroz Pilau (35,2% dos pedidos), Naan Simples (28,0%), Papadum Simples (26,8%) |
 
-A partir desse histórico, o sistema identifica regras do tipo “quem pede A também costuma pedir B”. Quando o cliente coloca itens no carrinho, o sistema procura as regras que se aplicam a eles e mostra os itens sugeridos, cada um com uma frase explicando a relação. A frase é montada a partir da própria regra, sem IA, por exemplo: “Já que você escolheu Frango Tikka Masala, que tal incluir Arroz Pilau no pedido?”.
+A partir desse histórico, o sistema identifica regras do tipo “quem pede A também costuma pedir B”. Quando o cliente coloca itens no carrinho, o sistema procura as regras que se aplicam a eles e mostra os itens sugeridos, cada um com uma frase explicando a relação. A frase é montada a partir da própria regra, sem IA, por exemplo: “Já que você escolheu um frango tikka masala, que tal incluir um arroz pilau no pedido?”.
 
 Uma página separada mostra ao restaurante como o sistema chegou às sugestões: o resumo dos dados, a lista de regras e os resultados da avaliação.
 

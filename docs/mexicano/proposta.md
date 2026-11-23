@@ -40,7 +40,7 @@ O restaurante enviou o histórico do delivery no arquivo `pedidos.csv`, com o n�
 | Pedidos com um único item | 194 (10,6%) |
 | Itens mais presentes | Bowl de Frango (33,5% dos pedidos), Burrito de Frango (26,7%), Nachos com Guacamole (25,8%) |
 
-A partir desse histórico, o sistema identifica regras do tipo “quem pede A também costuma pedir B”. Quando o cliente coloca itens no carrinho, o sistema procura as regras que se aplicam a eles e mostra os itens sugeridos, cada um com uma frase explicando a relação. A frase é montada a partir da própria regra, sem IA, por exemplo: “Já que você escolheu Água Mineral, que tal incluir Bowl de Frango no pedido?”.
+A partir desse histórico, o sistema identifica regras do tipo “quem pede A também costuma pedir B”. Quando o cliente coloca itens no carrinho, o sistema procura as regras que se aplicam a eles e mostra os itens sugeridos, cada um com uma frase explicando a relação. A frase é montada a partir da própria regra, sem IA, por exemplo: “Já que você escolheu uma água mineral, que tal incluir um bowl de frango no pedido?”.
 
 Uma página separada mostra ao restaurante como o sistema chegou às sugestões: o resumo dos dados, a lista de regras e os resultados da avaliação.
 

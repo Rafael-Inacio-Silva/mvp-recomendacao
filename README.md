@@ -40,8 +40,9 @@ Cada etapa da preparação dos dados fica em um módulo da pasta `pipeline/`, e 
 | 3 | [etapa3_duplicados.py](pipeline/etapa3_duplicados.py) | conta itens repetidos no mesmo pedido e mantém uma linha por item em cada pedido (RN-01) |
 | 4 | [etapa4_outliers.py](pipeline/etapa4_outliers.py) | identifica pedidos com quantidade atípica de itens (IQR) e itens raros; remove os pedidos acima do limite superior |
 | 5 | [etapa5_exploracao.py](pipeline/etapa5_exploracao.py) | mostra o resumo da base limpa e os itens e pares mais frequentes |
+| 6 | [etapa6_cardapio.py](pipeline/etapa6_cardapio.py) | usa um LLM para escrever cada item como ele aparece numa frase (“um bowl de frango”, “uma porção de nachos”) e salva o cardápio |
 
-Ao final, a base limpa de cada loja é salva em `dados/<loja>/pedidos_limpos.csv`, que é a entrada do modelo.
+Ao final, a base limpa de cada loja é salva em `dados/<loja>/pedidos_limpos.csv`, que é a entrada do modelo. A etapa 6 grava `dados/<loja>/cardapio.csv` e só chama o LLM para itens que ainda não estão no cardápio.
 
 ## Modelo
 
@@ -49,7 +50,7 @@ Ao final, a base limpa de cada loja é salva em `dados/<loja>/pedidos_limpos.csv
 |---|---|
 | [modelo/regras.py](modelo/regras.py) | monta as cestas, calcula as regras de associação (Apriori) e compara limites de suporte e confiança |
 | [modelo/recomendador.py](modelo/recomendador.py) | recebe o carrinho e devolve até 3 sugestões, ordenadas pela confiança, cada uma com a regra que a gerou; as vagas sem regra são completadas com os itens mais pedidos |
-| [modelo/explicacao.py](modelo/explicacao.py) | monta a frase de cada sugestão a partir da regra, por exemplo “Já que você escolheu Água Mineral, que tal incluir Bowl de Frango no pedido?” |
+| [modelo/explicacao.py](modelo/explicacao.py) | monta a frase de cada sugestão a partir da regra e do cardápio, por exemplo “Já que você escolheu um bowl de frango e uma água mineral, que tal incluir uma porção de nachos no pedido?” |
 | [modelo/avaliacao.py](modelo/avaliacao.py) | separa treino e teste, esconde um item de cada pedido de teste e mede o acerto no top 3 de cada versão |
 
 O arquivo `gerar_regras.py` compara os limites e gera as regras finais de cada loja, com suporte mínimo de 1% e confiança mínima de 10%. As regras são salvas em `dados/<loja>/regras.csv`.
@@ -86,12 +87,58 @@ O arquivo `gerar_regras.py` compara os limites e gera as regras finais de cada l
 
 Os números vêm de `avaliar.py`, que também mostra uma divisão única 80/20; a validação cruzada (5 dobras) é a usada aqui. Os detalhes de cada versão estão na [arquitetura](docs/arquitetura.md#5-avaliação).
 
+## Modelos e uso de LLM
+
+Cada parte do sistema usa a técnica mais simples que resolve o problema. O LLM entra só onde o código comum não resolve bem.
+
+| Parte | Escolha | Por quê |
+|---|---|---|
+| Sugestões | regras de associação (Apriori, biblioteca mlxtend) | o cliente pediu sugestões baseadas nos itens que saem juntos; é a técnica clássica de análise de cesta, não precisa de dados do cliente e cada sugestão vem de uma regra que dá para mostrar ao dono |
+| Ordem das sugestões | confiança da regra, com desempate pelo lift | na avaliação, ordenar pelo lift favorecia itens pouco pedidos e acertava menos que os mais vendidos; a confiança põe primeiro o item mais provável |
+| Vagas sem regra | os itens mais vendidos | garante sempre 3 sugestões e foi o que fez a primeira versão deixar de perder para a referência |
+| Frase da sugestão | modelo de frase em Python, sem LLM | a frase só repete itens que o sistema já escolheu; um LLM traria custo, demora e risco de citar algo fora da regra, sem acrescentar informação |
+| Artigos do cardápio (etapa 6) | LLM `gpt-6-luna`, da OpenAI | explicado abaixo |
+
+### Por que um LLM na etapa 6
+
+Para a frase soar natural, cada item precisa do artigo certo: “**um** bowl de frango”, “**uma** água mineral”, “**uma porção de** nachos”. Isso depende de gênero, número e de como o item é servido, algo que o código comum não sabe:
+
+- uma regra fixa erra fácil: “um” para tudo daria “um água mineral” e “um nachos”;
+- uma tabela feita à mão funciona, mas precisaria ser preenchida para os 288 itens das duas lojas e de novo a cada item novo do cardápio;
+- entender o nome de um prato e escrevê-lo bem em português é justamente uma tarefa de linguagem, em que o LLM é bom.
+
+O LLM, porém, não participa da escolha das sugestões nem roda durante o uso. Ele é chamado uma vez, no pipeline, e o resultado fica salvo em `cardapio.csv`. A tela só lê esse arquivo, sem custo e sem depender da internet.
+
+**Cuidados:**
+
+- a resposta vem em JSON, com o item e a forma na frase;
+- cada resposta é conferida: precisa começar com um artigo (um, uma, uns, umas) e conter o nome do item. Assim, o LLM não consegue trocar um item por outro;
+- sem chave da OpenAI, ou se a resposta não passar na conferência, a frase usa o nome do cardápio, sem artigo, e o sistema continua funcionando.
+
+### Por que o `gpt-6-luna`
+
+É o modelo mais simples e mais barato da linha GPT-6 da OpenAI, e a tarefa não pede mais que isso: frases curtas, um padrão claro e conferência automática da resposta. Por isso, o esforço de raciocínio é `low`. Modelos maiores seriam custo sem ganho. O modelo pode ser trocado pela variável `OPENAI_MODEL`, sem mudar o código.
+
+Na execução, o cardápio do mexicano (45 itens) levou cerca de 13 segundos e o do indiano (243 itens), cerca de 51 segundos.
+
+### Conferência do resultado
+
+Não havia um gabarito pronto, então a conferência foi manual, por amostragem:
+
+| Loja | Amostra | Acerto do artigo |
+|---|---|---|
+| Sabor na Mesa | os 45 itens | 45 de 45 (100%) |
+| Casa Masala | 45 itens escolhidos ao acaso | 45 de 45 (100%) |
+
+A marcação da Sabor na Mesa ficou salva em `dados/mexicano/gabarito_cardapio.csv`, e a comparação pode ser refeita com `python avaliar_cardapio.py`.
+
 ## Como executar
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env   # preencha OPENAI_API_KEY (opcional: o cardápio já vem pronto)
 python analise_dados.py
 python gerar_regras.py
 python avaliar.py

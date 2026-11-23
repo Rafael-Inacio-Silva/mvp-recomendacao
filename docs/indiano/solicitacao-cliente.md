@@ -3,7 +3,7 @@
 **De:** Rodrigo Almeida — Sócio-Proprietário, Casa Masala Cozinha Indiana
 **Para:** Equipe da PratoTech
 **Assunto:** MVP de recomendação de itens para o nosso delivery
-**Anexo:** restaurant-1-orders.csv
+**Anexo:** pedidos.csv
 
 Olá, pessoal da PratoTech!
 
@@ -13,18 +13,18 @@ Nosso delivery é bem montado: a maioria dos clientes pede um curry, um arroz, u
 
 A ideia é que o sistema sugira itens que combinem com o que a pessoa já escolheu. Por exemplo: quem adiciona um frango tikka masala pode receber a sugestão de arroz pilau ou naan de alho; quem pede papadum pode receber chutney de manga ou molho de hortelã. Cada sugestão deve vir com uma explicação curta, baseada nos nossos pedidos.
 
-Em anexo, mando a exportação do nosso sistema de caixa, com cerca de 13 mil pedidos do delivery feitos entre 2015 e 2019. O sistema é importado, então o arquivo vem em inglês: cada linha traz o número do pedido, a data, o nome do item, a quantidade e o preço. Pode ser que o mesmo item apareça com grafias diferentes, porque os nomes foram cadastrados em épocas diferentes.
+Em anexo, mando o histórico de pedidos do delivery (pedidos.csv), com 13.397 pedidos. Cada linha traz o número do pedido e um item; as linhas com o mesmo número formam um pedido.
 
 Para o MVP, esperamos o mesmo que a Sabor na Mesa pediu:
 
 - uma demonstração em que a pessoa monta o carrinho com itens do cardápio;
 - sugestões de itens relacionados, com uma explicação breve para cada uma;
-- o cardápio em português, montado a partir dos itens do histórico;
+- o cardápio montado a partir dos itens do histórico;
 - uma apresentação dos dados usados e dos resultados da avaliação.
 
 Integração com o site, o pagamento e a entrega fica para depois.
 
-Vocês conseguem nos enviar o resultado e uma avaliação de como as recomendações se saem com os nossos dados?
+Vocês podem nos enviar uma proposta, o prazo e, depois, um relatório explicando como o sistema chega às sugestões e se elas funcionam com os nossos dados?
 
 Abraço,
 

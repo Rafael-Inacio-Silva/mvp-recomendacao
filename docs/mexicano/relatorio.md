@@ -1,58 +1,52 @@
 # Relatório — Sabor na Mesa Cozinha Mexicana
 
-Resultado do MVP de recomendação de itens para o delivery da Sabor na Mesa, a partir da [solicitação](solicitacao-cliente.md) e da [proposta](../proposta.md).
+Olá, Mariana! Este relatório mostra os dados que usamos, como o sistema escolhe as sugestões e se elas funcionam com os pedidos da Sabor na Mesa. Os detalhes técnicos estão na [proposta](proposta.md) e na [arquitetura](../arquitetura.md).
 
-## Dados
+## Os dados que usamos
 
-| Indicador | Valor |
+Usamos só o histórico que você enviou: o número de cada pedido e os itens que ele tinha. Não usamos dados dos clientes, preços nem datas.
+
+| | |
 |---|---|
-| Pedidos recebidos | 1.834 |
-| Pedidos após a limpeza | 1.789 |
-| Itens distintos | 45 |
-| Itens por pedido (média) | 2,3 |
-| Item mais presente | Bowl de Frango, em 33% dos pedidos |
+| Pedidos analisados | 1.789 |
+| Itens no cardápio | 45 |
+| Itens por pedido, em média | 2,3 |
+| Item mais pedido | Bowl de Frango, presente em 1 de cada 3 pedidos |
 
-## Resultado
+Antes de começar, deixamos de fora 45 pedidos com 5 itens ou mais. Eles costumam ser pedidos de grupo e misturam escolhas de várias pessoas. Um item pedido duas vezes no mesmo pedido contou uma vez só.
 
-Taxa de acerto no top 3: em cada pedido de teste, um item é escondido e o recomendador recebe os demais como carrinho. A validação cruzada testa todos os pedidos, por isso é a medida mais confiável.
+## Como o sistema escolhe as sugestões
 
-| Versão | Divisão única (771 casos) | Validação cruzada (3.840 casos) |
-|---|---|---|
-| 1: regras por lift, sem completar as vagas | 36,8% | 32,6% |
-| 2: regras por lift + mais pedidos completando | 45,5% | 45,2% |
-| **3: regras por confiança + mais pedidos completando** | **48,4%** | **47,3%** |
-| Referência: sempre os 3 mais pedidos | 45,8% | 43,6% |
+O sistema olha os pedidos antigos e aprende quais itens costumam sair juntos. Quando o cliente coloca um item no carrinho, ele sugere o que mais acompanhou esse item no passado.
 
-A versão 3 é a usada no MVP. Ela acerta 3,7 pontos a mais que a referência, e as regras se aplicam a 91% dos carrinhos.
+Por exemplo, de cada 100 pedidos com Água Mineral, 42 também tinham Bowl de Frango e 23 tinham Nachos. Então, para quem pôs Água Mineral no carrinho, o Bowl de Frango aparece primeiro.
 
-## Dificuldade: poucos dados
+Quando o histórico não traz uma combinação suficiente, o sistema completa com os itens mais vendidos que ainda não estão no carrinho. Assim, o cliente sempre vê 3 sugestões.
 
-A primeira versão acertou menos que a referência dos mais pedidos. Com poucos pedidos, só 23 regras passavam nos limites iniciais (confiança de 20% e lift maior que 1), e isso causou dois problemas.
+| No carrinho | O sistema sugere |
+|---|---|
+| Água Mineral | Bowl de Frango, Nachos, Bowl de Carne |
+| Burrito de Frango | Nachos com Guacamole, Refrigerante em Lata, Burrito de Carne |
+| Bowl de Frango | Nachos com Guacamole, Refrigerante em Lata, Nachos |
+| Nachos | Bowl de Frango, Refrigerante em Lata, Burrito de Frango |
 
-**1. Vagas vazias.** Muitos carrinhos recebiam só 1 ou 2 sugestões. Com o Bowl de Frango no carrinho, por exemplo, a versão 1 sugeria apenas o Refrigerante em Lata. A versão 2 passou a completar as vagas com os mais pedidos (RN-06).
+## As sugestões funcionam?
 
-**2. O lift favorece itens raros.** Com a Água Mineral no carrinho:
+Para testar, pegamos pedidos antigos, tiramos um item de cada um e pedimos ao sistema 3 sugestões para o que sobrou. Depois, contamos quantas vezes o item tirado estava entre as sugestões. Repetimos o teste com todos os pedidos.
 
-| Regra | Confiança | Lift |
-|---|---|---|
-| Água Mineral → Bowl de Frango | 42% | 1,28 |
-| Água Mineral → Nachos | 23% | 2,12 |
+| Forma de sugerir | Acertos a cada 100 carrinhos |
+|---|---|
+| **Sistema de sugestões** | **47** |
+| Mostrar sempre os 3 itens mais vendidos | 44 |
 
-Ordenando pelo lift, o Nachos vem primeiro, porque a Água Mineral dobra a chance de pedir Nachos. Mas quem pede Água Mineral leva o Bowl de Frango em 42% dos pedidos, contra 23% do Nachos. A confiança coloca primeiro o item mais provável, e é isso que aumenta o acerto.
+O sistema acerta mais do que simplesmente mostrar os mais vendidos e, além disso, adapta as sugestões ao que está no carrinho. Para quem já escolheu um Burrito de Frango, por exemplo, ele não oferece um segundo prato principal, como o Bowl de Frango, e sim um acompanhamento e uma bebida.
 
-O filtro de lift também deixava carrinhos sem regra. Com o Burrito de Frango, por exemplo, a versão 1 caía nos mais pedidos e sugeria o Bowl de Frango, um segundo prato principal. Na versão 3, as regras sugerem Nachos com Guacamole, Refrigerante em Lata e Burrito de Carne.
+## O que aprendemos
 
-**Mudanças da versão 3:** confiança mínima de 10%, sem filtro de lift, sugestões ordenadas pela confiança e vagas restantes completadas com os mais pedidos.
+**A primeira versão acertava menos que os mais vendidos.** Com poucos pedidos no histórico, ela encontrava poucas combinações e deixava espaços vazios nas sugestões. Além disso, dava preferência a combinações curiosas, porém raras. Ajustamos o sistema para completar os espaços com os mais vendidos e para priorizar o que os clientes mais levam juntos.
 
-## Conclusão
+**A vantagem ainda é pequena, por causa do tamanho do histórico.** São poucos pedidos, com poucos itens cada, e três itens dominam as vendas. Para as sugestões ficarem melhores, ajudariam:
 
-As regras de associação superam a referência dos mais pedidos, mas por pouco. A causa é a base: são poucos pedidos, eles são curtos e há pouca variedade, com 45 itens e três deles presentes em um quarto dos pedidos ou mais. Por isso, as regras são poucas e fracas (lift máximo de 3,96).
-
-Para melhorar, o restaurante precisaria de:
-
-- **mais pedidos**, com um histórico mais longo;
-- **mais variedade** de itens e pedidos maiores, com entrada, prato, acompanhamento e bebida;
-- **dados do cliente e do horário**, para sugestões personalizadas;
-- um **teste A/B** no site, para medir o efeito no ticket médio, que a avaliação offline não mede.
-
-Outra abordagem testada, sugerir itens com o nome parecido com os do carrinho, acertou 7,8%, porque indica substitutos (um burrito para quem já tem um burrito) e não complementos.
+- um histórico maior, com mais meses de pedidos;
+- o número do cliente e a data de cada pedido, para personalizar as sugestões;
+- um teste no site, com parte dos clientes vendo as sugestões, para medir se o ticket médio aumenta.

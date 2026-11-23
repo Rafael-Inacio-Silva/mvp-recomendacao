@@ -1,15 +1,15 @@
 # Proposta — MVP de recomendação de itens
 
-**Cliente:** Sabor na Mesa Cozinha Mexicana
+**Cliente:** Casa Masala Cozinha Indiana
 **Fornecedor:** PratoTech
-**Referência:** [solicitação de 22/11/2026](mexicano/solicitacao-cliente.md)
-**Resultado:** [relatório do MVP](mexicano/relatorio.md)
+**Referência:** [solicitação de 23/11/2026](solicitacao-cliente.md)
+**Resultado:** [relatório do MVP](relatorio.md)
 
 ## 1. Propósito
 
-Este documento apresenta a proposta da PratoTech para o MVP de recomendação de itens do delivery da Sabor na Mesa. O sistema sugere acompanhamentos, bebidas ou outros pratos enquanto o cliente monta o carrinho, com base nos itens que costumam ser pedidos juntos.
+Este documento apresenta a proposta da PratoTech para o MVP de recomendação de itens do delivery da Casa Masala. O sistema sugere arroz, pães, entradas, molhos ou bebidas enquanto o cliente monta o carrinho, com base nos itens que costumam ser pedidos juntos.
 
-O objetivo de negócio é reduzir os pedidos fechados só com o prato principal e aumentar o número de itens por pedido.
+O objetivo de negócio é reduzir os pedidos fechados sem o arroz ou o pão que acompanham o prato e aumentar o número de itens por pedido. A solução reaproveita o MVP desenvolvido para a Sabor na Mesa.
 
 ## 2. Escopo
 
@@ -34,11 +34,11 @@ O restaurante enviou o histórico do delivery no arquivo `pedidos.csv`, com o n�
 
 | Indicador | Valor |
 |---|---|
-| Pedidos | 1.834 |
-| Itens distintos | 45 |
-| Média de itens distintos por pedido | 2,3 |
-| Pedidos com um único item | 194 (10,6%) |
-| Itens mais presentes | Bowl de Frango (33,5% dos pedidos), Burrito de Frango (26,7%), Nachos com Guacamole (25,8%) |
+| Pedidos | 13.397 |
+| Itens distintos | 244 |
+| Média de itens distintos por pedido | 5,6 |
+| Pedidos com um único item | 338 (2,5%) |
+| Itens mais presentes | Arroz Pilau (35,2% dos pedidos), Naan Simples (28,0%), Papadum Simples (26,8%) |
 
 A partir desse histórico, o sistema identifica regras do tipo “quem pede A também costuma pedir B”. Quando o cliente coloca itens no carrinho, o sistema procura as regras que se aplicam a eles e mostra os itens sugeridos, cada um com uma frase explicando a relação. A frase pode ser escrita por IA, mas a escolha do item é sempre feita pelas regras calculadas a partir dos dados.
 
@@ -89,9 +89,9 @@ As sugestões vêm de **regras de associação**, uma técnica usada em análise
 - **Confiança:** entre os pedidos que têm A, em quantos também aparece B.
 - **Lift:** quanto ter A no carrinho aumenta a chance de B, comparado com a frequência normal de B. Lift acima de 1 indica uma associação real.
 
-A ordenação usa a confiança (RN-05): entre os itens ligados ao carrinho por alguma regra, vem primeiro o que mais aparece junto com ele. A ordenação pelo lift foi a primeira escolha, para evitar que itens populares aparecessem em todas as sugestões, mas a avaliação offline mostrou que, nesta base, ela favorece itens raros e acerta menos que a referência dos mais pedidos. A comparação está no [relatório](mexicano/relatorio.md).
+A ordenação usa a confiança (RN-05): entre os itens ligados ao carrinho por alguma regra, vem primeiro o que mais aparece junto com ele. Esse critério teve o melhor resultado no MVP da Sabor na Mesa e será confirmado com os dados da Casa Masala na avaliação.
 
-Os detalhes de construção estão no documento de [arquitetura](arquitetura.md).
+Os detalhes de construção estão no documento de [arquitetura](../arquitetura.md).
 
 ## 8. Critérios de avaliação
 
@@ -107,22 +107,21 @@ O resultado é comparado com uma referência simples: sugerir sempre os 3 itens 
 
 ## 9. Prazo estimado
 
-Duas semanas (10 dias úteis):
+Uma semana (5 dias úteis), porque o sistema da Sabor na Mesa é reaproveitado:
 
 | Etapa | Dias | Resultado para o restaurante |
 |---|---|---|
-| Análise dos dados | 2 | resumo do histórico e limites das regras definidos |
-| Cálculo das regras e das sugestões | 3 | sugestões funcionando para qualquer carrinho |
+| Análise dos dados | 1 | resumo do histórico e base limpa |
+| Regras e sugestões | 1 | sugestões funcionando para qualquer carrinho |
 | Avaliação | 1 | taxa de acerto e comparação com a referência |
-| Explicações | 1 | frase para cada sugestão |
-| Tela de demonstração | 2 | páginas “Monte seu pedido” e “Como funciona” |
+| Explicações e tela | 1 | loja da Casa Masala na demonstração |
 | Revisão com o restaurante | 1 | ajustes e apresentação final |
 
 ## 10. Riscos
 
 | Risco | Como tratar |
 |---|---|
-| Base pequena, com itens que aparecem em poucos pedidos | limites mínimos nas regras (RN-04) e sugestão dos mais pedidos (RN-06) |
+| Cardápio grande (244 itens), com muitos itens que aparecem em poucos pedidos | limites mínimos nas regras (RN-04) e sugestão dos mais pedidos (RN-06) |
 | Itens populares dominarem as sugestões | as sugestões vêm de regras ligadas ao carrinho, e a avaliação compara o resultado com a referência dos mais pedidos |
 | Explicação da IA citar algo fora da regra | a IA recebe só os dados da regra; se a frase não citar os dois itens, vale a frase padrão (RN-07 e RN-08) |
 | Serviço de IA indisponível | frase padrão sempre disponível (RNF-03) |

@@ -1,62 +1,52 @@
 # Relatório — Casa Masala Cozinha Indiana
 
-Resultado do mesmo MVP aplicado ao delivery da Casa Masala, a partir da [solicitação](solicitacao-cliente.md). O código, as regras de negócio e a avaliação são os mesmos usados na [Sabor na Mesa](../mexicano/relatorio.md).
+Olá, Rodrigo! Este relatório mostra os dados que usamos, como o sistema escolhe as sugestões e se elas funcionam com os pedidos da Casa Masala. Os detalhes técnicos estão na [proposta](proposta.md) e na [arquitetura](../arquitetura.md).
 
-## Dados
+## Os dados que usamos
 
-A exportação do caixa veio em inglês. O script `preparar_indiano.py` mantém o número do pedido e o nome do item e traduz os nomes com a tabela `dados/indiano/traducao_itens.csv`. Grafias diferentes do mesmo item, como “Onion Bhajee” e “Onion Bhaji”, recebem a mesma tradução.
+Usamos só o histórico que você enviou: o número de cada pedido e os itens que ele tinha. Não usamos dados dos clientes, preços nem datas.
 
-| Indicador | Valor |
+| | |
 |---|---|
-| Pedidos recebidos | 13.397 |
-| Pedidos após a limpeza | 13.006 |
-| Itens distintos | 243 |
-| Itens por pedido (média) | 5,3 |
-| Item mais presente | Arroz Pilau, em 34% dos pedidos |
+| Pedidos analisados | 13.006 |
+| Itens no cardápio | 243 |
+| Itens por pedido, em média | 5,3 |
+| Item mais pedido | Arroz Pilau, presente em 1 de cada 3 pedidos |
 
-Na limpeza, o pipeline removeu 144 linhas repetidas (o mesmo item duas vezes no pedido) e 391 pedidos com mais de 11,5 itens (2,9%), que são pedidos de grupo.
+Antes de começar, deixamos de fora 391 pedidos com 12 itens ou mais. Eles costumam ser pedidos de grupo e misturam escolhas de várias pessoas. Um item pedido duas vezes no mesmo pedido contou uma vez só.
 
-## Resultado
+## Como o sistema escolhe as sugestões
 
-| Versão | Divisão única (13.754 casos) | Validação cruzada (68.771 casos) |
-|---|---|---|
-| 1: regras por lift, sem completar as vagas | 20,7% | 20,5% |
-| 2: regras por lift + mais pedidos completando | 21,0% | 20,6% |
-| **3: regras por confiança + mais pedidos completando** | **23,3%** | **23,4%** |
-| Referência: sempre os 3 mais pedidos | 20,3% | 20,2% |
+O sistema olha os pedidos antigos e aprende quais itens costumam sair juntos. Quando o cliente coloca um item no carrinho, ele sugere o que mais acompanhou esse item no passado.
 
-A versão 3 acerta 3,2 pontos a mais que a referência, ou seja, 16% a mais, e as regras se aplicam a 95% dos carrinhos.
+Por exemplo, de cada 100 pedidos com Frango Tikka Masala, 52 também tinham Arroz Pilau e 39 tinham Naan Simples. Então, para quem pôs Frango Tikka Masala no carrinho, o Arroz Pilau aparece primeiro.
 
-## O que mudou com mais dados
+Quando o histórico não traz uma combinação suficiente, o sistema completa com os itens mais vendidos que ainda não estão no carrinho. Assim, o cliente sempre vê 3 sugestões.
 
-**Mais regras e mais fortes.** São 637 regras, contra 61 na Sabor na Mesa; 294 delas têm lift acima de 1,5, e o lift máximo é 6,35.
-
-**Quase não sobram vagas vazias.** Mesmo a versão 1 encontra regra para 95% dos carrinhos, por isso as versões 1 e 2 ficam praticamente iguais. O problema das vagas vazias era consequência da base pequena.
-
-**O lift continua acertando menos.** Com o Papadum Simples no carrinho:
-
-| Versão | Sugestões |
+| No carrinho | O sistema sugere |
 |---|---|
-| 1 (lift) | Chutney de Manga (39%, lift 2,78), Molho de Hortelã (27%, lift 2,77), Arroz Pilau (48%, lift 1,40) |
-| 3 (confiança) | Arroz Pilau (48%), Chutney de Manga (39%), Naan Simples (31%) |
-| Referência | Arroz Pilau, Naan Simples, Naan de Alho |
+| Frango Tikka Masala | Arroz Pilau, Naan Simples, Papadum Simples |
+| Korma de Frango | Arroz Pilau, Naan Simples, Papadum Simples |
+| Papadum Simples | Arroz Pilau, Chutney de Manga, Naan Simples |
+| Naan de Alho | Arroz Pilau, Papadum Simples, Frango Tikka Masala |
 
-Os molhos são os itens mais “ligados” ao papadum, mas o Arroz Pilau é o mais provável. A versão 3 junta os dois: o item mais provável e o complemento típico, que a referência não sugere.
+## As sugestões funcionam?
 
-**O acerto absoluto é menor que no mexicano** (23% contra 47%) porque o cardápio tem 243 itens, contra 45. Por isso, a comparação justa é o ganho sobre a referência de cada loja.
+Para testar, pegamos pedidos antigos, tiramos um item de cada um e pedimos ao sistema 3 sugestões para o que sobrou. Depois, contamos quantas vezes o item tirado estava entre as sugestões. Repetimos o teste com todos os pedidos.
 
-## Conclusão dos dois cenários
+| Forma de sugerir | Acertos a cada 100 carrinhos |
+|---|---|
+| **Sistema de sugestões** | **23** |
+| Mostrar sempre os 3 itens mais vendidos | 20 |
 
-| Indicador | Sabor na Mesa | Casa Masala |
-|---|---|---|
-| Pedidos (após a limpeza) | 1.789 | 13.006 |
-| Itens / itens por pedido | 45 / 2,3 | 243 / 5,3 |
-| Regras (suporte 1%, confiança 10%) | 61 | 637 |
-| Lift máximo | 3,96 | 6,35 |
-| Carrinhos com regra na versão 1 | 63% | 95% |
-| Versão 3 × referência (validação cruzada) | 47,3% × 43,6% | 23,4% × 20,2% |
-| Ganho relativo sobre a referência | 8% | 16% |
+O sistema acerta 16% mais do que simplesmente mostrar os mais vendidos. O número parece baixo porque o cardápio tem 243 itens: acertar exatamente o item que o cliente vai pedir, entre tantas opções, é difícil. O que importa é a comparação. Além disso, as sugestões combinam com o carrinho: quem pede papadum recebe chutney de manga, que os mais vendidos não mostrariam.
 
-- Na **Sabor na Mesa**, a dificuldade foi a pouca quantidade de dados: poucas regras, vagas vazias e o lift favorecendo itens raros. Completar as vagas com os mais pedidos e ordenar pela confiança fez as regras superarem a referência.
-- Na **Casa Masala**, com sete vezes mais pedidos e pedidos maiores, as regras cobrem quase todos os carrinhos e o ganho relativo dobra. A ordenação pela confiança continua sendo a escolha que faz a diferença.
-- Nas duas lojas, o próximo passo é um **teste A/B** no site, para medir o efeito das sugestões no ticket médio, e o uso de **dados do cliente e do horário** para personalizar as sugestões.
+## Conclusão
+
+**O histórico da Casa Masala é muito bom para sugestões.** São muitos pedidos, com vários itens cada, e a refeição costuma seguir um padrão (curry, arroz, pão e entrada). O sistema encontrou combinações para 95% dos carrinhos testados.
+
+Para os próximos passos, sugerimos:
+
+- um teste no site, com parte dos clientes vendo as sugestões, para medir se o ticket médio aumenta;
+- o número do cliente e a data de cada pedido, para personalizar as sugestões;
+- atualizar as sugestões periodicamente com os pedidos novos.

@@ -1,6 +1,6 @@
 # Arquitetura — MVP de recomendação de itens
 
-Elaborada a partir da [proposta](proposta.md). O mesmo código atende mais de uma loja: cada loja tem a sua pasta de dados, e o pipeline, as regras e a avaliação são executados para todas.
+Elaborada a partir das propostas da [Sabor na Mesa](mexicano/proposta.md) e da [Casa Masala](indiano/proposta.md). O mesmo código atende mais de uma loja: cada loja tem a sua pasta de dados, e o pipeline, as regras e a avaliação são executados para todas.
 
 ## 1. Visão geral
 
@@ -40,15 +40,11 @@ mvp-recomendacao/
 │   │   ├── pedidos.csv          # histórico enviado pela Sabor na Mesa
 │   │   ├── pedidos_limpos.csv   # gerado pelo pipeline
 │   │   └── regras.csv           # gerado por gerar_regras.py
-│   └── indiano/
-│       ├── restaurant-1-orders.csv  # exportação do caixa da Casa Masala (baixada do Kaggle)
-│       ├── traducao_itens.csv   # nome original → nome em português
-│       └── pedidos.csv          # gerado por preparar_indiano.py; depois, mesma estrutura
+│   └── indiano/                 # mesma estrutura, para a Casa Masala
 ├── docs/
-│   ├── proposta.md
 │   ├── arquitetura.md
-│   ├── mexicano/                # solicitação e relatório da Sabor na Mesa
-│   └── indiano/                 # solicitação e relatório da Casa Masala
+│   ├── mexicano/                # solicitação, proposta e relatório da Sabor na Mesa
+│   └── indiano/                 # solicitação, proposta e relatório da Casa Masala
 ├── pipeline/                    # uma etapa por módulo
 │   ├── etapa1_carregamento.py
 │   ├── etapa2_nulos_vazios.py
@@ -61,7 +57,6 @@ mvp-recomendacao/
 │   ├── avaliacao.py             # versões, divisões de teste e taxa de acerto
 │   └── explicacao.py            # frase da IA e frase padrão
 ├── lojas.py                     # lojas e caminhos dos arquivos
-├── preparar_indiano.py          # converte a exportação da Casa Masala para pedidos.csv
 ├── analise_dados.py             # executa o pipeline
 ├── gerar_regras.py              # calcula e compara as regras
 ├── avaliar.py                   # executa a avaliação offline

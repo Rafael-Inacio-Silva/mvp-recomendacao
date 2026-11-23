@@ -9,6 +9,3 @@ __pycache__/
 dados/*/pedidos_limpos.csv
 dados/*/regras.csv
 
-# Base da Casa Masala: baixada do Kaggle e preparada localmente (ver README)
-dados/indiano/restaurant-1-orders.csv
-dados/indiano/pedidos.csv

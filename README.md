@@ -2,15 +2,14 @@
 
 Projeto preparado para a entrevista a partir de um cenário fictício. Restaurantes de São Paulo pedem à PratoTech um MVP que recomende itens com base no carrinho do delivery, usando regras de associação calculadas a partir dos pedidos.
 
-- [Proposta](docs/proposta.md): propósito, escopo, requisitos (RF, RNF e regras de negócio), critérios de avaliação, prazo e riscos.
-- [Arquitetura](docs/arquitetura.md): componentes, tecnologias, organização do código e funcionamento do recomendador.
+- [Arquitetura](docs/arquitetura.md): componentes, tecnologias, organização do código e funcionamento do recomendador, comum às duas lojas.
 
 ## Lojas
 
-| Loja | Solicitação | Relatório | Pedidos | Itens | Itens por pedido |
-|---|---|---|---|---|---|
-| Sabor na Mesa Cozinha Mexicana | [e-mail](docs/mexicano/solicitacao-cliente.md) | [relatório](docs/mexicano/relatorio.md) | 1.834 | 45 | 2,3 |
-| Casa Masala Cozinha Indiana | [e-mail](docs/indiano/solicitacao-cliente.md) | [relatório e conclusão](docs/indiano/relatorio.md) | 13.397 | 244 | 5,6 |
+| Loja | Solicitação | Proposta | Relatório | Pedidos | Itens | Itens por pedido |
+|---|---|---|---|---|---|---|
+| Sabor na Mesa Cozinha Mexicana | [e-mail](docs/mexicano/solicitacao-cliente.md) | [proposta](docs/mexicano/proposta.md) | [relatório](docs/mexicano/relatorio.md) | 1.834 | 45 | 2,3 |
+| Casa Masala Cozinha Indiana | [e-mail](docs/indiano/solicitacao-cliente.md) | [proposta](docs/indiano/proposta.md) | [relatório](docs/indiano/relatorio.md) | 13.397 | 244 | 5,6 |
 
 Cada loja tem a sua pasta em `dados/`, com o arquivo `pedidos.csv` no mesmo formato:
 
@@ -20,14 +19,6 @@ Cada loja tem a sua pasta em `dados/`, com o arquivo `pedidos.csv` no mesmo form
 | `item` | nome do item do cardápio |
 
 Um mesmo item pode aparecer em mais de uma linha do mesmo pedido. Para as regras de associação, interessa apenas se o item está ou não no pedido, então cada pedido é tratado como um conjunto de itens.
-
-A base da Casa Masala vem da exportação do caixa, em inglês, e não fica no repositório, porque a licença do conjunto original (“Data files © Original Authors”) não permite redistribuí-lo. Para gerá-la:
-
-1. baixe `restaurant-1-orders.csv` do conjunto [Takeaway Food Orders](https://www.kaggle.com/datasets/henslersoftware/19560-indian-takeaway-orders), no Kaggle;
-2. coloque o arquivo em `dados/indiano/`;
-3. execute `python preparar_indiano.py`, que traduz os nomes com [traducao_itens.csv](dados/indiano/traducao_itens.csv) e gera `dados/indiano/pedidos.csv`.
-
-Sem esse arquivo, os scripts avisam e executam só a loja mexicana.
 
 ## Pipeline de dados
 
@@ -55,16 +46,24 @@ O arquivo `gerar_regras.py` compara os limites e gera as regras finais de cada l
 
 ## Avaliação
 
-O arquivo `avaliar.py` compara três versões do recomendador com a referência de sugerir sempre os 3 itens mais pedidos, em uma divisão única 80/20 e em uma validação cruzada de 5 dobras. Acerto no top 3 na validação cruzada:
+**Como testamos:** pegamos os pedidos antigos, tiramos um item de cada pedido e pedimos ao sistema 3 sugestões para o que sobrou. Contamos quantas vezes o item tirado estava entre as sugestões e comparamos com o jeito mais simples de sugerir: mostrar sempre os 3 itens mais vendidos.
 
-| Versão | Sabor na Mesa | Casa Masala |
+**Acertos a cada 100 carrinhos:**
+
+| Forma de sugerir | Sabor na Mesa | Casa Masala |
 |---|---|---|
-| 1: regras por lift, sem completar as vagas | 32,6% | 20,5% |
-| 2: regras por lift + mais pedidos | 45,2% | 20,6% |
-| **3: regras por confiança + mais pedidos (MVP)** | **47,3%** | **23,4%** |
-| Referência: só mais pedidos | 43,6% | 20,2% |
+| Primeira versão: combinações mais “curiosas”, sem completar as vagas | 33 | 21 |
+| Segunda versão: a primeira + mais vendidos nas vagas vazias | 45 | 21 |
+| **Versão final: combinações mais frequentes + mais vendidos nas vagas** | **47** | **23** |
+| Só os 3 mais vendidos | 44 | 20 |
 
-Nas duas lojas, a versão 3 supera a referência. Na Casa Masala, com sete vezes mais pedidos, o ganho relativo dobra (de 8% para 16%). A explicação de cada versão e a comparação entre as lojas estão nos relatórios.
+**O que os números mostram:**
+
+- **Sabor na Mesa:** com poucos pedidos, a primeira versão perdia para os mais vendidos, porque deixava vagas vazias e preferia combinações raras. A versão final ganha por pouco: 47 contra 44.
+- **Casa Masala:** com sete vezes mais pedidos, quase todo carrinho tem combinação conhecida, e a versão final acerta 16% mais que os mais vendidos (23 contra 20). O número é menor que o do mexicano porque o cardápio tem 243 itens, contra 45.
+- **Nas duas lojas,** o que fez a diferença foi priorizar o que os clientes mais levam juntos. Mais pedidos e mais variedade deixam a vantagem maior.
+
+Os números vêm de `avaliar.py`, que também mostra uma divisão única 80/20; a validação cruzada (5 dobras) é a usada aqui. Os detalhes de cada versão estão na [arquitetura](docs/arquitetura.md#5-avaliação).
 
 ## Como executar
 
@@ -72,10 +71,9 @@ Nas duas lojas, a versão 3 supera a referência. Na Casa Masala, com sete vezes
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-python preparar_indiano.py   # só depois de baixar a base da Casa Masala
 python analise_dados.py
 python gerar_regras.py
 python avaliar.py
 ```
 
-No PyCharm, selecione o interpretador `.venv` do projeto e execute, nesta ordem, `preparar_indiano.py` (se tiver a base da Casa Masala), `analise_dados.py`, `gerar_regras.py` e `avaliar.py`. Cada script processa as duas lojas.
+No PyCharm, selecione o interpretador `.venv` do projeto e execute, nesta ordem, `analise_dados.py`, `gerar_regras.py` e `avaliar.py`. Cada script processa as duas lojas.

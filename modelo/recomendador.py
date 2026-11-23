@@ -8,21 +8,45 @@ MAXIMO_SUGESTOES = 3
 SEPARADOR_ITENS = " + "
 
 
-def carregar_regras(caminho=CAMINHO_REGRAS):
-    """Lê as regras salvas, com o antecedente como conjunto de itens."""
-    regras = pd.read_csv(caminho)
+def preparar_regras(regras):
+    """Converte o antecedente das regras formatadas em conjunto de itens."""
+    regras = regras.copy()
     regras["antecedente"] = regras["antecedente"].str.split(SEPARADOR_ITENS, regex=False).apply(set)
     return regras
 
 
-def carregar_populares(caminho=CAMINHO_PEDIDOS_LIMPOS):
+def carregar_regras(caminho=CAMINHO_REGRAS):
+    """Lê as regras salvas, com o antecedente como conjunto de itens."""
+    return preparar_regras(pd.read_csv(caminho))
+
+
+def calcular_populares(pedidos):
     """Retorna os itens do mais pedido para o menos pedido."""
-    pedidos = pd.read_csv(caminho)
     return pedidos["item"].value_counts().index.tolist()
 
 
-def recomendar(carrinho, regras, populares, maximo=MAXIMO_SUGESTOES):
-    """Retorna até `maximo` sugestões para o carrinho, cada uma com a regra que a gerou."""
+def carregar_populares(caminho=CAMINHO_PEDIDOS_LIMPOS):
+    """Lê a base limpa e retorna os itens do mais pedido para o menos pedido."""
+    return calcular_populares(pd.read_csv(caminho))
+
+
+def sugerir_populares(carrinho, populares, maximo=MAXIMO_SUGESTOES):
+    """Retorna os itens mais pedidos que não estão no carrinho."""
+    sugestoes = []
+    for item in populares:
+        if len(sugestoes) == maximo:
+            break
+        if item not in carrinho:
+            sugestoes.append({"item": item, "origem": "popular"})
+    return sugestoes
+
+
+def recomendar(carrinho, regras, populares, maximo=MAXIMO_SUGESTOES, completar=True):
+    """Retorna até `maximo` sugestões para o carrinho, cada uma com a regra que a gerou.
+
+    Com `completar=False`, os mais pedidos só entram quando nenhuma regra se aplica
+    (primeira versão, mantida para comparação na avaliação).
+    """
     carrinho = set(carrinho)
 
     # Regras com o antecedente contido no carrinho
@@ -48,12 +72,9 @@ def recomendar(carrinho, regras, populares, maximo=MAXIMO_SUGESTOES):
             "lift": regra.lift,
         })
 
-    # Sem regra aplicável: itens mais pedidos fora do carrinho (RN-06)
-    if not sugestoes:
-        for item in populares:
-            if item not in carrinho:
-                sugestoes.append({"item": item, "origem": "popular"})
-            if len(sugestoes) == maximo:
-                break
+    # Vagas restantes com os mais pedidos fora do carrinho e das sugestões (RN-06)
+    if completar or not sugestoes:
+        ja_usados = carrinho | {sugestao["item"] for sugestao in sugestoes}
+        sugestoes += sugerir_populares(ja_usados, populares, maximo - len(sugestoes))
 
     return sugestoes

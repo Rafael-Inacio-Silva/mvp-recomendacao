@@ -76,7 +76,7 @@ Uma página separada mostra ao restaurante como o sistema chegou às sugestões:
 | RN-03 | São exibidas no máximo 3 sugestões. | RF-04 |
 | RN-04 | Só são usadas as regras com suporte e confiança acima dos limites mínimos definidos na análise dos dados. | RF-03 |
 | RN-05 | A força da associação é medida pelo lift. Em caso de empate, vale a maior confiança. | RF-05 |
-| RN-06 | Quando nenhuma regra se aplica ao carrinho, são sugeridos os itens mais pedidos que ainda não estão nele. | RF-04 |
+| RN-06 | Quando as regras geram menos de 3 sugestões, as vagas restantes são completadas com os itens mais pedidos que ainda não estão no carrinho. | RF-04 |
 | RN-07 | A explicação cita o item do carrinho e o item sugerido da regra que gerou a sugestão. A IA não escolhe nem altera a sugestão. | RF-06 |
 | RN-08 | Se a explicação por IA não puder ser gerada, é usada a frase padrão “Quem pede {item do carrinho} costuma levar {item sugerido}”. | RF-06 |
 

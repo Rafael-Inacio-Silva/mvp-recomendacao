@@ -45,9 +45,11 @@ mvp-recomendacao/
 ├── modelo/
 │   ├── regras.py                # cestas e regras de associação
 │   ├── recomendador.py          # sugestões para um carrinho
+│   ├── avaliacao.py             # treino, teste e taxa de acerto
 │   └── explicacao.py            # frase da IA e frase padrão
 ├── analise_dados.py             # executa o pipeline
 ├── gerar_regras.py              # calcula e compara as regras
+├── avaliar.py                   # executa a avaliação offline
 ├── app.py                       # tela em Streamlit
 └── tests/
 ```
@@ -68,7 +70,7 @@ Não há um valor padrão para os limites. Eles foram escolhidos comparando 12 c
 - **confiança mínima de 20%**, ou seja, pelo menos 1 em cada 5 pedidos com o antecedente também tem o consequente;
 - **lift maior que 1**, para manter apenas as associações positivas.
 
-Com esses valores, são geradas 23 regras, que se aplicam a 76,4% dos pedidos. Os limites são provisórios e serão confirmados pela avaliação offline (seção 5).
+Com esses valores, são geradas 23 regras, que se aplicam a 76,4% dos pedidos. A avaliação offline (seção 5) confirmou essa combinação: entre as combinações testadas, foi a de maior acerto.
 
 ### Recomendador
 
@@ -79,7 +81,7 @@ Para um carrinho:
 3. quando um mesmo item B vem de mais de uma regra, mantém a regra com maior lift;
 4. ordena por lift e, em caso de empate, por confiança (RN-05);
 5. devolve até 3 sugestões (RN-03);
-6. se não sobrar nenhuma, devolve os itens mais pedidos que não estão no carrinho (RN-06).
+6. se sobrarem menos de 3, completa as vagas com os itens mais pedidos que não estão no carrinho (RN-06).
 
 Cada sugestão carrega a regra que a gerou, para que a explicação e a página “Como funciona” possam mostrá-la.
 
@@ -97,6 +99,22 @@ As frases já geradas ficam guardadas em memória durante a execução, para nã
 4. São calculadas a taxa de acerto no top 3 (Hit Rate@3), a cobertura e o lift médio das sugestões.
 5. A mesma taxa de acerto é calculada para a referência dos 3 itens mais pedidos.
 
+### Resultado
+
+| Versão | Acerto no top 3 |
+|---|---|
+| Versão 1: só regras; mais pedidos apenas quando nenhuma regra se aplica | 36,8% |
+| Versão 2: regras primeiro, mais pedidos completando as vagas | 45,5% |
+| Referência: sempre os 3 mais pedidos | 45,8% |
+
+Foram 771 casos de teste, vindos de 358 pedidos. As regras se aplicaram a 59,9% dos casos.
+
+A versão 1 acertou menos que a referência porque, em 433 dos 771 casos, devolvia só 1 ou 2 sugestões. A versão 2 completa essas vagas e empata com a referência. Por isso, a RN-06 passou a valer sempre que houver menos de 3 sugestões por regra.
+
+O empate se explica pela base: ela é pequena (1.789 pedidos), os pedidos são curtos (2,3 itens em média) e poucos itens dominam (o Bowl de Frango está em um terço dos pedidos). Mesmo assim, as regras sugerem itens conforme o carrinho e permitem explicar cada sugestão. Uma alternativa foi testada: sugerir os itens com nome mais parecido com os do carrinho. Ela acertou 7,8%, porque indica substitutos (um burrito para quem já tem um burrito), e não complementos.
+
+O ganho real das sugestões, ou seja, o aumento do ticket médio, só pode ser medido com um teste A/B em produção.
+
 ## 6. Testes planejados
 
 | Teste | Regra verificada |
@@ -105,5 +123,5 @@ As frases já geradas ficam guardadas em memória durante a execução, para nã
 | item do carrinho nunca aparece nas sugestões | RN-02 |
 | no máximo 3 sugestões | RN-03 |
 | sugestões em ordem de lift, com desempate pela confiança | RN-05 |
-| carrinho sem regra aplicável recebe os mais pedidos | RN-06 |
+| vagas sem regra são completadas com os mais pedidos | RN-06 |
 | falha da IA resulta na frase padrão | RN-08 |

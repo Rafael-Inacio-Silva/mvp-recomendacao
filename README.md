@@ -36,9 +36,22 @@ Ao final, a base limpa é salva em `dados/pedidos_limpos.csv`, que é a entrada 
 | Módulo | O que faz |
 |---|---|
 | [modelo/regras.py](modelo/regras.py) | monta as cestas, calcula as regras de associação (Apriori) e compara limites de suporte e confiança |
-| [modelo/recomendador.py](modelo/recomendador.py) | recebe o carrinho e devolve até 3 sugestões, ordenadas por lift, cada uma com a regra que a gerou; sem regra aplicável, sugere os itens mais pedidos |
+| [modelo/recomendador.py](modelo/recomendador.py) | recebe o carrinho e devolve até 3 sugestões, ordenadas por lift, cada uma com a regra que a gerou; as vagas sem regra são completadas com os itens mais pedidos |
+| [modelo/avaliacao.py](modelo/avaliacao.py) | separa treino e teste, esconde um item de cada pedido de teste e mede o acerto no top 3 |
 
 O arquivo `gerar_regras.py` compara os limites e gera as regras finais, com suporte mínimo de 1%, confiança mínima de 20% e lift maior que 1. As regras são salvas em `dados/regras.csv`.
+
+## Avaliação
+
+O arquivo `avaliar.py` compara as versões do recomendador com a referência de sugerir sempre os 3 itens mais pedidos:
+
+| Versão | Acerto no top 3 |
+|---|---|
+| Versão 1: só regras | 36,8% |
+| Versão 2: regras + mais pedidos completando as vagas | 45,5% |
+| Referência: só mais pedidos | 45,8% |
+
+A versão 1 deixava vagas vazias, por isso ficou abaixo da referência. A versão 2 empata com ela e continua sugerindo conforme o carrinho. A análise completa está na [arquitetura](docs/arquitetura.md#5-avaliação).
 
 ## Como executar
 
@@ -48,6 +61,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 python analise_dados.py
 python gerar_regras.py
+python avaliar.py
 ```
 
-No PyCharm, selecione o interpretador `.venv` do projeto e execute `analise_dados.py` e, em seguida, `gerar_regras.py`.
+No PyCharm, selecione o interpretador `.venv` do projeto e execute, nesta ordem, `analise_dados.py`, `gerar_regras.py` e `avaliar.py`.

@@ -6,6 +6,7 @@ from pipeline.etapa2_nulos_vazios import mostrar_nulos_vazios, tratar_nulos_vazi
 from pipeline.etapa3_duplicados import mostrar_duplicados, tratar_duplicados
 from pipeline.etapa4_outliers import mostrar_outliers, tratar_outliers
 from pipeline.etapa5_exploracao import mostrar_exploracao
+from pipeline.etapa6_cardapio import atualizar_cardapio, mostrar_cardapio
 
 
 def executar_pipeline(loja):
@@ -34,6 +35,10 @@ def executar_pipeline(loja):
     destino = caminho(loja, "pedidos_limpos.csv")
     pedidos.to_csv(destino, index=False)
     print(f"\nBase limpa salva em {destino}")
+
+    # Etapa 6: cardápio com a forma de cada item na frase (LLM só para itens novos)
+    cardapio = atualizar_cardapio(pedidos, caminho(loja, "cardapio.csv"))
+    mostrar_cardapio(cardapio)
 
     return pedidos
 

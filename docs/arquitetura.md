@@ -15,7 +15,7 @@ pedidos.csv → pipeline (etapas 1 a 5) → pedidos_limpos.csv → gerar_regras.
 
 ```
 site (Vercel) → API (Render) → validação → recomendador → explicação → sugestões com a frase
-site (Vercel) → API (Render) → assistente: orquestrador → especialistas → resposta do chat
+site (Vercel) → API (Render) → assistente: orquestrador (coordenador) → analistas → resposta do chat
 ```
 
 | Componente | Responsabilidade | Requisitos atendidos |
@@ -28,7 +28,7 @@ site (Vercel) → API (Render) → assistente: orquestrador → especialistas �
 | `avaliacao` | medir o acerto das versões do recomendador e da referência dos mais pedidos | critérios de avaliação |
 | `explicacao` | montar a frase de cada sugestão a partir da regra que a gerou | RF-06, RN-07, RN-08, RNF-02, RNF-04 |
 | `dados_loja` | carregar uma vez os arquivos de cada loja e mantê-los em memória | RNF-01 |
-| `agente` | assistente de conversa: orquestrador, especialistas, ferramentas e prompts | RF-07, RF-08, RN-10, RN-11, RNF-03 |
+| `agente` | assistente de conversa: orquestrador, analistas, fontes de dados e prompts | RF-07, RF-08, RN-10, RN-11, RNF-03 |
 | `api` | rotas que o site chama: cardápio, sugestões e chat | RF-01, RF-02, RF-04, RF-06, RF-07, RF-08 |
 | site | página “Monte seu pedido” e chat, na Vercel (próxima etapa) | RF-01, RF-02, RF-07 |
 
@@ -43,10 +43,10 @@ O recomendador não depende do site, da explicação nem do assistente. Assim, e
 | Regras | mlxtend (Apriori) | implementação conhecida, que já calcula suporte, confiança e lift |
 | Explicação | frase montada em Python | exata, instantânea e sem custo, porque só cita itens da própria regra |
 | Artigos do cardápio | OpenAI `gpt-6-luna` (Responses API, saída em JSON) | tarefa de linguagem; roda uma vez no pipeline e o resultado fica salvo |
-| Assistente de conversa | OpenAI `gpt-6-luna` (Responses API, function calling) | entende a pergunta e escreve a resposta; os fatos vêm das ferramentas |
+| Assistente de conversa | OpenAI `gpt-6-luna` (Responses API, function calling) | coordenador e analistas entendem as perguntas e escrevem as respostas; os fatos vêm dos dados da loja |
 | API | FastAPI e uvicorn, no Render (plano gratuito) | rotas em Python sobre o código que já existe; o Render atualiza a cada envio ao GitHub |
 | Site | React e Vite, na Vercel | interface separada do backend; a Vercel repassa as chamadas `/api` ao Render |
-| Testes | pytest | testes das regras de negócio, das ferramentas e da API |
+| Testes | pytest | testes das regras de negócio, da montagem do assistente e da API |
 
 ## 3. Organização do código
 
@@ -80,9 +80,9 @@ mvp-recomendacao/
 │   ├── avaliacao.py             # versões, divisões de teste e taxa de acerto
 │   └── explicacao.py            # frase de cada sugestão
 ├── agente/                      # assistente de conversa
-│   ├── orquestrador.py          # conversa, histórico e escolha do especialista
-│   ├── especialista.py          # agente especialista com a sua ferramenta
-│   ├── ferramentas.py           # funções que consultam os dados da loja
+│   ├── orquestrador.py          # coordenador: conversa, histórico e escolha dos analistas
+│   ├── analista.py              # subagente analista, que lê os dados da sua área
+│   ├── fontes.py                # dados de cada analista em texto
 │   ├── prompts.py               # montagem das instruções de cada agente
 │   ├── llm.py                   # conexão com a OpenAI
 │   └── prompts/                 # um prompt por agente, em Markdown
@@ -99,7 +99,7 @@ mvp-recomendacao/
 ├── avaliar_cardapio.py          # compara os artigos do LLM com o gabarito
 ├── .env.example                 # variáveis da OpenAI, sem a chave
 ├── pytest.ini
-└── tests/                       # testes das regras de negócio, das ferramentas e da API
+└── tests/                       # testes das regras de negócio, do assistente e da API
 ```
 
 ## 4. Funcionamento dos componentes
@@ -171,25 +171,27 @@ Entradas inválidas voltam com status 400 e a lista de erros no formato do valid
 
 ### Assistente de conversa
 
-O assistente segue o padrão de agentes com ferramentas: um **orquestrador** conversa com o cliente e decide, a cada mensagem, quais **especialistas** consultar. Cada especialista tem o seu prompt e uma única ferramenta, que lê uma fonte de dados da loja.
+O assistente é organizado como uma equipe: um **orquestrador**, que faz o papel de coordenador, conversa com o cliente e decide, a cada mensagem, quais **subagentes analistas** consultar. Para o orquestrador, cada analista é uma ferramenta (function calling). Cada analista também é um LLM, com o seu prompt e os dados da sua área, que recebe junto com o prompt e analisa para responder.
 
-| Agente | Prompt | Ferramenta | Fonte de dados |
+| Agente | Prompt | Dados que recebe | Fonte |
 |---|---|---|---|
-| orquestrador | `prompts/orquestrador/persona.md` e `diretrizes.md` | uma ferramenta por especialista (`consultar_cardapio`, `consultar_combinacoes`, `consultar_loja`) | — |
-| cardápio | `prompts/cardapio/prompt.md` | `buscar_produtos(termo)` | `produtos.csv` |
-| combinações | `prompts/combinacoes/prompt.md` | `itens_que_saem_junto(itens)`, que usa o validador e o recomendador | `regras.csv` |
-| loja | `prompts/loja/prompt.md` | `consultar_dados_da_loja()` | `loja.md` |
+| orquestrador (coordenador) | `prompts/orquestrador/persona.md` e `diretrizes.md` | histórico da conversa; ferramentas `consultar_cardapio`, `consultar_combinacoes` e `consultar_loja` | — |
+| analista do cardápio | `prompts/cardapio/prompt.md` | todos os produtos, com categoria e descrição, do mais pedido para o menos pedido | `produtos.csv` |
+| analista de combinações | `prompts/combinacoes/prompt.md` | todas as regras da loja, escritas como “pedidos com A → B: N de cada 100 pedidos”, e os itens mais pedidos | `regras.csv` |
+| analista da loja | `prompts/loja/prompt.md` | o documento da empresa | `loja.md` |
+
+Os dados de cada área cabem inteiros no prompt (no maior caso, as regras da Casa Masala têm cerca de 52 mil caracteres), então não é preciso dividi-los nem usar um banco vetorial. As partes fixas vêm primeiro e a hora por último, para que a OpenAI reaproveite o começo do prompt em cache.
 
 Fluxo de uma mensagem:
 
 1. o orquestrador recebe a mensagem e o histórico da conversa;
-2. escolhe um ou mais especialistas e escreve para cada um uma pergunta completa (por exemplo, troca “e ele é picante?” por “o Burrito de Frango é picante?”);
-3. cada especialista chama a sua ferramenta e devolve a informação encontrada;
+2. escolhe um ou mais analistas e escreve para cada um uma pergunta completa (por exemplo, troca “e ele é picante?” por “o Burrito de Frango é picante?”);
+3. cada analista lê os dados da sua área e devolve a informação encontrada;
 4. o orquestrador escreve a resposta ao cliente, com a persona da loja (Lupe na Sabor na Mesa, Maya na Casa Masala).
 
-**Histórico.** Cada conversa guarda a lista de mensagens em memória e a envia inteira a cada chamada, até o cliente reiniciar o chat. Os especialistas não guardam histórico: recebem só a pergunta do orquestrador. A API mantém até 200 conversas; as mais antigas saem da memória.
+**Histórico.** Cada conversa guarda a lista de mensagens em memória e a envia inteira a cada chamada, até o cliente reiniciar o chat. Os analistas não guardam histórico: recebem só a pergunta do orquestrador. A API mantém até 200 conversas; as mais antigas saem da memória.
 
-**Cuidados.** As respostas vêm só das ferramentas (RN-10); o assistente não fecha pedidos (RN-11) e não pede dados pessoais. Há limite de 4 consultas por mensagem no orquestrador e de 3 chamadas de ferramenta por especialista. As chamadas usam `store=False`, então a OpenAI não guarda as conversas. Se a OpenAI falhar, a mensagem sai do histórico e o cliente recebe um aviso para tentar de novo.
+**Cuidados.** Os analistas respondem só com os dados que recebem (RN-10); o assistente não fecha pedidos (RN-11) e não pede dados pessoais. Há limite de 4 consultas aos analistas por mensagem. As chamadas usam `store=False`, então a OpenAI não guarda as conversas. Se a OpenAI falhar, a mensagem sai do histórico e o cliente recebe um aviso para tentar de novo.
 
 ## 5. Avaliação
 
@@ -211,7 +213,7 @@ Os resultados de cada loja estão nos relatórios: [Sabor na Mesa](mexicano/rela
 
 ## 6. Testes
 
-Os testes usam pytest (`python -m pytest`). Os das regras de negócio usam regras pequenas montadas no próprio teste; os da API e das ferramentas usam os dados das lojas e são pulados quando os arquivos gerados não existem. Nenhum teste chama o LLM.
+Os testes usam pytest (`python -m pytest`). Os das regras de negócio usam regras pequenas montadas no próprio teste; os da API e do assistente usam os dados das lojas e são pulados quando os arquivos gerados não existem. Nenhum teste chama o LLM.
 
 | Arquivo | Teste | Regra verificada |
 |---|---|---|
@@ -225,4 +227,4 @@ Os testes usam pytest (`python -m pytest`). Os das regras de negócio usam regra
 | `test_explicacao.py` | frase montada com os itens da regra | RN-07 |
 | `test_explicacao.py` | sugestão dos mais vendidos recebe a frase dos mais pedidos | RN-08 |
 | `test_api.py` | rotas de saúde, lojas, cardápio e sugestões; carrinho inválido barrado pelo validador; erros de entrada do chat antes de chamar o assistente | RF-01, RF-04, RN-09 |
-| `test_agente.py` | busca no cardápio (plural, maiúsculas, descrição); combinações com “a cada 100 pedidos”; nome incompleto devolve itens parecidos; ferramenta nunca lança exceção; prompts preenchidos com a loja e a hora | RN-10 |
+| `test_agente.py` | um analista para cada ferramenta do orquestrador; dados de cada analista completos (todos os produtos, todas as regras com “N de cada 100 pedidos”, documento da loja); prompts preenchidos com a loja, os dados e a hora | RN-10 |

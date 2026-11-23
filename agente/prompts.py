@@ -37,7 +37,12 @@ def instrucoes_orquestrador(dados, agora=None):
     return preencher("\n\n".join(partes), dados)
 
 
-def instrucoes_especialista(agente, dados, agora=None):
-    """Prompt do especialista, com a data e a hora no final."""
-    partes = [ler_prompt(agente, "prompt"), f"# Data e hora\n\n{descrever_agora(agora)}"]
-    return preencher("\n\n".join(partes), dados)
+def instrucoes_analista(agente, dados, conteudo, agora=None):
+    """Prompt do analista, os dados da sua área e, no final, a data e a hora."""
+    # Partes fixas primeiro e a hora por último, para a OpenAI reaproveitar o começo em cache
+    partes = [
+        preencher(ler_prompt(agente, "prompt"), dados),
+        f"# Dados\n\n<dados>\n{conteudo}\n</dados>",
+        f"# Data e hora\n\n{descrever_agora(agora)}",
+    ]
+    return "\n\n".join(partes)

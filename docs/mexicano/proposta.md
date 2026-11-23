@@ -96,7 +96,7 @@ As sugestões vêm de **regras de associação**, uma técnica usada em análise
 
 A ordenação usa a confiança (RN-05): entre os itens ligados ao carrinho por alguma regra, vem primeiro o que mais aparece junto com ele. A ordenação pelo lift foi a primeira escolha, para evitar que itens populares aparecessem em todas as sugestões, mas a avaliação offline mostrou que, nesta base, ela favorece itens raros e acerta menos que a referência dos mais pedidos. A comparação está no [relatório](relatorio.md).
 
-O assistente de conversa usa um modelo de linguagem (LLM) organizado em agentes: um orquestrador conversa com o cliente e consulta três especialistas (cardápio, combinações e loja), cada um com acesso a uma única fonte de dados. Assim, o LLM entende a pergunta e escreve a resposta, mas os fatos vêm sempre dos dados do restaurante (RN-10).
+O assistente de conversa usa um modelo de linguagem (LLM) organizado em agentes: um orquestrador, que faz o papel de coordenador, conversa com o cliente e consulta três subagentes analistas (cardápio, combinações e loja), cada um com acesso a uma única fonte de dados. Assim, o LLM entende a pergunta e escreve a resposta, mas os fatos vêm sempre dos dados do restaurante (RN-10).
 
 Os detalhes de construção estão no documento de [arquitetura](../arquitetura.md).
 
@@ -135,7 +135,7 @@ O assistente de conversa, proposto como diferencial, acrescenta 2 dias úteis.
 | Itens populares dominarem as sugestões | as sugestões vêm de regras ligadas ao carrinho, e a avaliação compara o resultado com a referência dos mais pedidos |
 | Explicação prometer algo que os dados não mostram | a frase é montada com os números da própria regra (RN-07) |
 | Histórico sem data e sem identificação do cliente | o MVP não usa horário nem perfil; isso fica para fases futuras |
-| Assistente inventar uma informação | ele só responde com o que os especialistas encontram nos dados da loja (RN-10); fora disso, indica o contato da loja |
+| Assistente inventar uma informação | ele só responde com o que os analistas encontram nos dados da loja (RN-10); fora disso, indica o contato da loja |
 
 ## 11. Próximas fases
 

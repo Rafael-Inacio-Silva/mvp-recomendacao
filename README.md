@@ -179,17 +179,17 @@ No site, o cliente conversa com a assistente virtual da loja (Lupe na Sabor na M
 
 **Organização.** O assistente fica na pasta `agente/` e é organizado em agentes:
 
-- o **orquestrador** conversa com o cliente, guarda o histórico e decide quais especialistas consultar;
-- três **especialistas**, cada um com o seu prompt e uma única ferramenta:
-  - **cardápio**: busca itens, ingredientes e picância em `produtos.csv`;
-  - **combinações**: diz o que costuma sair junto com um item, usando o validador e o recomendador (“em 43 de cada 100 pedidos com bowl de frango e água mineral também veio nachos”);
-  - **loja**: consulta endereço, horário, delivery, pagamento e contato em `loja.md`.
+- o **orquestrador** é o coordenador: conversa com o cliente, guarda o histórico e decide quais analistas consultar;
+- três **subagentes analistas**, que são as ferramentas do orquestrador. Cada um é um LLM com o seu prompt e recebe os dados da sua área para analisar:
+  - **cardápio**: lê `produtos.csv` e responde sobre itens, ingredientes, picância e opções vegetarianas;
+  - **combinações**: lê as regras de associação e diz o que costuma sair junto com um item (“em 43 de cada 100 pedidos com bowl de frango e água mineral também veio nachos”);
+  - **loja**: lê `loja.md` e responde sobre endereço, horário, delivery, pagamento e contato.
 
 Os prompts ficam em `agente/prompts/<agente>/`, um por pasta, para facilitar a manutenção. O histórico da conversa fica em memória até o cliente reiniciar o chat.
 
-**Por que um LLM aqui.** O cliente escreve do jeito dele (“e ele é picante?”, “vocês entregam na Vila Mariana?”), e entender essas perguntas e responder com naturalidade é uma tarefa de linguagem. O LLM entende a pergunta, escolhe o especialista e escreve a resposta, mas os fatos vêm sempre das ferramentas, que leem os dados do restaurante. Se a informação não está nos dados, o assistente diz que não sabe e indica o contato da loja.
+**Por que um LLM aqui.** O cliente escreve do jeito dele (“e ele é picante?”, “vocês entregam na Vila Mariana?”), e entender essas perguntas e responder com naturalidade é uma tarefa de linguagem. O coordenador entende a pergunta e escolhe o analista; o analista lê os dados do restaurante e responde. Como cada analista recebe só os dados da sua área e é instruído a responder só com eles, os fatos vêm sempre dos dados. Se a informação não está nos dados, o assistente diz que não sabe e indica o contato da loja.
 
-**Por que o `gpt-6-luna`.** As tarefas do modelo são entender a pergunta, escolher a ferramenta e escrever poucas frases; buscas e contas ficam no código. É o mesmo caso da etapa 6: o modelo mais simples e barato da linha atende, com esforço de raciocínio `low`, e pode ser trocado pela variável `OPENAI_MODEL`.
+**Por que o `gpt-6-luna`.** As tarefas do modelo são entender a pergunta, escolher o analista, encontrar a informação em dados pequenos e organizados e escrever poucas frases. É o mesmo caso da etapa 6: o modelo mais simples e barato da linha atende, com esforço de raciocínio `low`, e pode ser trocado pela variável `OPENAI_MODEL`.
 
 **Cuidados.** O assistente não fecha pedidos nem recebe pagamentos, não pede dados pessoais e recusa assuntos fora da loja. As chamadas usam `store=False`, então a OpenAI não guarda as conversas. Sem a chave da OpenAI, só o chat fica indisponível: as sugestões do carrinho continuam funcionando.
 

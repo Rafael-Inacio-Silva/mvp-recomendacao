@@ -1,4 +1,4 @@
-"""Orquestrador: conversa com o cliente, guarda o histórico e decide qual especialista consultar."""
+"""Orquestrador (coordenador): conversa com o cliente, guarda o histórico e decide quais analistas consultar."""
 
 import json
 import logging
@@ -6,8 +6,8 @@ from dataclasses import dataclass, field
 
 import openai
 
-from agente.especialista import Especialista
-from agente.ferramentas import BUSCAR_PRODUTOS, CONSULTAR_DADOS_DA_LOJA, ITENS_QUE_SAEM_JUNTO
+from agente.analista import Analista
+from agente.fontes import texto_cardapio, texto_combinacoes, texto_loja
 from agente.llm import criar_resposta
 from agente.prompts import instrucoes_orquestrador
 
@@ -20,41 +20,41 @@ RESPOSTA_OCUPADA = "Desculpe, estou recebendo muitas mensagens agora. Pode tenta
 RESPOSTA_ERRO = "Desculpe, tive um problema técnico e não consegui responder. Pode tentar de novo?"
 RESPOSTA_VAZIA = "Desculpe, não consegui montar a resposta. Pode repetir a pergunta de outro jeito?"
 
-# Nome da ferramenta do orquestrador -> especialista consultado
-ESPECIALISTAS = {
-    "consultar_cardapio": Especialista(
+# Ferramenta do orquestrador -> subagente analista consultado
+ANALISTAS = {
+    "consultar_cardapio": Analista(
         nome="cardapio",
         descricao=(
-            "Especialista do cardápio: quais itens existem, ingredientes, como cada prato é feito, "
+            "Analista do cardápio: quais itens existem, ingredientes, como cada prato é feito, "
             "picância, categorias e opções vegetarianas."
         ),
-        ferramenta=BUSCAR_PRODUTOS,
+        fonte=texto_cardapio,
     ),
-    "consultar_combinacoes": Especialista(
+    "consultar_combinacoes": Analista(
         nome="combinacoes",
         descricao=(
-            "Especialista de combinações: o que os clientes costumam pedir junto com um ou mais itens, "
+            "Analista de combinações: o que os clientes costumam pedir junto com um ou mais itens, "
             "para sugerir complementos ao pedido."
         ),
-        ferramenta=ITENS_QUE_SAEM_JUNTO,
+        fonte=texto_combinacoes,
     ),
-    "consultar_loja": Especialista(
+    "consultar_loja": Analista(
         nome="loja",
         descricao=(
-            "Especialista da loja: endereço, horário, se está aberta agora, delivery, taxa, pedido mínimo, "
+            "Analista da loja: endereço, horário, se está aberta agora, delivery, taxa, pedido mínimo, "
             "pagamento, alergias, problemas com o pedido e contato."
         ),
-        ferramenta=CONSULTAR_DADOS_DA_LOJA,
+        fonte=texto_loja,
     ),
 }
 
 
-def esquema_consulta(nome, especialista):
-    """Ferramenta do orquestrador que encaminha uma pergunta ao especialista."""
+def esquema_consulta(nome, analista):
+    """Ferramenta do orquestrador que encaminha uma pergunta ao analista."""
     return {
         "type": "function",
         "name": nome,
-        "description": especialista.descricao,
+        "description": analista.descricao,
         "parameters": {
             "type": "object",
             "properties": {
@@ -70,12 +70,12 @@ def esquema_consulta(nome, especialista):
     }
 
 
-ESQUEMAS = [esquema_consulta(nome, especialista) for nome, especialista in ESPECIALISTAS.items()]
+ESQUEMAS = [esquema_consulta(nome, analista) for nome, analista in ANALISTAS.items()]
 
 
 @dataclass
 class RespostaAgente:
-    """Resposta a uma mensagem do cliente e os especialistas consultados."""
+    """Resposta a uma mensagem do cliente e os analistas consultados."""
 
     texto: str
     consultas: list = field(default_factory=list)
@@ -92,7 +92,7 @@ class Conversa:
         self.historico = []
 
     def responder(self, mensagem, agora=None):
-        """Responde à mensagem do cliente, consultando os especialistas que o orquestrador escolher."""
+        """Responde à mensagem do cliente, consultando os analistas que o orquestrador escolher."""
         inicio = len(self.historico)
         self.historico.append({"role": "user", "content": mensagem})
         instrucoes = instrucoes_orquestrador(self._dados, agora)
@@ -112,7 +112,7 @@ class Conversa:
 
                 for pedido in pedidos:
                     texto = self._consultar(pedido, agora)
-                    consultas.append(ESPECIALISTAS[pedido.name].nome if pedido.name in ESPECIALISTAS else pedido.name)
+                    consultas.append(ANALISTAS[pedido.name].nome if pedido.name in ANALISTAS else pedido.name)
                     self.historico.append({"type": "function_call_output", "call_id": pedido.call_id, "output": texto})
 
         except openai.APIError as erro:
@@ -121,17 +121,17 @@ class Conversa:
             return RespostaAgente(texto=resposta_de_erro(erro), consultas=consultas, falhou=True)
 
     def _consultar(self, pedido, agora):
-        """Encaminha a pergunta ao especialista escolhido pelo orquestrador."""
-        especialista = ESPECIALISTAS.get(pedido.name)
-        if especialista is None:
-            return "Especialista desconhecido."
+        """Encaminha a pergunta ao analista escolhido pelo orquestrador."""
+        analista = ANALISTAS.get(pedido.name)
+        if analista is None:
+            return "Analista desconhecido."
         try:
             pergunta = json.loads(pedido.arguments or "{}").get("pergunta", "")
         except (json.JSONDecodeError, AttributeError):
             pergunta = ""
         if not pergunta:
-            return "A pergunta para o especialista veio vazia."
-        return especialista.responder(self._cliente, self._dados, pergunta, agora)
+            return "A pergunta para o analista veio vazia."
+        return analista.responder(self._cliente, self._dados, pergunta, agora)
 
 
 def resposta_de_erro(erro):

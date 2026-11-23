@@ -1,1 +1,1 @@
-"""Assistente de conversa da loja: um orquestrador que consulta agentes especialistas."""
+"""Assistente de conversa da loja: um orquestrador (coordenador) que consulta subagentes analistas."""

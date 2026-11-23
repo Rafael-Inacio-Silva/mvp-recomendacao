@@ -19,16 +19,18 @@ def criar_cliente():
     return openai.OpenAI(api_key=chave, timeout=TEMPO_LIMITE_SEGUNDOS)
 
 
-def criar_resposta(cliente, instrucoes, entrada, ferramentas, permitir_ferramentas=True):
-    """Faz uma chamada à Responses API com as instruções, a conversa e as ferramentas."""
-    # store=False: a OpenAI não guarda as conversas; o raciocínio volta criptografado na entrada
-    return cliente.responses.create(
-        model=os.getenv("OPENAI_MODEL", "").strip() or MODELO_PADRAO,
-        instructions=instrucoes,
-        input=entrada,
-        tools=ferramentas,
-        tool_choice="auto" if permitir_ferramentas else "none",
-        reasoning={"effort": os.getenv("OPENAI_REASONING_EFFORT", "").strip() or ESFORCO_PADRAO},
-        store=False,
-        include=["reasoning.encrypted_content"],
-    )
+def criar_resposta(cliente, instrucoes, entrada, ferramentas=None, permitir_ferramentas=True):
+    """Faz uma chamada à Responses API; as ferramentas são opcionais."""
+    parametros = {
+        "model": os.getenv("OPENAI_MODEL", "").strip() or MODELO_PADRAO,
+        "instructions": instrucoes,
+        "input": entrada,
+        "reasoning": {"effort": os.getenv("OPENAI_REASONING_EFFORT", "").strip() or ESFORCO_PADRAO},
+        # store=False: a OpenAI não guarda as conversas; o raciocínio volta criptografado na entrada
+        "store": False,
+        "include": ["reasoning.encrypted_content"],
+    }
+    if ferramentas:
+        parametros["tools"] = ferramentas
+        parametros["tool_choice"] = "auto" if permitir_ferramentas else "none"
+    return cliente.responses.create(**parametros)

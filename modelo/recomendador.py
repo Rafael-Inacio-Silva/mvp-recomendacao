@@ -13,14 +13,15 @@ ORDENACAO = {
 
 
 def preparar_regras(regras):
-    """Converte o antecedente das regras formatadas em conjunto de itens."""
-    regras = regras.copy()
-    regras["antecedente"] = regras["antecedente"].str.split(SEPARADOR_ITENS, regex=False).apply(set)
-    return regras
+    """Converte as regras formatadas em uma lista, com o antecedente como conjunto de itens."""
+    lista = regras.to_dict("records")
+    for regra in lista:
+        regra["antecedente"] = set(regra["antecedente"].split(SEPARADOR_ITENS))
+    return lista
 
 
 def carregar_regras(caminho):
-    """Lê as regras salvas, com o antecedente como conjunto de itens."""
+    """Lê as regras salvas e retorna a lista usada pelo recomendador."""
     return preparar_regras(pd.read_csv(caminho))
 
 
@@ -52,28 +53,32 @@ def recomendar(carrinho, regras, populares, maximo=MAXIMO_SUGESTOES, criterio="c
     """
     carrinho = set(carrinho)
 
-    # Regras com o antecedente contido no carrinho
-    aplicaveis = regras[regras["antecedente"].apply(lambda itens: itens <= carrinho)]
-
-    # Sem itens que já estão no carrinho (RN-02)
-    aplicaveis = aplicaveis[~aplicaveis["consequente"].isin(carrinho)]
+    # Regras com o antecedente contido no carrinho e o item sugerido fora dele (RN-02)
+    aplicaveis = [
+        regra for regra in regras
+        if regra["antecedente"] <= carrinho and regra["consequente"] not in carrinho
+    ]
 
     # Ordem por confiança, com desempate pelo lift (RN-05)
-    aplicaveis = aplicaveis.sort_values(ORDENACAO[criterio], ascending=False)
-
-    # Melhor regra de cada item sugerido
-    aplicaveis = aplicaveis.drop_duplicates(subset="consequente")
+    principal, desempate = ORDENACAO[criterio]
+    aplicaveis.sort(key=lambda regra: (regra[principal], regra[desempate]), reverse=True)
 
     sugestoes = []
-    for regra in aplicaveis.head(maximo).itertuples():
+    for regra in aplicaveis:
+        # Melhor regra de cada item sugerido
+        if regra["consequente"] in [sugestao["item"] for sugestao in sugestoes]:
+            continue
+
         sugestoes.append({
-            "item": regra.consequente,
+            "item": regra["consequente"],
             "origem": "regra",
-            "antecedente": sorted(regra.antecedente),
-            "suporte": regra.suporte,
-            "confianca": regra.confianca,
-            "lift": regra.lift,
+            "antecedente": sorted(regra["antecedente"]),
+            "suporte": regra["suporte"],
+            "confianca": regra["confianca"],
+            "lift": regra["lift"],
         })
+        if len(sugestoes) == maximo:
+            break
 
     # Vagas restantes com os mais pedidos fora do carrinho e das sugestões (RN-06)
     if completar or not sugestoes:

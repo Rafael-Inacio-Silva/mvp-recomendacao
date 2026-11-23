@@ -40,7 +40,10 @@ mvp-recomendacao/
 │   │   ├── pedidos.csv          # histórico enviado pela Sabor na Mesa
 │   │   ├── pedidos_limpos.csv   # gerado pelo pipeline
 │   │   └── regras.csv           # gerado por gerar_regras.py
-│   └── indiano/                 # mesma estrutura, para a Casa Masala
+│   └── indiano/
+│       ├── restaurant-1-orders.csv  # exportação do caixa da Casa Masala (baixada do Kaggle)
+│       ├── traducao_itens.csv   # nome original → nome em português
+│       └── pedidos.csv          # gerado por preparar_indiano.py; depois, mesma estrutura
 ├── docs/
 │   ├── proposta.md
 │   ├── arquitetura.md
@@ -58,6 +61,7 @@ mvp-recomendacao/
 │   ├── avaliacao.py             # versões, divisões de teste e taxa de acerto
 │   └── explicacao.py            # frase da IA e frase padrão
 ├── lojas.py                     # lojas e caminhos dos arquivos
+├── preparar_indiano.py          # converte a exportação da Casa Masala para pedidos.csv
 ├── analise_dados.py             # executa o pipeline
 ├── gerar_regras.py              # calcula e compara as regras
 ├── avaliar.py                   # executa a avaliação offline
@@ -92,7 +96,7 @@ Para um carrinho:
 5. devolve até 3 sugestões (RN-03);
 6. se sobrarem menos de 3, completa as vagas com os itens mais pedidos que não estão no carrinho (RN-06).
 
-Cada sugestão carrega a regra que a gerou, para que a explicação e a página “Como funciona” possam mostrá-la. Os parâmetros `criterio="lift"` e `completar=False` reproduzem as primeiras versões, usadas só na avaliação.
+As regras ficam em uma lista, com o antecedente como conjunto de itens, para que a busca seja rápida mesmo com centenas de regras. Cada sugestão carrega a regra que a gerou, para que a explicação e a página “Como funciona” possam mostrá-la. Os parâmetros `criterio="lift"` e `completar=False` reproduzem as primeiras versões, usadas só na avaliação.
 
 ### Explicação
 
@@ -114,7 +118,7 @@ As frases já geradas ficam guardadas em memória durante a execução, para nã
 | 2 | confiança 20%, lift > 1 | lift | mais pedidos |
 | 3 (MVP) | confiança 10%, sem filtro de lift | confiança | mais pedidos |
 
-Os resultados de cada loja estão nos relatórios: [Sabor na Mesa](mexicano/relatorio.md).
+Os resultados de cada loja estão nos relatórios: [Sabor na Mesa](mexicano/relatorio.md) e [Casa Masala](indiano/relatorio.md).
 
 ## 6. Testes planejados
 

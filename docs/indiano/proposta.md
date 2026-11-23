@@ -19,7 +19,7 @@ O objetivo de negócio é reduzir os pedidos fechados sem o arroz ou o pão que 
 - permite montar um carrinho de demonstração;
 - sugere até 3 itens relacionados ao carrinho, ordenados pela força da associação;
 - explica cada sugestão em uma frase curta;
-- apresenta os dados usados, as regras calculadas e os resultados da avaliação.
+- oferece um assistente de conversa que tira dúvidas sobre o cardápio, as combinações de itens e a loja (diferencial proposto pela PratoTech).
 
 **O sistema não faz:**
 
@@ -42,7 +42,9 @@ O restaurante enviou o histórico do delivery no arquivo `pedidos.csv`, com o n�
 
 A partir desse histórico, o sistema identifica regras do tipo “quem pede A também costuma pedir B”. Quando o cliente coloca itens no carrinho, o sistema procura as regras que se aplicam a eles e mostra os itens sugeridos, cada um com uma frase explicando a relação. A frase é montada a partir da própria regra, sem IA, por exemplo: “Já que você escolheu um frango tikka masala, que tal incluir um arroz pilau no pedido?”.
 
-Uma página separada mostra ao restaurante como o sistema chegou às sugestões: o resumo dos dados, a lista de regras e os resultados da avaliação.
+Os dados usados, a forma como o sistema chega às sugestões e os resultados da avaliação são apresentados ao restaurante num relatório, entregue junto com o MVP. O site mostra ao cliente só as sugestões e a frase de cada uma.
+
+**Diferencial proposto pela PratoTech: assistente de conversa.** No site, o cliente pode conversar com uma assistente virtual da loja, que responde dúvidas como “o que tem no korma?”, “o que mais sai junto com o biryani?” ou “que horas vocês abrem?”. As respostas vêm só do cardápio, das combinações calculadas e dos dados da empresa enviados pelo restaurante, e a conversa é guardada até o cliente reiniciar o chat.
 
 ## 4. Requisitos funcionais
 
@@ -54,8 +56,8 @@ Uma página separada mostra ao restaurante como o sistema chegou às sugestões:
 | RF-04 | O sistema deve sugerir itens relacionados aos itens do carrinho. | Alta |
 | RF-05 | O sistema deve ordenar as sugestões pela força da associação. | Alta |
 | RF-06 | O sistema deve apresentar uma explicação para cada sugestão. | Alta |
-| RF-07 | O sistema deve apresentar os dados utilizados e as regras calculadas. | Média |
-| RF-08 | O sistema deve apresentar os resultados da avaliação das recomendações. | Média |
+| RF-07 | O sistema deve oferecer um assistente de conversa que responda dúvidas sobre o cardápio, as combinações de itens e os dados da loja. | Média |
+| RF-08 | O assistente deve manter o histórico da conversa até o cliente reiniciar o chat. | Média |
 
 ## 5. Requisitos não funcionais
 
@@ -63,7 +65,7 @@ Uma página separada mostra ao restaurante como o sistema chegou às sugestões:
 |---|---|---|
 | RNF-01 | Desempenho | As sugestões devem aparecer em até 1 segundo após uma alteração no carrinho, na demonstração executada localmente. |
 | RNF-02 | Desempenho | A explicação deve aparecer junto com a sugestão, sem depender de serviços externos. |
-| RNF-03 | Confiabilidade | A demonstração deve funcionar sem acesso à internet. |
+| RNF-03 | Confiabilidade | As sugestões não dependem do serviço de IA. Se ele falhar, só o assistente de conversa fica indisponível, com uma mensagem amigável. |
 | RNF-04 | Usabilidade | Cada explicação deve estar em português. |
 | RNF-05 | Manutenibilidade | As regras devem poder ser recalculadas a partir de um novo arquivo de pedidos no mesmo formato, sem alterar o sistema. |
 | RNF-06 | Manutenibilidade | As regras de negócio RN-02 a RN-06 devem ter testes automatizados. |
@@ -81,6 +83,8 @@ Uma página separada mostra ao restaurante como o sistema chegou às sugestões:
 | RN-07 | A explicação é montada a partir da regra que gerou a sugestão: “Já que você escolheu {itens do carrinho}, que tal incluir {item sugerido} no pedido?”. | RF-06 |
 | RN-08 | Quando a sugestão vem dos mais vendidos, e não de uma regra, a explicação é “Um dos itens mais pedidos da casa”. | RF-06 |
 | RN-09 | O carrinho é validado antes da recomendação: precisa ser uma lista não vazia de itens do cardápio. Nomes são comparados sem diferença de maiúsculas e espaços, item repetido conta uma vez, e um carrinho inválido recebe a lista de erros, sem sugestões. | RF-02, RF-04 |
+| RN-10 | O assistente responde só com informações do cardápio, das combinações calculadas e dos dados da loja. O que não estiver nesses dados, ele diz que não sabe e indica o contato da loja. | RF-07 |
+| RN-11 | O assistente não fecha pedidos nem recebe pagamentos: o pedido é finalizado pelo cliente, no carrinho do site. | RF-07 |
 
 ## 7. Abordagem
 
@@ -91,6 +95,8 @@ As sugestões vêm de **regras de associação**, uma técnica usada em análise
 - **Lift:** quanto ter A no carrinho aumenta a chance de B, comparado com a frequência normal de B. Lift acima de 1 indica uma associação real.
 
 A ordenação usa a confiança (RN-05): entre os itens ligados ao carrinho por alguma regra, vem primeiro o que mais aparece junto com ele. Esse critério teve o melhor resultado no MVP da Sabor na Mesa e será confirmado com os dados da Casa Masala na avaliação.
+
+O assistente de conversa usa um modelo de linguagem (LLM) organizado em agentes: um orquestrador conversa com o cliente e consulta três especialistas (cardápio, combinações e loja), cada um com acesso a uma única fonte de dados. Assim, o LLM entende a pergunta e escreve a resposta, mas os fatos vêm sempre dos dados do restaurante (RN-10).
 
 Os detalhes de construção estão no documento de [arquitetura](../arquitetura.md).
 
@@ -118,6 +124,8 @@ Uma semana (5 dias úteis), porque o sistema da Sabor na Mesa é reaproveitado:
 | Explicações e tela | 1 | loja da Casa Masala na demonstração |
 | Revisão com o restaurante | 1 | ajustes e apresentação final |
 
+O assistente de conversa, já construído para a Sabor na Mesa, acrescenta 1 dia útil para receber os dados da Casa Masala.
+
 ## 10. Riscos
 
 | Risco | Como tratar |
@@ -126,6 +134,7 @@ Uma semana (5 dias úteis), porque o sistema da Sabor na Mesa é reaproveitado:
 | Itens populares dominarem as sugestões | as sugestões vêm de regras ligadas ao carrinho, e a avaliação compara o resultado com a referência dos mais pedidos |
 | Explicação prometer algo que os dados não mostram | a frase é montada com os números da própria regra (RN-07) |
 | Histórico sem data e sem identificação do cliente | o MVP não usa horário nem perfil; isso fica para fases futuras |
+| Assistente inventar uma informação | ele só responde com o que os especialistas encontram nos dados da loja (RN-10); fora disso, indica o contato da loja |
 
 ## 11. Próximas fases
 

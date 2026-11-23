@@ -7,6 +7,12 @@ LOJAS = {
     "indiano": "Casa Masala Cozinha Indiana",
 }
 
+# Nome da assistente virtual de cada loja
+ATENDENTES = {
+    "mexicano": "Lupe",
+    "indiano": "Maya",
+}
+
 
 def caminho(loja, arquivo):
     """Retorna o caminho de um arquivo de dados da loja."""

@@ -1,8 +1,8 @@
 # MVP de recomendação de itens — PratoTech
 
-Projeto preparado para a entrevista a partir de um cenário fictício. Restaurantes de São Paulo pedem à PratoTech um MVP que recomende itens com base no carrinho do delivery, usando regras de associação calculadas a partir dos pedidos.
+Projeto preparado para a entrevista a partir de um cenário fictício. Restaurantes de São Paulo pedem à PratoTech um MVP que recomende itens com base no carrinho do delivery, usando regras de associação calculadas a partir dos pedidos. Como diferencial, a PratoTech propõe um assistente de conversa, que tira dúvidas do cliente sobre o cardápio, as combinações de itens e a loja.
 
-- [Arquitetura](docs/arquitetura.md): componentes, tecnologias, organização do código e funcionamento do recomendador, comum às duas lojas.
+- [Arquitetura](docs/arquitetura.md): componentes, tecnologias, organização do código, API e assistente, comuns às duas lojas.
 
 ## Lojas
 
@@ -38,6 +38,7 @@ O repositório guarda só os dados de entrada. Tudo o que os scripts calculam é
 | `pedidos.csv` | sim | histórico enviado por cada restaurante; é a entrada de tudo |
 | `cardapio.csv` | sim, como exceção | é gerado pelo LLM (etapa 6), que exige a chave da OpenAI e tem custo |
 | `gabarito_cardapio.csv` | sim | conferência manual dos artigos do cardápio |
+| `loja.md`, `produtos.csv` | sim | dados da empresa e descrição de cada produto, enviados pelo restaurante; usados pelo assistente |
 | `pedidos_limpos.csv`, `regras.csv`, `avaliacao.csv` | não | gerados pelos scripts em segundos, sem custo |
 
 **Por que o `cardapio.csv` é exceção.** A etapa 6 só chama o LLM para os itens que ainda não estão no `cardapio.csv`. Com o arquivo no repositório, o servidor já recebe o cardápio pronto a cada atualização, e o LLM não roda de novo. Sem ele, cada atualização chamaria o LLM para os 288 itens das duas lojas, o que exigiria a chave da OpenAI no servidor, levaria cerca de um minuto, teria custo e poderia mudar algum artigo já conferido. Assim, o LLM roda uma vez e só volta a rodar quando entra um item novo no cardápio.
@@ -112,6 +113,7 @@ Cada parte do sistema usa a técnica mais simples que resolve o problema. O LLM 
 | Vagas sem regra | os itens mais vendidos | garante sempre 3 sugestões e foi o que fez a primeira versão deixar de perder para a referência |
 | Frase da sugestão | modelo de frase em Python, sem LLM | a frase só repete itens que o sistema já escolheu; um LLM traria custo, demora e risco de citar algo fora da regra, sem acrescentar informação |
 | Artigos do cardápio (etapa 6) | LLM `gpt-6-luna`, da OpenAI | explicado abaixo |
+| Assistente de conversa | LLM `gpt-6-luna` com function calling, em agentes | explicado na seção “Assistente de conversa” |
 
 ### Por que um LLM na etapa 6
 
@@ -121,7 +123,7 @@ Para a frase soar natural, cada item precisa do artigo certo: “**um** bowl de 
 - uma tabela feita à mão funciona, mas precisaria ser preenchida para os 288 itens das duas lojas e de novo a cada item novo do cardápio;
 - entender o nome de um prato e escrevê-lo bem em português é justamente uma tarefa de linguagem, em que o LLM é bom.
 
-O LLM, porém, não participa da escolha das sugestões nem roda durante o uso. Ele é chamado uma vez, no pipeline, e o resultado fica salvo em `cardapio.csv`. A tela só lê esse arquivo, sem custo e sem depender da internet.
+O LLM, porém, não participa da escolha das sugestões nem roda durante o uso. Ele é chamado uma vez, no pipeline, e o resultado fica salvo em `cardapio.csv`. A API só lê esse arquivo para montar a frase, sem custo e sem chamar o LLM.
 
 **Cuidados:**
 
@@ -146,6 +148,51 @@ Não havia um gabarito pronto, então a conferência foi manual, por amostragem:
 
 A marcação da Sabor na Mesa ficou salva em `dados/mexicano/gabarito_cardapio.csv`, e a comparação pode ser refeita com `python avaliar_cardapio.py`.
 
+## API
+
+O backend expõe as rotas que o site chama (`api.py`, em FastAPI). Os detalhes estão na [arquitetura](docs/arquitetura.md#api).
+
+| Rota | O que faz |
+|---|---|
+| `GET /api/saude` | responde que a API está no ar |
+| `GET /api/lojas` | lista as lojas |
+| `GET /api/lojas/{loja}/cardapio` | itens da loja, com categoria e descrição |
+| `POST /api/lojas/{loja}/sugestoes` | valida o carrinho e devolve as 3 sugestões com a frase |
+| `POST /api/lojas/{loja}/chat` | envia uma mensagem ao assistente e devolve a resposta |
+| `POST /api/lojas/{loja}/chat/reiniciar` | apaga o histórico da conversa |
+
+Exemplo de sugestões:
+
+```
+POST /api/lojas/mexicano/sugestoes
+{"carrinho": ["Bowl de Frango", "Água Mineral"]}
+
+→ {"ok": true, "carrinho": ["Bowl de Frango", "Água Mineral"], "sugestoes": [
+     {"item": "Nachos", "frase": "Já que você escolheu um bowl de frango e uma água mineral, que tal incluir uma porção de nachos no pedido?", "origem": "regra"}, ...]}
+```
+
+Um carrinho inválido volta com status 400 e a lista de erros, por exemplo `{"field": "carrinho[0]", "code": "unknown_item"}`.
+
+## Assistente de conversa
+
+No site, o cliente conversa com a assistente virtual da loja (Lupe na Sabor na Mesa, Maya na Casa Masala). Ela responde perguntas como “o que tem no burrito de frango?”, “o que mais sai junto com o biryani?” e “que horas vocês abrem?”.
+
+**Organização.** O assistente fica na pasta `agente/` e é organizado em agentes:
+
+- o **orquestrador** conversa com o cliente, guarda o histórico e decide quais especialistas consultar;
+- três **especialistas**, cada um com o seu prompt e uma única ferramenta:
+  - **cardápio**: busca itens, ingredientes e picância em `produtos.csv`;
+  - **combinações**: diz o que costuma sair junto com um item, usando o validador e o recomendador (“em 43 de cada 100 pedidos com bowl de frango e água mineral também veio nachos”);
+  - **loja**: consulta endereço, horário, delivery, pagamento e contato em `loja.md`.
+
+Os prompts ficam em `agente/prompts/<agente>/`, um por pasta, para facilitar a manutenção. O histórico da conversa fica em memória até o cliente reiniciar o chat.
+
+**Por que um LLM aqui.** O cliente escreve do jeito dele (“e ele é picante?”, “vocês entregam na Vila Mariana?”), e entender essas perguntas e responder com naturalidade é uma tarefa de linguagem. O LLM entende a pergunta, escolhe o especialista e escreve a resposta, mas os fatos vêm sempre das ferramentas, que leem os dados do restaurante. Se a informação não está nos dados, o assistente diz que não sabe e indica o contato da loja.
+
+**Por que o `gpt-6-luna`.** As tarefas do modelo são entender a pergunta, escolher a ferramenta e escrever poucas frases; buscas e contas ficam no código. É o mesmo caso da etapa 6: o modelo mais simples e barato da linha atende, com esforço de raciocínio `low`, e pode ser trocado pela variável `OPENAI_MODEL`.
+
+**Cuidados.** O assistente não fecha pedidos nem recebe pagamentos, não pede dados pessoais e recusa assuntos fora da loja. As chamadas usam `store=False`, então a OpenAI não guarda as conversas. Sem a chave da OpenAI, só o chat fica indisponível: as sugestões do carrinho continuam funcionando.
+
 ## Como executar
 
 ```bash
@@ -157,6 +204,7 @@ python analise_dados.py
 python gerar_regras.py
 python avaliar.py
 python -m pytest
+python api.py   # API em http://127.0.0.1:8000; documentação das rotas em /docs
 ```
 
-No PyCharm, selecione o interpretador `.venv` do projeto e execute, nesta ordem, `analise_dados.py`, `gerar_regras.py` e `avaliar.py`. Cada script processa as duas lojas, e `avaliar.py` salva o resultado em `dados/<loja>/avaliacao.csv`. Os testes ficam na pasta `tests/` e podem ser executados pelo PyCharm ou com `python -m pytest`.
+No PyCharm, selecione o interpretador `.venv` do projeto e execute, nesta ordem, `analise_dados.py`, `gerar_regras.py` e `avaliar.py`. Cada script processa as duas lojas, e `avaliar.py` salva o resultado em `dados/<loja>/avaliacao.csv`. Os testes ficam na pasta `tests/` e podem ser executados pelo PyCharm ou com `python -m pytest`. Por fim, `api.py` liga a API; com ela no ar, as rotas podem ser testadas pelo navegador em `http://127.0.0.1:8000/docs`. O chat precisa da chave da OpenAI no `.env`.

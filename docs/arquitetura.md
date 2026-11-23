@@ -1,12 +1,21 @@
 # Arquitetura — MVP de recomendação de itens
 
-Elaborada a partir das propostas da [Sabor na Mesa](mexicano/proposta.md) e da [Casa Masala](indiano/proposta.md). O mesmo código atende mais de uma loja: cada loja tem a sua pasta de dados, e o pipeline, as regras e a avaliação são executados para todas.
+Elaborada a partir das propostas da [Sabor na Mesa](mexicano/proposta.md) e da [Casa Masala](indiano/proposta.md). O mesmo código atende mais de uma loja: cada loja tem a sua pasta de dados, e o pipeline, as regras e a avaliação são executados para todas. O backend (a API em FastAPI) fica no Render, e o site, na Vercel.
 
 ## 1. Visão geral
 
+**Preparação** (roda a cada atualização do backend):
+
 ```
-pedidos.csv → pipeline de dados → pedidos_limpos.csv → cestas → regras de associação → recomendador → explicação → tela
-                  └─ cardapio.csv (etapa 6, LLM) ─────────────────────────────────────────────────────────┘
+pedidos.csv → pipeline (etapas 1 a 5) → pedidos_limpos.csv → gerar_regras.py → regras.csv
+                     └─ etapa 6 (LLM, só para itens novos) → cardapio.csv
+```
+
+**Uso** (a cada ação do cliente no site):
+
+```
+site (Vercel) → API (Render) → validação → recomendador → explicação → sugestões com a frase
+site (Vercel) → API (Render) → assistente: orquestrador → especialistas → resposta do chat
 ```
 
 | Componente | Responsabilidade | Requisitos atendidos |
@@ -16,11 +25,14 @@ pedidos.csv → pipeline de dados → pedidos_limpos.csv → cestas → regras d
 | `regras` | montar uma cesta por pedido e calcular as regras de associação com suporte, confiança e lift | RF-03, RN-04 |
 | `validacao` | conferir e normalizar o carrinho antes da recomendação, com um código para cada erro | RF-02, RN-01, RN-09 |
 | `recomendador` | escolher e ordenar as sugestões para um carrinho | RF-04, RF-05, RN-02, RN-03, RN-05, RN-06 |
-| `avaliacao` | medir o acerto das versões do recomendador e da referência dos mais pedidos | RF-08 |
-| `explicacao` | montar a frase de cada sugestão a partir da regra que a gerou | RF-06, RN-07, RN-08, RNF-02, RNF-03, RNF-04 |
-| `app` | tela de demonstração e página “Como funciona” | RF-01, RF-02, RF-07, RF-08 |
+| `avaliacao` | medir o acerto das versões do recomendador e da referência dos mais pedidos | critérios de avaliação |
+| `explicacao` | montar a frase de cada sugestão a partir da regra que a gerou | RF-06, RN-07, RN-08, RNF-02, RNF-04 |
+| `dados_loja` | carregar uma vez os arquivos de cada loja e mantê-los em memória | RNF-01 |
+| `agente` | assistente de conversa: orquestrador, especialistas, ferramentas e prompts | RF-07, RF-08, RN-10, RN-11, RNF-03 |
+| `api` | rotas que o site chama: cardápio, sugestões e chat | RF-01, RF-02, RF-04, RF-06, RF-07, RF-08 |
+| site | página “Monte seu pedido” e chat, na Vercel (próxima etapa) | RF-01, RF-02, RF-07 |
 
-O recomendador não depende da tela nem da explicação. Assim, ele pode ser testado sozinho, e a forma de explicar pode mudar sem afetar as sugestões.
+O recomendador não depende do site, da explicação nem do assistente. Assim, ele pode ser testado sozinho, e a forma de explicar pode mudar sem afetar as sugestões.
 
 ## 2. Tecnologias
 
@@ -31,8 +43,10 @@ O recomendador não depende da tela nem da explicação. Assim, ele pode ser tes
 | Regras | mlxtend (Apriori) | implementação conhecida, que já calcula suporte, confiança e lift |
 | Explicação | frase montada em Python | exata, instantânea e sem custo, porque só cita itens da própria regra |
 | Artigos do cardápio | OpenAI `gpt-6-luna` (Responses API, saída em JSON) | tarefa de linguagem; roda uma vez no pipeline e o resultado fica salvo |
-| Tela | Streamlit | demonstração em Python, sem front-end separado |
-| Testes | pytest | testes das regras de negócio |
+| Assistente de conversa | OpenAI `gpt-6-luna` (Responses API, function calling) | entende a pergunta e escreve a resposta; os fatos vêm das ferramentas |
+| API | FastAPI e uvicorn, no Render (plano gratuito) | rotas em Python sobre o código que já existe; o Render atualiza a cada envio ao GitHub |
+| Site | React e Vite, na Vercel | interface separada do backend; a Vercel repassa as chamadas `/api` ao Render |
+| Testes | pytest | testes das regras de negócio, das ferramentas e da API |
 
 ## 3. Organização do código
 
@@ -44,6 +58,8 @@ mvp-recomendacao/
 │   │   ├── pedidos_limpos.csv   # gerado pelo pipeline
 │   │   ├── cardapio.csv         # gerado pela etapa 6 (LLM)
 │   │   ├── gabarito_cardapio.csv  # conferência manual dos artigos
+│   │   ├── loja.md              # dados da empresa, enviados pelo restaurante
+│   │   ├── produtos.csv         # descrição de cada produto, enviada pelo restaurante
 │   │   └── regras.csv           # gerado por gerar_regras.py
 │   └── indiano/                 # mesma estrutura, para a Casa Masala
 ├── docs/
@@ -63,15 +79,27 @@ mvp-recomendacao/
 │   ├── recomendador.py          # sugestões para um carrinho
 │   ├── avaliacao.py             # versões, divisões de teste e taxa de acerto
 │   └── explicacao.py            # frase de cada sugestão
-├── lojas.py                     # lojas e caminhos dos arquivos
+├── agente/                      # assistente de conversa
+│   ├── orquestrador.py          # conversa, histórico e escolha do especialista
+│   ├── especialista.py          # agente especialista com a sua ferramenta
+│   ├── ferramentas.py           # funções que consultam os dados da loja
+│   ├── prompts.py               # montagem das instruções de cada agente
+│   ├── llm.py                   # conexão com a OpenAI
+│   └── prompts/                 # um prompt por agente, em Markdown
+│       ├── orquestrador/        # persona.md e diretrizes.md
+│       ├── cardapio/            # prompt.md
+│       ├── combinacoes/         # prompt.md
+│       └── loja/                # prompt.md
+├── api.py                       # API em FastAPI
+├── dados_loja.py                # arquivos de cada loja em memória
+├── lojas.py                     # lojas, assistentes e caminhos dos arquivos
 ├── analise_dados.py             # executa o pipeline
 ├── gerar_regras.py              # calcula e compara as regras
 ├── avaliar.py                   # executa a avaliação offline
 ├── avaliar_cardapio.py          # compara os artigos do LLM com o gabarito
-├── app.py                       # tela em Streamlit
 ├── .env.example                 # variáveis da OpenAI, sem a chave
 ├── pytest.ini
-└── tests/                       # testes das regras de negócio
+└── tests/                       # testes das regras de negócio, das ferramentas e da API
 ```
 
 ## 4. Funcionamento dos componentes
@@ -96,7 +124,7 @@ Não há um valor padrão para os limites. `gerar_regras.py` compara 12 combina�
 
 ### Validação do carrinho
 
-Antes de recomendar, `validar_carrinho` confere o que chegou da tela (RN-09) e devolve `{"ok": True, "value": [itens]}` ou `{"ok": False, "errors": [...]}`, em que cada erro tem o campo (`carrinho` ou `carrinho[posição]`) e um código:
+Antes de recomendar, `validar_carrinho` confere o carrinho que chegou do site (RN-09) e devolve `{"ok": True, "value": [itens]}` ou `{"ok": False, "errors": [...]}`, em que cada erro tem o campo (`carrinho` ou `carrinho[posição]`) e um código:
 
 | Código | Quando |
 |---|---|
@@ -118,13 +146,50 @@ Para um carrinho:
 5. devolve até 3 sugestões (RN-03);
 6. se sobrarem menos de 3, completa as vagas com os itens mais pedidos que não estão no carrinho (RN-06).
 
-As regras ficam em uma lista, com o antecedente como conjunto de itens, para que a busca seja rápida mesmo com centenas de regras. Cada sugestão carrega a regra que a gerou, para que a explicação e a página “Como funciona” possam mostrá-la. Os parâmetros `criterio="lift"` e `completar=False` reproduzem as primeiras versões, usadas só na avaliação.
+As regras ficam em uma lista, com o antecedente como conjunto de itens, para que a busca seja rápida mesmo com centenas de regras. Cada sugestão carrega a regra que a gerou, para que a explicação e o assistente possam usá-la. Os parâmetros `criterio="lift"` e `completar=False` reproduzem as primeiras versões, usadas só na avaliação.
 
 ### Explicação
 
 A frase de cada sugestão é montada com os itens da regra que a gerou (RN-07): a regra Água Mineral → Bowl de Frango vira “Já que você escolheu Água Mineral, que tal incluir Bowl de Frango no pedido?”. Quando a regra tem mais de um item no lado A, os itens são citados juntos. Com o `cardapio.csv` da etapa 6, cada item aparece com o artigo certo: “Já que você escolheu um bowl de frango e uma água mineral, que tal incluir uma porção de nachos no pedido?”. Sem o cardápio, a frase usa o nome do item. As sugestões que vêm dos mais vendidos recebem a frase “Um dos itens mais pedidos da casa” (RN-08).
 
 A explicação não usa modelo de linguagem: como a frase só cita itens da regra, um modelo de linguagem acrescentaria custo, demora e risco de citar algo fora da regra, sem acrescentar informação.
+
+### API
+
+A API em FastAPI (`api.py`) é a porta de entrada do backend: o site chama as rotas, e a API usa o código dos outros componentes. Os dados de cada loja são carregados uma vez (`dados_loja.py`) e ficam em memória.
+
+| Rota | O que faz |
+|---|---|
+| `GET /api/saude` | responde que a API está no ar; o Render usa para saber se ela acordou |
+| `GET /api/lojas` | lista as lojas e o nome da assistente de cada uma |
+| `GET /api/lojas/{loja}/cardapio` | itens da loja com categoria e descrição, do mais pedido para o menos pedido |
+| `POST /api/lojas/{loja}/sugestoes` | recebe `{"carrinho": [...]}`, valida (RN-09), recomenda e devolve as 3 sugestões com a frase |
+| `POST /api/lojas/{loja}/chat` | recebe `{"conversa_id": ..., "mensagem": ...}` e devolve a resposta do assistente |
+| `POST /api/lojas/{loja}/chat/reiniciar` | apaga o histórico da conversa |
+
+Entradas inválidas voltam com status 400 e a lista de erros no formato do validador (`{"ok": false, "errors": [{"field": ..., "code": ...}]}`). Loja desconhecida volta com 404, e loja sem os arquivos gerados, com 503. Sem a chave da OpenAI, só o chat responde 503; as sugestões continuam funcionando (RNF-03).
+
+### Assistente de conversa
+
+O assistente segue o padrão de agentes com ferramentas: um **orquestrador** conversa com o cliente e decide, a cada mensagem, quais **especialistas** consultar. Cada especialista tem o seu prompt e uma única ferramenta, que lê uma fonte de dados da loja.
+
+| Agente | Prompt | Ferramenta | Fonte de dados |
+|---|---|---|---|
+| orquestrador | `prompts/orquestrador/persona.md` e `diretrizes.md` | uma ferramenta por especialista (`consultar_cardapio`, `consultar_combinacoes`, `consultar_loja`) | — |
+| cardápio | `prompts/cardapio/prompt.md` | `buscar_produtos(termo)` | `produtos.csv` |
+| combinações | `prompts/combinacoes/prompt.md` | `itens_que_saem_junto(itens)`, que usa o validador e o recomendador | `regras.csv` |
+| loja | `prompts/loja/prompt.md` | `consultar_dados_da_loja()` | `loja.md` |
+
+Fluxo de uma mensagem:
+
+1. o orquestrador recebe a mensagem e o histórico da conversa;
+2. escolhe um ou mais especialistas e escreve para cada um uma pergunta completa (por exemplo, troca “e ele é picante?” por “o Burrito de Frango é picante?”);
+3. cada especialista chama a sua ferramenta e devolve a informação encontrada;
+4. o orquestrador escreve a resposta ao cliente, com a persona da loja (Lupe na Sabor na Mesa, Maya na Casa Masala).
+
+**Histórico.** Cada conversa guarda a lista de mensagens em memória e a envia inteira a cada chamada, até o cliente reiniciar o chat. Os especialistas não guardam histórico: recebem só a pergunta do orquestrador. A API mantém até 200 conversas; as mais antigas saem da memória.
+
+**Cuidados.** As respostas vêm só das ferramentas (RN-10); o assistente não fecha pedidos (RN-11) e não pede dados pessoais. Há limite de 4 consultas por mensagem no orquestrador e de 3 chamadas de ferramenta por especialista. As chamadas usam `store=False`, então a OpenAI não guarda as conversas. Se a OpenAI falhar, a mensagem sai do histórico e o cliente recebe um aviso para tentar de novo.
 
 ## 5. Avaliação
 
@@ -140,13 +205,13 @@ A explicação não usa modelo de linguagem: como a frase só cita itens da regr
 | 2 | confiança 20%, lift > 1 | lift | mais pedidos |
 | 3 (MVP) | confiança 10%, sem filtro de lift | confiança | mais pedidos |
 
-`avaliar.py` salva o resultado de cada loja em `dados/<loja>/avaliacao.csv`, que a página “Como funciona” lê sem precisar repetir a avaliação.
+`avaliar.py` salva o resultado de cada loja em `dados/<loja>/avaliacao.csv`, como registro da avaliação.
 
 Os resultados de cada loja estão nos relatórios: [Sabor na Mesa](mexicano/relatorio.md) e [Casa Masala](indiano/relatorio.md).
 
 ## 6. Testes
 
-Os testes usam pytest (`python -m pytest`) e regras pequenas montadas no próprio teste, para não depender dos dados das lojas.
+Os testes usam pytest (`python -m pytest`). Os das regras de negócio usam regras pequenas montadas no próprio teste; os da API e das ferramentas usam os dados das lojas e são pulados quando os arquivos gerados não existem. Nenhum teste chama o LLM.
 
 | Arquivo | Teste | Regra verificada |
 |---|---|---|
@@ -159,3 +224,5 @@ Os testes usam pytest (`python -m pytest`) e regras pequenas montadas no própri
 | `test_validacao.py` | carrinho válido é normalizado; repetidos contam uma vez; cada erro recebe o código certo, na ordem dos itens; a entrada não é alterada | RN-01, RN-09 |
 | `test_explicacao.py` | frase montada com os itens da regra | RN-07 |
 | `test_explicacao.py` | sugestão dos mais vendidos recebe a frase dos mais pedidos | RN-08 |
+| `test_api.py` | rotas de saúde, lojas, cardápio e sugestões; carrinho inválido barrado pelo validador; erros de entrada do chat antes de chamar o assistente | RF-01, RF-04, RN-09 |
+| `test_agente.py` | busca no cardápio (plural, maiúsculas, descrição); combinações com “a cada 100 pedidos”; nome incompleto devolve itens parecidos; ferramenta nunca lança exceção; prompts preenchidos com a loja e a hora | RN-10 |

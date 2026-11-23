@@ -29,7 +29,7 @@ def executar(loja):
         texto_cobertura = f"{cobertura}%" if cobertura is not None else "-"
         print(f"  {nome:38} {unica[nome]['acerto_%']:>13}% {cruzada[nome]['acerto_%']:>14}% {texto_cobertura:>10}")
 
-    # Resultado salvo para a tela "Como funciona"
+    # Resultado salvo em CSV, como registro da avaliação
     resultado = pd.DataFrame([
         {
             "versao": nome,

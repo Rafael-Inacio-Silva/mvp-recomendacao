@@ -162,7 +162,7 @@ def chat(loja: str, corpo: Any = Body(None)):
         return falha([{"field": "assistente", "code": "unavailable"}], status=503)
 
     resposta = conversa.responder(mensagem.strip())
-    return {"ok": not resposta.falhou, "resposta": resposta.texto, "consultas": resposta.consultas}
+    return {"ok": not resposta.falhou, "resposta": resposta.texto, "consultas": resposta.consultas, "estagio": resposta.estagio}
 
 
 @app.post("/api/lojas/{loja}/chat/reiniciar")

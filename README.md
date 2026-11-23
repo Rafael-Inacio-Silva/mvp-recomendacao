@@ -185,7 +185,7 @@ No site, o cliente conversa com a assistente virtual da loja (Lupe na Sabor na M
   - **combinações**: lê as regras de associação e diz o que costuma sair junto com um item (“em 43 de cada 100 pedidos com bowl de frango e água mineral também veio nachos”);
   - **loja**: lê `loja.md` e responde sobre endereço, horário, delivery, pagamento e contato.
 
-Os prompts ficam em `agente/prompts/<agente>/`, um por pasta, para facilitar a manutenção. O histórico da conversa fica em memória até o cliente reiniciar o chat.
+Os prompts ficam em `agente/prompts/<agente>/`, um por pasta, para facilitar a manutenção. O do orquestrador tem um template base e um arquivo para cada etapa do atendimento: 1 — Conexão, 2 — Atendimento e 3 — Fechamento, em que ele sugere um complemento e orienta o cliente a finalizar no carrinho. Só a etapa atual entra no prompt. O histórico e a etapa da conversa ficam em memória até o cliente reiniciar o chat.
 
 **Por que um LLM aqui.** O cliente escreve do jeito dele (“e ele é picante?”, “vocês entregam na Vila Mariana?”), e entender essas perguntas e responder com naturalidade é uma tarefa de linguagem. O coordenador entende a pergunta e escolhe o analista; o analista lê os dados do restaurante e responde. Como cada analista recebe só os dados da sua área e é instruído a responder só com eles, os fatos vêm sempre dos dados. Se a informação não está nos dados, o assistente diz que não sabe e indica o contato da loja.
 

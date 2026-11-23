@@ -9,11 +9,12 @@ import openai
 from agente.analista import Analista
 from agente.fontes import texto_cardapio, texto_combinacoes, texto_loja
 from agente.llm import criar_resposta
-from agente.prompts import instrucoes_orquestrador
+from agente.prompts import ESTAGIOS, instrucoes_orquestrador, ler_estagio
 
 logger = logging.getLogger(__name__)
 
 MAXIMO_CONSULTAS = 4
+MAXIMO_CHAMADAS = 8
 
 RESPOSTA_ERRO_CONEXAO = "Desculpe, estou com dificuldade para me conectar agora. Pode tentar de novo em alguns instantes?"
 RESPOSTA_OCUPADA = "Desculpe, estou recebendo muitas mensagens agora. Pode tentar de novo daqui a pouco?"
@@ -70,7 +71,26 @@ def esquema_consulta(nome, analista):
     }
 
 
-ESQUEMAS = [esquema_consulta(nome, analista) for nome, analista in ANALISTAS.items()]
+# Ferramenta para o orquestrador registrar que o critério de avanço da etapa foi cumprido
+AVANCAR_ESTAGIO = {
+    "type": "function",
+    "name": "avancar_estagio",
+    "description": (
+        "Registra que o critério de avanço da etapa atual foi cumprido e muda para a próxima etapa. "
+        "Chame antes de responder ao cliente."
+    ),
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "estagio": {"type": "integer", "enum": list(ESTAGIOS[1:]), "description": "Número da próxima etapa."},
+        },
+        "required": ["estagio"],
+        "additionalProperties": False,
+    },
+    "strict": True,
+}
+
+ESQUEMAS = [esquema_consulta(nome, analista) for nome, analista in ANALISTAS.items()] + [AVANCAR_ESTAGIO]
 
 
 @dataclass
@@ -79,6 +99,7 @@ class RespostaAgente:
 
     texto: str
     consultas: list = field(default_factory=list)
+    estagio: int = 1
     falhou: bool = False
 
 
@@ -90,35 +111,57 @@ class Conversa:
         self._dados = dados
         # Lista explícita de mensagens, enviada inteira a cada chamada
         self.historico = []
+        # Etapa do atendimento: 1 Conexão, 2 Atendimento, 3 Fechamento
+        self.estagio = ESTAGIOS[0]
 
     def responder(self, mensagem, agora=None):
         """Responde à mensagem do cliente, consultando os analistas que o orquestrador escolher."""
         inicio = len(self.historico)
+        estagio_inicial = self.estagio
         self.historico.append({"role": "user", "content": mensagem})
-        instrucoes = instrucoes_orquestrador(self._dados, agora)
         consultas = []
+        chamadas = 0
 
         try:
             while True:
-                # Depois do limite, o orquestrador responde com o que já tem
-                resposta = criar_resposta(
-                    self._cliente, instrucoes, self.historico, ESQUEMAS, len(consultas) < MAXIMO_CONSULTAS
-                )
+                # Só a etapa atual entra nas instruções
+                instrucoes = instrucoes_orquestrador(self._dados, self.estagio, agora)
+
+                # Depois dos limites, o orquestrador responde com o que já tem
+                permitir = len(consultas) < MAXIMO_CONSULTAS and chamadas < MAXIMO_CHAMADAS
+                resposta = criar_resposta(self._cliente, instrucoes, self.historico, ESQUEMAS, permitir)
                 self.historico.extend(resposta.output)
 
                 pedidos = [parte for parte in resposta.output if parte.type == "function_call"]
                 if not pedidos:
-                    return RespostaAgente(texto=resposta.output_text.strip() or RESPOSTA_VAZIA, consultas=consultas)
+                    texto = resposta.output_text.strip() or RESPOSTA_VAZIA
+                    return RespostaAgente(texto=texto, consultas=consultas, estagio=self.estagio)
 
                 for pedido in pedidos:
-                    texto = self._consultar(pedido, agora)
-                    consultas.append(ANALISTAS[pedido.name].nome if pedido.name in ANALISTAS else pedido.name)
+                    chamadas += 1
+                    if pedido.name == AVANCAR_ESTAGIO["name"]:
+                        texto = self._avancar_estagio(pedido)
+                    else:
+                        texto = self._consultar(pedido, agora)
+                        consultas.append(ANALISTAS[pedido.name].nome if pedido.name in ANALISTAS else pedido.name)
                     self.historico.append({"type": "function_call_output", "call_id": pedido.call_id, "output": texto})
 
         except openai.APIError as erro:
             # A mensagem com falha sai do histórico, para o cliente poder tentar de novo
             del self.historico[inicio:]
-            return RespostaAgente(texto=resposta_de_erro(erro), consultas=consultas, falhou=True)
+            self.estagio = estagio_inicial
+            return RespostaAgente(texto=resposta_de_erro(erro), consultas=consultas, estagio=self.estagio, falhou=True)
+
+    def _avancar_estagio(self, pedido):
+        """Muda para a etapa pedida pelo orquestrador; nunca volta de etapa."""
+        try:
+            novo = int(json.loads(pedido.arguments or "{}").get("estagio"))
+        except (json.JSONDecodeError, AttributeError, TypeError, ValueError):
+            return "Etapa inválida. A etapa não mudou."
+        if novo not in ESTAGIOS or novo <= self.estagio:
+            return f"A etapa continua {self.estagio}: não é possível voltar nem repetir etapa."
+        self.estagio = novo
+        return f"Etapa atual: {novo} — {ler_estagio(novo)['nome']}. Siga a instrução dessa etapa."
 
     def _consultar(self, pedido, agora):
         """Encaminha a pergunta ao analista escolhido pelo orquestrador."""

@@ -86,7 +86,7 @@ mvp-recomendacao/
 │   ├── prompts.py               # montagem das instruções de cada agente
 │   ├── llm.py                   # conexão com a OpenAI
 │   └── prompts/                 # um prompt por agente, em Markdown
-│       ├── orquestrador/        # persona.md e diretrizes.md
+│       ├── orquestrador/        # template_base.md e estagios/ (um arquivo por etapa)
 │       ├── cardapio/            # prompt.md
 │       ├── combinacoes/         # prompt.md
 │       └── loja/                # prompt.md
@@ -175,23 +175,34 @@ O assistente é organizado como uma equipe: um **orquestrador**, que faz o papel
 
 | Agente | Prompt | Dados que recebe | Fonte |
 |---|---|---|---|
-| orquestrador (coordenador) | `prompts/orquestrador/persona.md` e `diretrizes.md` | histórico da conversa; ferramentas `consultar_cardapio`, `consultar_combinacoes` e `consultar_loja` | — |
+| orquestrador (coordenador) | `prompts/orquestrador/template_base.md` e a etapa atual de `estagios/` | histórico da conversa; ferramentas `consultar_cardapio`, `consultar_combinacoes`, `consultar_loja` e `avancar_estagio` | — |
 | analista do cardápio | `prompts/cardapio/prompt.md` | todos os produtos, com categoria e descrição, do mais pedido para o menos pedido | `produtos.csv` |
 | analista de combinações | `prompts/combinacoes/prompt.md` | todas as regras da loja, escritas como “pedidos com A → B: N de cada 100 pedidos”, e os itens mais pedidos | `regras.csv` |
 | analista da loja | `prompts/loja/prompt.md` | o documento da empresa | `loja.md` |
 
 Os dados de cada área cabem inteiros no prompt (no maior caso, as regras da Casa Masala têm cerca de 52 mil caracteres), então não é preciso dividi-los nem usar um banco vetorial. As partes fixas vêm primeiro e a hora por último, para que a OpenAI reaproveite o começo do prompt em cache.
 
+**Prompts.** Os prompts usam marcadores `{{nome}}`, trocados pelo código: `{{loja}}`, `{{atendente}}`, `{{agora}}` e `{{referencias_data}}` (hoje e os próximos 7 dias, com o dia da semana), além de `{{dados}}` nos analistas. O orquestrador tem um **template base** (identidade, fluxo, regras de conversa, segurança, restrições críticas, analistas, gatilhos de encaminhamento, objeções e situações especiais) e um **arquivo por etapa**, no formato Nome, Objetivo e Instrução:
+
+| Etapa | Arquivo | Objetivo | Avança quando |
+|---|---|---|---|
+| 1 — Conexão | `estagio_1_conexao.md` | se apresentar e entender o que o cliente procura | o cliente traz uma dúvida, uma preferência ou um item |
+| 2 — Atendimento | `estagio_2_atendimento.md` | esclarecer dúvidas e ajudar a escolher, com microcompromissos | o cliente escolhe um item ou diz que vai pedir |
+| 3 — Fechamento | `estagio_3_fechamento.md` | sugerir um complemento, tirar dúvidas finais e orientar a finalizar no carrinho | — |
+
+A conversa guarda a etapa atual, e só a instrução dessa etapa entra no prompt (`{{etapa_atual}}`, `{{etapa_objetivo}}` e `{{etapa_instrucao}}`). Quando o critério de avanço é cumprido, o orquestrador chama a ferramenta `avancar_estagio`; o código só aceita avançar, nunca voltar de etapa.
+
 Fluxo de uma mensagem:
 
 1. o orquestrador recebe a mensagem e o histórico da conversa;
 2. escolhe um ou mais analistas e escreve para cada um uma pergunta completa (por exemplo, troca “e ele é picante?” por “o Burrito de Frango é picante?”);
 3. cada analista lê os dados da sua área e devolve a informação encontrada;
-4. o orquestrador escreve a resposta ao cliente, com a persona da loja (Lupe na Sabor na Mesa, Maya na Casa Masala).
+4. se o critério de avanço da etapa foi cumprido, o orquestrador chama `avancar_estagio`;
+5. o orquestrador escreve a resposta ao cliente, com a identidade da loja (Lupe na Sabor na Mesa, Maya na Casa Masala) e a instrução da etapa atual.
 
-**Histórico.** Cada conversa guarda a lista de mensagens em memória e a envia inteira a cada chamada, até o cliente reiniciar o chat. Os analistas não guardam histórico: recebem só a pergunta do orquestrador. A API mantém até 200 conversas; as mais antigas saem da memória.
+**Histórico.** Cada conversa guarda a lista de mensagens em memória e a envia inteira a cada chamada, até o cliente reiniciar o chat. Os analistas não guardam histórico: recebem só a pergunta do orquestrador. Ao reiniciar o chat, a conversa volta para a etapa 1. A API mantém até 200 conversas; as mais antigas saem da memória.
 
-**Cuidados.** Os analistas respondem só com os dados que recebem (RN-10); o assistente não fecha pedidos (RN-11) e não pede dados pessoais. Há limite de 4 consultas aos analistas por mensagem. As chamadas usam `store=False`, então a OpenAI não guarda as conversas. Se a OpenAI falhar, a mensagem sai do histórico e o cliente recebe um aviso para tentar de novo.
+**Cuidados.** Os analistas respondem só com os dados que recebem (RN-10); o assistente não fecha pedidos (RN-11) e não pede dados pessoais. Há limite de 4 consultas aos analistas e de 8 chamadas de ferramenta por mensagem. As chamadas usam `store=False`, então a OpenAI não guarda as conversas. Se a OpenAI falhar, a mensagem sai do histórico e o cliente recebe um aviso para tentar de novo.
 
 ## 5. Avaliação
 
@@ -227,4 +238,4 @@ Os testes usam pytest (`python -m pytest`). Os das regras de negócio usam regra
 | `test_explicacao.py` | frase montada com os itens da regra | RN-07 |
 | `test_explicacao.py` | sugestão dos mais vendidos recebe a frase dos mais pedidos | RN-08 |
 | `test_api.py` | rotas de saúde, lojas, cardápio e sugestões; carrinho inválido barrado pelo validador; erros de entrada do chat antes de chamar o assistente | RF-01, RF-04, RN-09 |
-| `test_agente.py` | um analista para cada ferramenta do orquestrador; dados de cada analista completos (todos os produtos, todas as regras com “N de cada 100 pedidos”, documento da loja); prompts preenchidos com a loja, os dados e a hora | RN-10 |
+| `test_agente.py` | ferramentas do orquestrador; dados de cada analista completos (todos os produtos, todas as regras com “N de cada 100 pedidos”, documento da loja); etapas com nome, objetivo e instrução; só a etapa atual no prompt; marcadores preenchidos; datas de referência; a etapa só avança | RN-10 |

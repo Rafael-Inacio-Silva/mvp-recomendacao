@@ -14,6 +14,7 @@ pedidos.csv → pipeline de dados → pedidos_limpos.csv → cestas → regras d
 | `lojas` | lista das lojas e caminho dos arquivos de cada uma | RNF-05 |
 | `pipeline` | carregar `pedidos.csv`, tratar nulos, vazios, duplicados e outliers, explorar, salvar a base limpa e gerar o cardápio com artigos (etapa 6) | RF-01, RN-01, RNF-05 |
 | `regras` | montar uma cesta por pedido e calcular as regras de associação com suporte, confiança e lift | RF-03, RN-04 |
+| `validacao` | conferir e normalizar o carrinho antes da recomendação, com um código para cada erro | RF-02, RN-01, RN-09 |
 | `recomendador` | escolher e ordenar as sugestões para um carrinho | RF-04, RF-05, RN-02, RN-03, RN-05, RN-06 |
 | `avaliacao` | medir o acerto das versões do recomendador e da referência dos mais pedidos | RF-08 |
 | `explicacao` | montar a frase de cada sugestão a partir da regra que a gerou | RF-06, RN-07, RN-08, RNF-02, RNF-03, RNF-04 |
@@ -58,6 +59,7 @@ mvp-recomendacao/
 │   └── etapa6_cardapio.py
 ├── modelo/
 │   ├── regras.py                # cestas e regras de associação
+│   ├── validacao.py             # validação do carrinho
 │   ├── recomendador.py          # sugestões para um carrinho
 │   ├── avaliacao.py             # versões, divisões de teste e taxa de acerto
 │   └── explicacao.py            # frase de cada sugestão
@@ -91,6 +93,19 @@ Não há um valor padrão para os limites. `gerar_regras.py` compara 12 combina�
 - **suporte mínimo de 1%**, para que a regra tenha evidência suficiente. Na Sabor na Mesa, sem esse limite, 88% das regras viriam de apenas 1 ou 2 pedidos;
 - **confiança mínima de 10%**, ou seja, pelo menos 1 em cada 10 pedidos com o antecedente também tem o consequente;
 - **sem filtro de lift**. A primeira versão mantinha só as regras com lift maior que 1, mas isso deixava carrinhos sem regra e diminuía o acerto.
+
+### Validação do carrinho
+
+Antes de recomendar, `validar_carrinho` confere o que chegou da tela (RN-09) e devolve `{"ok": True, "value": [itens]}` ou `{"ok": False, "errors": [...]}`, em que cada erro tem o campo (`carrinho` ou `carrinho[posição]`) e um código:
+
+| Código | Quando |
+|---|---|
+| `null` | carrinho ou item com valor vazio (`None`) |
+| `invalid_type` | carrinho que não é lista, ou item que não é texto |
+| `empty` | carrinho sem itens, ou item só com espaços |
+| `unknown_item` | item que não está no cardápio da loja |
+
+Os nomes são comparados sem diferença de maiúsculas e espaços e devolvidos com a grafia do cardápio, e um item repetido conta uma vez (RN-01). A função não lança exceção, não altera a entrada, informa todos os erros na ordem dos itens e não repete nos erros o valor recebido.
 
 ### Recomendador
 
@@ -141,5 +156,6 @@ Os testes usam pytest (`python -m pytest`) e regras pequenas montadas no própri
 | `test_recomendador.py` | no máximo 3 sugestões | RN-03 |
 | `test_recomendador.py` | sugestões em ordem de confiança, com desempate pelo lift; cada item sugerido uma vez | RN-05 |
 | `test_recomendador.py` | vagas sem regra são completadas com os mais pedidos | RN-06 |
+| `test_validacao.py` | carrinho válido é normalizado; repetidos contam uma vez; cada erro recebe o código certo, na ordem dos itens; a entrada não é alterada | RN-01, RN-09 |
 | `test_explicacao.py` | frase montada com os itens da regra | RN-07 |
 | `test_explicacao.py` | sugestão dos mais vendidos recebe a frase dos mais pedidos | RN-08 |

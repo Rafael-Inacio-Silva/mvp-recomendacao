@@ -80,6 +80,7 @@ Uma página separada mostra ao restaurante como o sistema chegou às sugestões:
 | RN-06 | Quando as regras geram menos de 3 sugestões, as vagas restantes são completadas com os itens mais pedidos que ainda não estão no carrinho. | RF-04 |
 | RN-07 | A explicação é montada a partir da regra que gerou a sugestão: “Já que você escolheu {itens do carrinho}, que tal incluir {item sugerido} no pedido?”. | RF-06 |
 | RN-08 | Quando a sugestão vem dos mais vendidos, e não de uma regra, a explicação é “Um dos itens mais pedidos da casa”. | RF-06 |
+| RN-09 | O carrinho é validado antes da recomendação: precisa ser uma lista não vazia de itens do cardápio. Nomes são comparados sem diferença de maiúsculas e espaços, item repetido conta uma vez, e um carrinho inválido recebe a lista de erros, sem sugestões. | RF-02, RF-04 |
 
 ## 7. Abordagem
 

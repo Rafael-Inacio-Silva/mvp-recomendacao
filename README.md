@@ -49,6 +49,7 @@ Ao final, a base limpa de cada loja é salva em `dados/<loja>/pedidos_limpos.csv
 | Módulo | O que faz |
 |---|---|
 | [modelo/regras.py](modelo/regras.py) | monta as cestas, calcula as regras de associação (Apriori) e compara limites de suporte e confiança |
+| [modelo/validacao.py](modelo/validacao.py) | confere o carrinho antes da recomendação: lista não vazia de itens do cardápio; devolve os itens normalizados ou a lista de erros, cada um com um código (`null`, `invalid_type`, `empty`, `unknown_item`) |
 | [modelo/recomendador.py](modelo/recomendador.py) | recebe o carrinho e devolve até 3 sugestões, ordenadas pela confiança, cada uma com a regra que a gerou; as vagas sem regra são completadas com os itens mais pedidos |
 | [modelo/explicacao.py](modelo/explicacao.py) | monta a frase de cada sugestão a partir da regra e do cardápio, por exemplo “Já que você escolheu um bowl de frango e uma água mineral, que tal incluir uma porção de nachos no pedido?” |
 | [modelo/avaliacao.py](modelo/avaliacao.py) | separa treino e teste, esconde um item de cada pedido de teste e mede o acerto no top 3 de cada versão |

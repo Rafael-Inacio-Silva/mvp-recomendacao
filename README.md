@@ -49,7 +49,7 @@ Ao final, a base limpa de cada loja é salva em `dados/<loja>/pedidos_limpos.csv
 |---|---|
 | [modelo/regras.py](modelo/regras.py) | monta as cestas, calcula as regras de associação (Apriori) e compara limites de suporte e confiança |
 | [modelo/recomendador.py](modelo/recomendador.py) | recebe o carrinho e devolve até 3 sugestões, ordenadas pela confiança, cada uma com a regra que a gerou; as vagas sem regra são completadas com os itens mais pedidos |
-| [modelo/explicacao.py](modelo/explicacao.py) | monta a frase de cada sugestão a partir da regra, por exemplo “42 de cada 100 pedidos com Água Mineral também têm Bowl de Frango” |
+| [modelo/explicacao.py](modelo/explicacao.py) | monta a frase de cada sugestão a partir da regra, por exemplo “Já que você escolheu Água Mineral, que tal incluir Bowl de Frango no pedido?” |
 | [modelo/avaliacao.py](modelo/avaliacao.py) | separa treino e teste, esconde um item de cada pedido de teste e mede o acerto no top 3 de cada versão |
 
 O arquivo `gerar_regras.py` compara os limites e gera as regras finais de cada loja, com suporte mínimo de 1% e confiança mínima de 10%. As regras são salvas em `dados/<loja>/regras.csv`.

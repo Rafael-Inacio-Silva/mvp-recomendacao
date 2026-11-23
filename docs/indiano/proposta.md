@@ -40,7 +40,7 @@ O restaurante enviou o histórico do delivery no arquivo `pedidos.csv`, com o n�
 | Pedidos com um único item | 338 (2,5%) |
 | Itens mais presentes | Arroz Pilau (35,2% dos pedidos), Naan Simples (28,0%), Papadum Simples (26,8%) |
 
-A partir desse histórico, o sistema identifica regras do tipo “quem pede A também costuma pedir B”. Quando o cliente coloca itens no carrinho, o sistema procura as regras que se aplicam a eles e mostra os itens sugeridos, cada um com uma frase explicando a relação. A frase é montada com os números da própria regra, sem IA, para que a explicação seja sempre exata, por exemplo: “52 de cada 100 pedidos com Frango Tikka Masala também têm Arroz Pilau”.
+A partir desse histórico, o sistema identifica regras do tipo “quem pede A também costuma pedir B”. Quando o cliente coloca itens no carrinho, o sistema procura as regras que se aplicam a eles e mostra os itens sugeridos, cada um com uma frase explicando a relação. A frase é montada a partir da própria regra, sem IA, por exemplo: “Já que você escolheu Frango Tikka Masala, que tal incluir Arroz Pilau no pedido?”.
 
 Uma página separada mostra ao restaurante como o sistema chegou às sugestões: o resumo dos dados, a lista de regras e os resultados da avaliação.
 
@@ -64,7 +64,7 @@ Uma página separada mostra ao restaurante como o sistema chegou às sugestões:
 | RNF-01 | Desempenho | As sugestões devem aparecer em até 1 segundo após uma alteração no carrinho, na demonstração executada localmente. |
 | RNF-02 | Desempenho | A explicação deve aparecer junto com a sugestão, sem depender de serviços externos. |
 | RNF-03 | Confiabilidade | A demonstração deve funcionar sem acesso à internet. |
-| RNF-04 | Usabilidade | Cada explicação deve estar em português e ter no máximo 20 palavras. |
+| RNF-04 | Usabilidade | Cada explicação deve estar em português. |
 | RNF-05 | Manutenibilidade | As regras devem poder ser recalculadas a partir de um novo arquivo de pedidos no mesmo formato, sem alterar o sistema. |
 | RNF-06 | Manutenibilidade | As regras de negócio RN-02 a RN-06 devem ter testes automatizados. |
 
@@ -78,7 +78,7 @@ Uma página separada mostra ao restaurante como o sistema chegou às sugestões:
 | RN-04 | Só são usadas as regras com suporte de pelo menos 1% e confiança de pelo menos 10%, limites definidos na avaliação offline. | RF-03 |
 | RN-05 | As sugestões são ordenadas pela confiança da regra. Em caso de empate, vale o maior lift. | RF-05 |
 | RN-06 | Quando as regras geram menos de 3 sugestões, as vagas restantes são completadas com os itens mais pedidos que ainda não estão no carrinho. | RF-04 |
-| RN-07 | A explicação é montada a partir da regra que gerou a sugestão: “{N} de cada 100 pedidos com {itens do carrinho} também têm {item sugerido}”, em que N vem da confiança da regra. | RF-06 |
+| RN-07 | A explicação é montada a partir da regra que gerou a sugestão: “Já que você escolheu {itens do carrinho}, que tal incluir {item sugerido} no pedido?”. | RF-06 |
 | RN-08 | Quando a sugestão vem dos mais vendidos, e não de uma regra, a explicação é “Um dos itens mais pedidos da casa”. | RF-06 |
 
 ## 7. Abordagem

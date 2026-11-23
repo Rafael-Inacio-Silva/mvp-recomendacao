@@ -96,9 +96,9 @@ As regras ficam em uma lista, com o antecedente como conjunto de itens, para que
 
 ### Explicação
 
-A frase de cada sugestão é montada com os dados da regra que a gerou (RN-07). A confiança vira uma contagem fácil de entender: confiança de 0,42 para a regra Água Mineral → Bowl de Frango vira “42 de cada 100 pedidos com Água Mineral também têm Bowl de Frango”. Quando a regra tem mais de um item no lado A, os itens são citados juntos (“Bowl de Frango e Água Mineral”). As sugestões que vêm dos mais vendidos recebem a frase “Um dos itens mais pedidos da casa” (RN-08).
+A frase de cada sugestão é montada com os itens da regra que a gerou (RN-07): a regra Água Mineral → Bowl de Frango vira “Já que você escolheu Água Mineral, que tal incluir Bowl de Frango no pedido?”. Quando a regra tem mais de um item no lado A, os itens são citados juntos (“Bowl de Frango e Água Mineral”). As sugestões que vêm dos mais vendidos recebem a frase “Um dos itens mais pedidos da casa” (RN-08).
 
-A explicação não usa modelo de linguagem: como a frase só repete números que o sistema já calculou, um modelo de linguagem acrescentaria custo, demora e risco de citar algo fora da regra, sem acrescentar informação.
+A explicação não usa modelo de linguagem: como a frase só cita itens da regra, um modelo de linguagem acrescentaria custo, demora e risco de citar algo fora da regra, sem acrescentar informação.
 
 ## 5. Avaliação
 
@@ -120,7 +120,7 @@ Os resultados de cada loja estão nos relatórios: [Sabor na Mesa](mexicano/rela
 
 ## 6. Testes
 
-Os testes usam pytest (`python -m pytest`) e regras pequenas montadas no próprio teste, para não depender dos dados das lojas. A exceção é o teste do tamanho das frases, que confere todas as regras geradas de cada loja.
+Os testes usam pytest (`python -m pytest`) e regras pequenas montadas no próprio teste, para não depender dos dados das lojas.
 
 | Arquivo | Teste | Regra verificada |
 |---|---|---|
@@ -130,6 +130,5 @@ Os testes usam pytest (`python -m pytest`) e regras pequenas montadas no própri
 | `test_recomendador.py` | no máximo 3 sugestões | RN-03 |
 | `test_recomendador.py` | sugestões em ordem de confiança, com desempate pelo lift; cada item sugerido uma vez | RN-05 |
 | `test_recomendador.py` | vagas sem regra são completadas com os mais pedidos | RN-06 |
-| `test_explicacao.py` | frase montada com a confiança e os itens da regra | RN-07 |
+| `test_explicacao.py` | frase montada com os itens da regra | RN-07 |
 | `test_explicacao.py` | sugestão dos mais vendidos recebe a frase dos mais pedidos | RN-08 |
-| `test_explicacao.py` | todas as frases das regras reais têm até 20 palavras | RNF-04 |

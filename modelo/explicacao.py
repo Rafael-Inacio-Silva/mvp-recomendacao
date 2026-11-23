@@ -1,7 +1,6 @@
 """Frase de explicação de cada sugestão, montada a partir da regra que a gerou."""
 
 FRASE_POPULAR = "Um dos itens mais pedidos da casa"
-MAXIMO_PALAVRAS = 20
 
 
 def juntar_itens(itens):
@@ -18,7 +17,6 @@ def explicar(sugestao):
     if sugestao["origem"] == "popular":
         return FRASE_POPULAR
 
-    # Confiança da regra como contagem a cada 100 pedidos (RN-07)
-    a_cada_100 = round(sugestao["confianca"] * 100)
-    antecedente = juntar_itens(sugestao["antecedente"])
-    return f"{a_cada_100} de cada 100 pedidos com {antecedente} também têm {sugestao['item']}"
+    # Itens do carrinho que formam a regra e item sugerido (RN-07)
+    escolhidos = juntar_itens(sugestao["antecedente"])
+    return f"Já que você escolheu {escolhidos}, que tal incluir {sugestao['item']} no pedido?"

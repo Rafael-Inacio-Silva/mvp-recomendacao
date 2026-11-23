@@ -29,6 +29,19 @@ Os restaurantes e os e-mails são fictícios, mas os pedidos são reais, vindos 
 | Sabor na Mesa | `chipotle.tsv`, pedidos da rede Chipotle, conjunto público usado em cursos de análise de dados | colunas de quantidade, opções escolhidas e preço removidas |
 | Casa Masala | `restaurant-1-orders.csv`, do conjunto [Takeaway Food Orders](https://www.kaggle.com/datasets/henslersoftware/19560-indian-takeaway-orders) (Kaggle), pedidos de um restaurante indiano de Londres | licença “Data files © Original Authors”; os direitos sobre os dados são dos autores originais, e o uso aqui é só para estudo |
 
+### Arquivos de dados no repositório
+
+O repositório guarda só os dados de entrada. Tudo o que os scripts calculam é gerado de novo a cada execução, inclusive no servidor, e por isso fica fora do Git (`.gitignore`).
+
+| Arquivo | No repositório? | Motivo |
+|---|---|---|
+| `pedidos.csv` | sim | histórico enviado por cada restaurante; é a entrada de tudo |
+| `cardapio.csv` | sim, como exceção | é gerado pelo LLM (etapa 6), que exige a chave da OpenAI e tem custo |
+| `gabarito_cardapio.csv` | sim | conferência manual dos artigos do cardápio |
+| `pedidos_limpos.csv`, `regras.csv`, `avaliacao.csv` | não | gerados pelos scripts em segundos, sem custo |
+
+**Por que o `cardapio.csv` é exceção.** A etapa 6 só chama o LLM para os itens que ainda não estão no `cardapio.csv`. Com o arquivo no repositório, o servidor já recebe o cardápio pronto a cada atualização, e o LLM não roda de novo. Sem ele, cada atualização chamaria o LLM para os 288 itens das duas lojas, o que exigiria a chave da OpenAI no servidor, levaria cerca de um minuto, teria custo e poderia mudar algum artigo já conferido. Assim, o LLM roda uma vez e só volta a rodar quando entra um item novo no cardápio.
+
 ## Pipeline de dados
 
 Cada etapa da preparação dos dados fica em um módulo da pasta `pipeline/`, e o arquivo `analise_dados.py` executa as etapas em sequência para cada loja.

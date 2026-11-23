@@ -40,7 +40,7 @@ O restaurante enviou o histórico do delivery no arquivo `pedidos.csv`, com o n�
 | Pedidos com um único item | 338 (2,5%) |
 | Itens mais presentes | Arroz Pilau (35,2% dos pedidos), Naan Simples (28,0%), Papadum Simples (26,8%) |
 
-A partir desse histórico, o sistema identifica regras do tipo “quem pede A também costuma pedir B”. Quando o cliente coloca itens no carrinho, o sistema procura as regras que se aplicam a eles e mostra os itens sugeridos, cada um com uma frase explicando a relação. A frase pode ser escrita por IA, mas a escolha do item é sempre feita pelas regras calculadas a partir dos dados.
+A partir desse histórico, o sistema identifica regras do tipo “quem pede A também costuma pedir B”. Quando o cliente coloca itens no carrinho, o sistema procura as regras que se aplicam a eles e mostra os itens sugeridos, cada um com uma frase explicando a relação. A frase é montada com os números da própria regra, sem IA, para que a explicação seja sempre exata, por exemplo: “52 de cada 100 clientes que pedem Frango Tikka Masala também levam Arroz Pilau”.
 
 Uma página separada mostra ao restaurante como o sistema chegou às sugestões: o resumo dos dados, a lista de regras e os resultados da avaliação.
 
@@ -62,8 +62,8 @@ Uma página separada mostra ao restaurante como o sistema chegou às sugestões:
 | RNF | Tipo | Descrição |
 |---|---|---|
 | RNF-01 | Desempenho | As sugestões devem aparecer em até 1 segundo após uma alteração no carrinho, na demonstração executada localmente. |
-| RNF-02 | Desempenho | A explicação deve aparecer em até 5 segundos; passado esse tempo, é exibida a frase padrão (RN-08). |
-| RNF-03 | Confiabilidade | A demonstração deve funcionar mesmo sem acesso ao serviço de IA. |
+| RNF-02 | Desempenho | A explicação deve aparecer junto com a sugestão, sem depender de serviços externos. |
+| RNF-03 | Confiabilidade | A demonstração deve funcionar sem acesso à internet. |
 | RNF-04 | Usabilidade | Cada explicação deve estar em português e ter no máximo 20 palavras. |
 | RNF-05 | Manutenibilidade | As regras devem poder ser recalculadas a partir de um novo arquivo de pedidos no mesmo formato, sem alterar o sistema. |
 | RNF-06 | Manutenibilidade | As regras de negócio RN-02 a RN-06 devem ter testes automatizados. |
@@ -78,8 +78,8 @@ Uma página separada mostra ao restaurante como o sistema chegou às sugestões:
 | RN-04 | Só são usadas as regras com suporte de pelo menos 1% e confiança de pelo menos 10%, limites definidos na avaliação offline. | RF-03 |
 | RN-05 | As sugestões são ordenadas pela confiança da regra. Em caso de empate, vale o maior lift. | RF-05 |
 | RN-06 | Quando as regras geram menos de 3 sugestões, as vagas restantes são completadas com os itens mais pedidos que ainda não estão no carrinho. | RF-04 |
-| RN-07 | A explicação cita o item do carrinho e o item sugerido da regra que gerou a sugestão. A IA não escolhe nem altera a sugestão. | RF-06 |
-| RN-08 | Se a explicação por IA não puder ser gerada, é usada a frase padrão “Quem pede {item do carrinho} costuma levar {item sugerido}”. | RF-06 |
+| RN-07 | A explicação é montada a partir da regra que gerou a sugestão: “{N} de cada 100 clientes que pedem {item do carrinho} também levam {item sugerido}”, em que N vem da confiança da regra. | RF-06 |
+| RN-08 | Quando a sugestão vem dos mais vendidos, e não de uma regra, a explicação é “Um dos itens mais pedidos da casa”. | RF-06 |
 
 ## 7. Abordagem
 
@@ -123,8 +123,7 @@ Uma semana (5 dias úteis), porque o sistema da Sabor na Mesa é reaproveitado:
 |---|---|
 | Cardápio grande (244 itens), com muitos itens que aparecem em poucos pedidos | limites mínimos nas regras (RN-04) e sugestão dos mais pedidos (RN-06) |
 | Itens populares dominarem as sugestões | as sugestões vêm de regras ligadas ao carrinho, e a avaliação compara o resultado com a referência dos mais pedidos |
-| Explicação da IA citar algo fora da regra | a IA recebe só os dados da regra; se a frase não citar os dois itens, vale a frase padrão (RN-07 e RN-08) |
-| Serviço de IA indisponível | frase padrão sempre disponível (RNF-03) |
+| Explicação prometer algo que os dados não mostram | a frase é montada com os números da própria regra (RN-07) |
 | Histórico sem data e sem identificação do cliente | o MVP não usa horário nem perfil; isso fica para fases futuras |
 
 ## 11. Próximas fases

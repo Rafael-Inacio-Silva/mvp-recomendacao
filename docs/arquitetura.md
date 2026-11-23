@@ -15,7 +15,7 @@ pedidos.csv → pipeline de dados → pedidos_limpos.csv → cestas → regras d
 | `regras` | montar uma cesta por pedido e calcular as regras de associação com suporte, confiança e lift | RF-03, RN-04 |
 | `recomendador` | escolher e ordenar as sugestões para um carrinho | RF-04, RF-05, RN-02, RN-03, RN-05, RN-06 |
 | `avaliacao` | medir o acerto das versões do recomendador e da referência dos mais pedidos | RF-08 |
-| `explicacao` | gerar a frase de cada sugestão, com IA ou frase padrão | RF-06, RN-07, RN-08, RNF-02, RNF-03, RNF-04 |
+| `explicacao` | montar a frase de cada sugestão a partir da regra que a gerou | RF-06, RN-07, RN-08, RNF-02, RNF-03, RNF-04 |
 | `app` | tela de demonstração e página “Como funciona” | RF-01, RF-02, RF-07, RF-08 |
 
 O recomendador não depende da tela nem da explicação. Assim, ele pode ser testado sozinho, e a forma de explicar pode mudar sem afetar as sugestões.
@@ -27,7 +27,7 @@ O recomendador não depende da tela nem da explicação. Assim, ele pode ser tes
 | Linguagem | Python | bibliotecas prontas para dados e regras de associação |
 | Dados | pandas | leitura e agrupamento dos pedidos |
 | Regras | mlxtend (Apriori) | implementação conhecida, que já calcula suporte, confiança e lift |
-| Explicação | API de modelo de linguagem | texto natural; a frase padrão garante o funcionamento sem a API |
+| Explicação | frase montada em Python | exata, instantânea e sem custo, porque usa os números da própria regra |
 | Tela | Streamlit | demonstração em Python, sem front-end separado |
 | Testes | pytest | testes das regras de negócio |
 
@@ -55,7 +55,7 @@ mvp-recomendacao/
 │   ├── regras.py                # cestas e regras de associação
 │   ├── recomendador.py          # sugestões para um carrinho
 │   ├── avaliacao.py             # versões, divisões de teste e taxa de acerto
-│   └── explicacao.py            # frase da IA e frase padrão
+│   └── explicacao.py            # frase de cada sugestão
 ├── lojas.py                     # lojas e caminhos dos arquivos
 ├── analise_dados.py             # executa o pipeline
 ├── gerar_regras.py              # calcula e compara as regras
@@ -95,9 +95,9 @@ As regras ficam em uma lista, com o antecedente como conjunto de itens, para que
 
 ### Explicação
 
-O modelo de linguagem recebe apenas os nomes dos itens A e B e as métricas da regra, e é instruído a escrever uma frase de até 20 palavras em português. Depois da resposta, o sistema confere se a frase cita os dois itens e respeita o tamanho (RN-07, RNF-04). Se a frase não passar na conferência, se a chamada falhar ou se demorar mais de 5 segundos, é usada a frase padrão (RN-08, RNF-02).
+A frase de cada sugestão é montada com os dados da regra que a gerou (RN-07). A confiança vira uma contagem fácil de entender: confiança de 0,42 para a regra Água Mineral → Bowl de Frango vira “42 de cada 100 clientes que pedem Água Mineral também levam Bowl de Frango”. Quando a regra tem mais de um item no lado A, os itens são citados juntos (“Bowl de Frango e Água Mineral”). As sugestões que vêm dos mais vendidos recebem a frase “Um dos itens mais pedidos da casa” (RN-08).
 
-As frases já geradas ficam guardadas em memória durante a execução, para não repetir a chamada para a mesma regra.
+A explicação não usa modelo de linguagem: como a frase só repete números que o sistema já calculou, um modelo de linguagem acrescentaria custo, demora e risco de citar algo fora da regra, sem acrescentar informação.
 
 ## 5. Avaliação
 
@@ -124,4 +124,4 @@ Os resultados de cada loja estão nos relatórios: [Sabor na Mesa](mexicano/rela
 | no máximo 3 sugestões | RN-03 |
 | sugestões em ordem de confiança, com desempate pelo lift | RN-05 |
 | vagas sem regra são completadas com os mais pedidos | RN-06 |
-| falha da IA resulta na frase padrão | RN-08 |
+| sugestão dos mais vendidos recebe a frase dos mais pedidos | RN-08 |

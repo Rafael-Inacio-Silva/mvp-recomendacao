@@ -3,7 +3,7 @@
 **De:** Rodrigo Almeida — Sócio-Proprietário, Casa Masala Cozinha Indiana
 **Para:** Equipe da PratoTech
 **Assunto:** MVP de recomendação de itens para o nosso delivery
-**Anexo:** pedidos.csv
+**Anexos:** pedidos.csv, loja.md e produtos.csv
 
 Olá, pessoal da PratoTech!
 
@@ -14,6 +14,8 @@ Nosso delivery é bem montado: a maioria dos clientes pede um curry, um arroz, u
 A ideia é que o sistema sugira itens que combinem com o que a pessoa já escolheu. Por exemplo: quem adiciona um frango tikka masala pode receber a sugestão de arroz pilau ou naan de alho; quem pede papadum pode receber chutney de manga ou molho de hortelã. Cada sugestão deve vir com uma explicação curta, baseada nos nossos pedidos.
 
 Em anexo, mando o histórico de pedidos do delivery (pedidos.csv), com 13.397 pedidos. Cada linha traz o número do pedido e um item; as linhas com o mesmo número formam um pedido.
+
+Também mando os dados da empresa (loja.md), com endereço, horários, delivery, formas de pagamento e contato, e a descrição de cada produto do cardápio (produtos.csv), caso ajudem na demonstração.
 
 Para o MVP, esperamos o mesmo que a Sabor na Mesa pediu:
 

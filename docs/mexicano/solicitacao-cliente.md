@@ -3,7 +3,7 @@
 **De:** Mariana Costa — Sócia e Gerente de Operações, Sabor na Mesa Cozinha Mexicana
 **Para:** Equipe da PratoTech
 **Assunto:** Proposta para MVP de recomendação de itens no delivery
-**Anexo:** pedidos.csv
+**Anexos:** pedidos.csv, loja.md e produtos.csv
 
 Olá, pessoal da PratoTech, tudo bem?
 
@@ -16,6 +16,8 @@ A ideia é que o sistema recomende acompanhamentos, bebidas ou outros pratos a p
 As sugestões devem vir da associação entre itens que aparecem juntos nos mesmos pedidos. Para cada uma, a tela também precisa mostrar uma explicação curta e natural, como: “Quem pede burrito de frango costuma levar nachos com guacamole”. A explicação pode ser gerada por IA, mas as sugestões têm que se basear nos nossos dados e nas regras calculadas pelo sistema.
 
 Em anexo, mando o histórico de pedidos do delivery (pedidos.csv), com 1.834 pedidos. Cada linha traz o número do pedido e um item; as linhas com o mesmo número formam um pedido.
+
+Também mando os dados da empresa (loja.md), com endereço, horários, delivery, formas de pagamento e contato, e a descrição de cada produto do cardápio (produtos.csv), caso ajudem na demonstração.
 
 Para o MVP, esperamos:
 

@@ -1,14 +1,17 @@
-# MVP de recomendação de itens — Sabor na Mesa
+# MVP de recomendação de itens — PratoTech
 
-Projeto preparado para a entrevista a partir de um cenário fictício. A Sabor na Mesa, um restaurante de culinária mexicana em São Paulo, pede à PratoTech um MVP que recomende itens com base no carrinho do delivery, usando regras de associação calculadas a partir dos pedidos.
+Projeto preparado para a entrevista a partir de um cenário fictício. Restaurantes de São Paulo pedem à PratoTech um MVP que recomende itens com base no carrinho do delivery, usando regras de associação calculadas a partir dos pedidos.
 
-- [Solicitação do cliente](docs/solicitacao-cliente.md): e-mail com o escopo do MVP.
 - [Proposta](docs/proposta.md): propósito, escopo, requisitos (RF, RNF e regras de negócio), critérios de avaliação, prazo e riscos.
 - [Arquitetura](docs/arquitetura.md): componentes, tecnologias, organização do código e funcionamento do recomendador.
 
-## Dados
+## Lojas
 
-[pedidos.csv](dados/pedidos.csv) é o histórico de pedidos enviado pelo restaurante: 4.622 linhas, 1.834 pedidos e 45 itens distintos.
+| Loja | Solicitação | Relatório | Pedidos | Itens | Itens por pedido |
+|---|---|---|---|---|---|
+| Sabor na Mesa Cozinha Mexicana | [e-mail](docs/mexicano/solicitacao-cliente.md) | [relatório](docs/mexicano/relatorio.md) | 1.834 | 45 | 2,3 |
+
+Cada loja tem a sua pasta em `dados/`, com o arquivo `pedidos.csv` no mesmo formato:
 
 | Coluna | Descrição |
 |---|---|
@@ -19,7 +22,7 @@ Um mesmo item pode aparecer em mais de uma linha do mesmo pedido. Para as regras
 
 ## Pipeline de dados
 
-Cada etapa da preparação dos dados fica em um módulo da pasta `pipeline/`, e o arquivo `analise_dados.py` executa as etapas em sequência.
+Cada etapa da preparação dos dados fica em um módulo da pasta `pipeline/`, e o arquivo `analise_dados.py` executa as etapas em sequência para cada loja.
 
 | Etapa | Módulo | O que faz |
 |---|---|---|
@@ -29,29 +32,30 @@ Cada etapa da preparação dos dados fica em um módulo da pasta `pipeline/`, e 
 | 4 | [etapa4_outliers.py](pipeline/etapa4_outliers.py) | identifica pedidos com quantidade atípica de itens (IQR) e itens raros; remove os pedidos acima do limite superior |
 | 5 | [etapa5_exploracao.py](pipeline/etapa5_exploracao.py) | mostra o resumo da base limpa e os itens e pares mais frequentes |
 
-Ao final, a base limpa é salva em `dados/pedidos_limpos.csv`, que é a entrada do modelo.
+Ao final, a base limpa de cada loja é salva em `dados/<loja>/pedidos_limpos.csv`, que é a entrada do modelo.
 
 ## Modelo
 
 | Módulo | O que faz |
 |---|---|
 | [modelo/regras.py](modelo/regras.py) | monta as cestas, calcula as regras de associação (Apriori) e compara limites de suporte e confiança |
-| [modelo/recomendador.py](modelo/recomendador.py) | recebe o carrinho e devolve até 3 sugestões, ordenadas por lift, cada uma com a regra que a gerou; as vagas sem regra são completadas com os itens mais pedidos |
-| [modelo/avaliacao.py](modelo/avaliacao.py) | separa treino e teste, esconde um item de cada pedido de teste e mede o acerto no top 3 |
+| [modelo/recomendador.py](modelo/recomendador.py) | recebe o carrinho e devolve até 3 sugestões, ordenadas pela confiança, cada uma com a regra que a gerou; as vagas sem regra são completadas com os itens mais pedidos |
+| [modelo/avaliacao.py](modelo/avaliacao.py) | separa treino e teste, esconde um item de cada pedido de teste e mede o acerto no top 3 de cada versão |
 
-O arquivo `gerar_regras.py` compara os limites e gera as regras finais, com suporte mínimo de 1%, confiança mínima de 20% e lift maior que 1. As regras são salvas em `dados/regras.csv`.
+O arquivo `gerar_regras.py` compara os limites e gera as regras finais de cada loja, com suporte mínimo de 1% e confiança mínima de 10%. As regras são salvas em `dados/<loja>/regras.csv`.
 
 ## Avaliação
 
-O arquivo `avaliar.py` compara as versões do recomendador com a referência de sugerir sempre os 3 itens mais pedidos:
+O arquivo `avaliar.py` compara três versões do recomendador com a referência de sugerir sempre os 3 itens mais pedidos, em uma divisão única 80/20 e em uma validação cruzada de 5 dobras. Acerto no top 3 na validação cruzada:
 
-| Versão | Acerto no top 3 |
+| Versão | Sabor na Mesa |
 |---|---|
-| Versão 1: só regras | 36,8% |
-| Versão 2: regras + mais pedidos completando as vagas | 45,5% |
-| Referência: só mais pedidos | 45,8% |
+| 1: regras por lift, sem completar as vagas | 32,6% |
+| 2: regras por lift + mais pedidos | 45,2% |
+| **3: regras por confiança + mais pedidos (MVP)** | **47,3%** |
+| Referência: só mais pedidos | 43,6% |
 
-A versão 1 deixava vagas vazias, por isso ficou abaixo da referência. A versão 2 empata com ela e continua sugerindo conforme o carrinho. A análise completa está na [arquitetura](docs/arquitetura.md#5-avaliação).
+A explicação de cada versão e dos resultados está no relatório de cada loja.
 
 ## Como executar
 

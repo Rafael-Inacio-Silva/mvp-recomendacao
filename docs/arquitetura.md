@@ -1,6 +1,6 @@
 # Arquitetura — MVP de recomendação de itens
 
-Versão inicial, elaborada a partir da [proposta](proposta.md). Os limites das regras e alguns detalhes serão definidos depois da análise exploratória dos dados.
+Elaborada a partir da [proposta](proposta.md). O mesmo código atende mais de uma loja: cada loja tem a sua pasta de dados, e o pipeline, as regras e a avaliação são executados para todas.
 
 ## 1. Visão geral
 
@@ -10,9 +10,11 @@ pedidos.csv → pipeline de dados → pedidos_limpos.csv → cestas → regras d
 
 | Componente | Responsabilidade | Requisitos atendidos |
 |---|---|---|
+| `lojas` | lista das lojas e caminho dos arquivos de cada uma | RNF-05 |
 | `pipeline` | carregar `pedidos.csv`, tratar nulos, vazios, duplicados e outliers, explorar e salvar a base limpa | RF-01, RN-01, RNF-05 |
 | `regras` | montar uma cesta por pedido e calcular as regras de associação com suporte, confiança e lift | RF-03, RN-04 |
 | `recomendador` | escolher e ordenar as sugestões para um carrinho | RF-04, RF-05, RN-02, RN-03, RN-05, RN-06 |
+| `avaliacao` | medir o acerto das versões do recomendador e da referência dos mais pedidos | RF-08 |
 | `explicacao` | gerar a frase de cada sugestão, com IA ou frase padrão | RF-06, RN-07, RN-08, RNF-02, RNF-03, RNF-04 |
 | `app` | tela de demonstração e página “Como funciona” | RF-01, RF-02, RF-07, RF-08 |
 
@@ -34,8 +36,16 @@ O recomendador não depende da tela nem da explicação. Assim, ele pode ser tes
 ```
 mvp-recomendacao/
 ├── dados/
-│   ├── pedidos.csv              # histórico enviado pelo restaurante
-│   └── pedidos_limpos.csv       # gerado pelo pipeline
+│   ├── mexicano/
+│   │   ├── pedidos.csv          # histórico enviado pela Sabor na Mesa
+│   │   ├── pedidos_limpos.csv   # gerado pelo pipeline
+│   │   └── regras.csv           # gerado por gerar_regras.py
+│   └── indiano/                 # mesma estrutura, para a Casa Masala
+├── docs/
+│   ├── proposta.md
+│   ├── arquitetura.md
+│   ├── mexicano/                # solicitação e relatório da Sabor na Mesa
+│   └── indiano/                 # solicitação e relatório da Casa Masala
 ├── pipeline/                    # uma etapa por módulo
 │   ├── etapa1_carregamento.py
 │   ├── etapa2_nulos_vazios.py
@@ -45,8 +55,9 @@ mvp-recomendacao/
 ├── modelo/
 │   ├── regras.py                # cestas e regras de associação
 │   ├── recomendador.py          # sugestões para um carrinho
-│   ├── avaliacao.py             # treino, teste e taxa de acerto
+│   ├── avaliacao.py             # versões, divisões de teste e taxa de acerto
 │   └── explicacao.py            # frase da IA e frase padrão
+├── lojas.py                     # lojas e caminhos dos arquivos
 ├── analise_dados.py             # executa o pipeline
 ├── gerar_regras.py              # calcula e compara as regras
 ├── avaliar.py                   # executa a avaliação offline
@@ -62,15 +73,13 @@ As linhas de `pedidos.csv` são agrupadas por `id_pedido`. Cada pedido vira um c
 
 ### Regras de associação
 
-O Apriori encontra os conjuntos de itens frequentes, ou seja, com suporte acima do mínimo. A partir deles, são geradas as regras A → B com confiança acima do mínimo (RN-04). Cada regra guarda suporte, confiança e lift.
+O Apriori encontra os conjuntos de itens frequentes, ou seja, com suporte acima do mínimo. A partir deles, são geradas as regras A → B com confiança acima do mínimo (RN-04). Só ficam as regras em que B é um único item, e cada regra guarda suporte, confiança e lift.
 
-Não há um valor padrão para os limites. Eles foram escolhidos comparando 12 combinações de suporte e confiança pela quantidade de regras, pela cobertura dos pedidos e pelo lift médio:
+Não há um valor padrão para os limites. `gerar_regras.py` compara 12 combinações pela quantidade de regras, pela cobertura dos pedidos, pela confiança média e pelo lift médio, e a escolha final veio da avaliação offline (seção 5):
 
-- **suporte mínimo de 1%**, cerca de 18 pedidos, para que a regra tenha evidência suficiente. Sem esse limite, 88% das regras viriam de apenas 1 ou 2 pedidos;
-- **confiança mínima de 20%**, ou seja, pelo menos 1 em cada 5 pedidos com o antecedente também tem o consequente;
-- **lift maior que 1**, para manter apenas as associações positivas.
-
-Com esses valores, são geradas 23 regras, que se aplicam a 76,4% dos pedidos. A avaliação offline (seção 5) confirmou essa combinação: entre as combinações testadas, foi a de maior acerto.
+- **suporte mínimo de 1%**, para que a regra tenha evidência suficiente. Na Sabor na Mesa, sem esse limite, 88% das regras viriam de apenas 1 ou 2 pedidos;
+- **confiança mínima de 10%**, ou seja, pelo menos 1 em cada 10 pedidos com o antecedente também tem o consequente;
+- **sem filtro de lift**. A primeira versão mantinha só as regras com lift maior que 1, mas isso deixava carrinhos sem regra e diminuía o acerto.
 
 ### Recomendador
 
@@ -78,12 +87,12 @@ Para um carrinho:
 
 1. seleciona as regras cujo lado A está contido no carrinho;
 2. descarta as regras cujo item B já está no carrinho (RN-02);
-3. quando um mesmo item B vem de mais de uma regra, mantém a regra com maior lift;
-4. ordena por lift e, em caso de empate, por confiança (RN-05);
+3. ordena por confiança e, em caso de empate, por lift (RN-05);
+4. quando um mesmo item B vem de mais de uma regra, mantém a de maior confiança;
 5. devolve até 3 sugestões (RN-03);
 6. se sobrarem menos de 3, completa as vagas com os itens mais pedidos que não estão no carrinho (RN-06).
 
-Cada sugestão carrega a regra que a gerou, para que a explicação e a página “Como funciona” possam mostrá-la.
+Cada sugestão carrega a regra que a gerou, para que a explicação e a página “Como funciona” possam mostrá-la. Os parâmetros `criterio="lift"` e `completar=False` reproduzem as primeiras versões, usadas só na avaliação.
 
 ### Explicação
 
@@ -93,27 +102,19 @@ As frases já geradas ficam guardadas em memória durante a execução, para nã
 
 ## 5. Avaliação
 
-1. Os pedidos são divididos em 80% para treino e 20% para teste, com semente fixa para que o resultado possa ser reproduzido.
-2. As regras são calculadas só com os pedidos de treino.
-3. Em cada pedido de teste com dois itens ou mais, cada item é escondido uma vez, e os demais formam o carrinho.
-4. São calculadas a taxa de acerto no top 3 (Hit Rate@3), a cobertura e o lift médio das sugestões.
-5. A mesma taxa de acerto é calculada para a referência dos 3 itens mais pedidos.
+1. As regras e os mais pedidos são calculados só com os pedidos de treino.
+2. Em cada pedido de teste com dois itens ou mais, cada item é escondido uma vez, e os demais formam o carrinho.
+3. A taxa de acerto no top 3 (Hit Rate@3) é a parte dos casos em que o item escondido aparece entre as sugestões.
+4. São comparadas três versões do recomendador e a referência de sugerir sempre os 3 itens mais pedidos.
+5. A avaliação é feita em duas formas, ambas com semente fixa: uma divisão única (80% treino, 20% teste) e uma validação cruzada de 5 dobras, em que todos os pedidos passam pelo teste uma vez.
 
-### Resultado
+| Versão | Limites | Ordenação | Vagas sem regra |
+|---|---|---|---|
+| 1 | confiança 20%, lift > 1 | lift | vazias |
+| 2 | confiança 20%, lift > 1 | lift | mais pedidos |
+| 3 (MVP) | confiança 10%, sem filtro de lift | confiança | mais pedidos |
 
-| Versão | Acerto no top 3 |
-|---|---|
-| Versão 1: só regras; mais pedidos apenas quando nenhuma regra se aplica | 36,8% |
-| Versão 2: regras primeiro, mais pedidos completando as vagas | 45,5% |
-| Referência: sempre os 3 mais pedidos | 45,8% |
-
-Foram 771 casos de teste, vindos de 358 pedidos. As regras se aplicaram a 59,9% dos casos.
-
-A versão 1 acertou menos que a referência porque, em 433 dos 771 casos, devolvia só 1 ou 2 sugestões. A versão 2 completa essas vagas e empata com a referência. Por isso, a RN-06 passou a valer sempre que houver menos de 3 sugestões por regra.
-
-O empate se explica pela base: ela é pequena (1.789 pedidos), os pedidos são curtos (2,3 itens em média) e poucos itens dominam (o Bowl de Frango está em um terço dos pedidos). Mesmo assim, as regras sugerem itens conforme o carrinho e permitem explicar cada sugestão. Uma alternativa foi testada: sugerir os itens com nome mais parecido com os do carrinho. Ela acertou 7,8%, porque indica substitutos (um burrito para quem já tem um burrito), e não complementos.
-
-O ganho real das sugestões, ou seja, o aumento do ticket médio, só pode ser medido com um teste A/B em produção.
+Os resultados de cada loja estão nos relatórios: [Sabor na Mesa](mexicano/relatorio.md).
 
 ## 6. Testes planejados
 
@@ -122,6 +123,6 @@ O ganho real das sugestões, ou seja, o aumento do ticket médio, só pode ser m
 | item repetido no mesmo pedido conta uma vez | RN-01 |
 | item do carrinho nunca aparece nas sugestões | RN-02 |
 | no máximo 3 sugestões | RN-03 |
-| sugestões em ordem de lift, com desempate pela confiança | RN-05 |
+| sugestões em ordem de confiança, com desempate pelo lift | RN-05 |
 | vagas sem regra são completadas com os mais pedidos | RN-06 |
 | falha da IA resulta na frase padrão | RN-08 |

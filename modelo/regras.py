@@ -3,16 +3,14 @@
 import pandas as pd
 from mlxtend.frequent_patterns import apriori, association_rules
 
-CAMINHO_PEDIDOS_LIMPOS = "dados/pedidos_limpos.csv"
-CAMINHO_REGRAS = "dados/regras.csv"
 COLUNAS_REGRAS = ["antecedents", "consequents", "support", "confidence", "lift"]
 
-# Limites escolhidos na comparação de combinações
+# Limites escolhidos pela avaliação offline
 SUPORTE_MINIMO = 0.01
-CONFIANCA_MINIMA = 0.2
+CONFIANCA_MINIMA = 0.1
 
 
-def carregar_pedidos_limpos(caminho=CAMINHO_PEDIDOS_LIMPOS):
+def carregar_pedidos_limpos(caminho):
     """Lê a base limpa gerada pelo pipeline de dados."""
     return pd.read_csv(caminho)
 
@@ -22,8 +20,11 @@ def montar_cestas(df):
     return pd.crosstab(df["id_pedido"], df["item"]).astype(bool)
 
 
-def calcular_regras(cestas, suporte_minimo=SUPORTE_MINIMO, confianca_minima=CONFIANCA_MINIMA):
-    """Calcula as regras com suporte e confiança acima dos limites e lift maior que 1."""
+def calcular_regras(cestas, suporte_minimo=SUPORTE_MINIMO, confianca_minima=CONFIANCA_MINIMA, filtrar_lift=False):
+    """Calcula as regras com suporte e confiança acima dos limites.
+
+    Com `filtrar_lift=True`, mantém só as regras com lift maior que 1 (primeira versão).
+    """
     frequentes = apriori(cestas, min_support=suporte_minimo, use_colnames=True)
 
     # Sem conjuntos de dois itens ou mais, não há regras
@@ -37,8 +38,12 @@ def calcular_regras(cestas, suporte_minimo=SUPORTE_MINIMO, confianca_minima=CONF
         min_threshold=confianca_minima,
     )
 
-    # Apenas associações positivas
-    regras = regras[regras["lift"] > 1]
+    # Apenas regras que sugerem um único item
+    regras = regras[regras["consequents"].apply(len) == 1]
+
+    # Apenas associações positivas (primeira versão)
+    if filtrar_lift:
+        regras = regras[regras["lift"] > 1]
 
     return regras[COLUNAS_REGRAS].reset_index(drop=True)
 
@@ -66,6 +71,7 @@ def testar_limites(cestas, suportes, confiancas):
                 "confianca_minima": confianca,
                 "regras": len(regras),
                 "cobertura_%": round(calcular_cobertura(cestas, regras), 1),
+                "confianca_media": round(regras["confidence"].mean(), 2) if len(regras) else 0,
                 "lift_medio": round(regras["lift"].mean(), 2) if len(regras) else 0,
             })
 
@@ -80,9 +86,9 @@ def formatar_regras(regras):
         "suporte": regras["support"].round(4),
         "confianca": regras["confidence"].round(4),
         "lift": regras["lift"].round(4),
-    }).sort_values(["lift", "confianca"], ascending=False).reset_index(drop=True)
+    }).sort_values(["confianca", "lift"], ascending=False).reset_index(drop=True)
 
 
-def salvar_regras(regras, caminho=CAMINHO_REGRAS):
+def salvar_regras(regras, caminho):
     """Salva as regras formatadas em CSV."""
     regras.to_csv(caminho, index=False)

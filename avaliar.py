@@ -1,44 +1,33 @@
-"""Avalia o recomendador com pedidos separados para teste."""
+"""Avalia as versões do recomendador com pedidos separados para teste, para cada loja."""
 
-from modelo.avaliacao import PROPORCAO_TESTE, avaliar, dividir_pedidos, montar_casos, treinar
+from lojas import LOJAS, caminho, lojas_disponiveis
+from modelo.avaliacao import DOBRAS, PROPORCAO_TESTE, avaliar_divisoes, dividir_em_dobras, dividir_pedidos
 from modelo.regras import carregar_pedidos_limpos
 
 
-def executar():
-    pedidos = carregar_pedidos_limpos()
+def executar(loja):
+    print(f"\n{'#' * 60}\n# Loja: {LOJAS[loja]}\n{'#' * 60}\n")
 
-    # Divisão em treino e teste
-    treino, teste = dividir_pedidos(pedidos)
-    print(f"Pedidos de treino: {treino['id_pedido'].nunique()}")
-    print(f"Pedidos de teste: {teste['id_pedido'].nunique()} ({PROPORCAO_TESTE:.0%})\n")
+    pedidos = carregar_pedidos_limpos(caminho(loja, "pedidos_limpos.csv"))
+    print(f"Pedidos: {pedidos['id_pedido'].nunique()}")
 
-    # Regras e mais pedidos calculados só com o treino
-    regras, populares = treinar(treino)
-    print(f"Regras geradas no treino: {len(regras)}")
+    # Divisão única: 80% treino e 20% teste
+    unica, casos_unica = avaliar_divisoes([dividir_pedidos(pedidos)])
 
-    # Um caso por item escondido nos pedidos de teste
-    casos = montar_casos(teste)
-    print(f"Casos de teste: {len(casos)}\n")
+    # Validação cruzada: todos os pedidos passam pelo teste uma vez
+    cruzada, casos_cruzada = avaliar_divisoes(dividir_em_dobras(pedidos))
 
-    # Versão 1: mais pedidos só quando nenhuma regra se aplica
-    versao1 = avaliar(casos, regras, populares, completar=False)
+    print(f"Casos de teste: {casos_unica} na divisão {1 - PROPORCAO_TESTE:.0%}/{PROPORCAO_TESTE:.0%}"
+          f" e {casos_cruzada} na validação cruzada ({DOBRAS} dobras)\n")
 
-    # Versão 2: mais pedidos completando as vagas restantes
-    versao2 = avaliar(casos, regras, populares, completar=True)
-
-    print("Acerto no top 3 (Hit Rate@3):")
-    print(f"  Versão 1 (só regras):              {versao1['hit_rate_modelo_%']}%")
-    print(f"  Versão 2 (regras + mais pedidos):  {versao2['hit_rate_modelo_%']}%")
-    print(f"  Referência (só mais pedidos):      {versao2['hit_rate_referencia_%']}%\n")
-
-    print(f"Casos com regra aplicável (cobertura): {versao2['cobertura_%']}%")
-    print("Acerto no top 3 só nesses casos:")
-    print(f"  Versão 1:   {versao1['hit_rate_modelo_com_regra_%']}%")
-    print(f"  Versão 2:   {versao2['hit_rate_modelo_com_regra_%']}%")
-    print(f"  Referência: {versao2['hit_rate_referencia_com_regra_%']}%\n")
-
-    print(f"Lift médio das sugestões por regra: {versao2['lift_medio']}")
+    print("Acerto no top 3 (Hit Rate@3) e cobertura das regras:")
+    print(f"  {'Versão':38} {'divisão única':>14} {'valid. cruzada':>15} {'cobertura':>10}")
+    for nome in cruzada:
+        cobertura = cruzada[nome]["cobertura_%"]
+        texto_cobertura = f"{cobertura}%" if cobertura is not None else "-"
+        print(f"  {nome:38} {unica[nome]['acerto_%']:>13}% {cruzada[nome]['acerto_%']:>14}% {texto_cobertura:>10}")
 
 
 if __name__ == "__main__":
-    executar()
+    for loja in lojas_disponiveis():
+        executar(loja)

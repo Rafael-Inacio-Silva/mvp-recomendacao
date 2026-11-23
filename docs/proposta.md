@@ -2,7 +2,8 @@
 
 **Cliente:** Sabor na Mesa Cozinha Mexicana
 **Fornecedor:** PratoTech
-**Referência:** [solicitação de 22/11/2026](solicitacao-cliente.md)
+**Referência:** [solicitação de 22/11/2026](mexicano/solicitacao-cliente.md)
+**Resultado:** [relatório do MVP](mexicano/relatorio.md)
 
 ## 1. Propósito
 
@@ -74,8 +75,8 @@ Uma página separada mostra ao restaurante como o sistema chegou às sugestões:
 | RN-01 | Um pedido é o conjunto de itens com o mesmo número. A quantidade de vezes que um item aparece no pedido não é considerada. | RF-03 |
 | RN-02 | Um item que já está no carrinho não é sugerido. | RF-04 |
 | RN-03 | São exibidas no máximo 3 sugestões. | RF-04 |
-| RN-04 | Só são usadas as regras com suporte e confiança acima dos limites mínimos definidos na análise dos dados. | RF-03 |
-| RN-05 | A força da associação é medida pelo lift. Em caso de empate, vale a maior confiança. | RF-05 |
+| RN-04 | Só são usadas as regras com suporte de pelo menos 1% e confiança de pelo menos 10%, limites definidos na avaliação offline. | RF-03 |
+| RN-05 | As sugestões são ordenadas pela confiança da regra. Em caso de empate, vale o maior lift. | RF-05 |
 | RN-06 | Quando as regras geram menos de 3 sugestões, as vagas restantes são completadas com os itens mais pedidos que ainda não estão no carrinho. | RF-04 |
 | RN-07 | A explicação cita o item do carrinho e o item sugerido da regra que gerou a sugestão. A IA não escolhe nem altera a sugestão. | RF-06 |
 | RN-08 | Se a explicação por IA não puder ser gerada, é usada a frase padrão “Quem pede {item do carrinho} costuma levar {item sugerido}”. | RF-06 |
@@ -88,9 +89,9 @@ As sugestões vêm de **regras de associação**, uma técnica usada em análise
 - **Confiança:** entre os pedidos que têm A, em quantos também aparece B.
 - **Lift:** quanto ter A no carrinho aumenta a chance de B, comparado com a frequência normal de B. Lift acima de 1 indica uma associação real.
 
-A ordenação usa o lift (RN-05) porque a confiança, sozinha, favorece itens que aparecem em muitos pedidos, como o refrigerante, mesmo quando eles não têm relação com o que está no carrinho.
+A ordenação usa a confiança (RN-05): entre os itens ligados ao carrinho por alguma regra, vem primeiro o que mais aparece junto com ele. A ordenação pelo lift foi a primeira escolha, para evitar que itens populares aparecessem em todas as sugestões, mas a avaliação offline mostrou que, nesta base, ela favorece itens raros e acerta menos que a referência dos mais pedidos. A comparação está no [relatório](mexicano/relatorio.md).
 
-Os detalhes de construção estão no documento de [arquitetura](arquitetura.md), que será aprofundado depois da análise dos dados.
+Os detalhes de construção estão no documento de [arquitetura](arquitetura.md).
 
 ## 8. Critérios de avaliação
 
@@ -122,7 +123,7 @@ Duas semanas (10 dias úteis):
 | Risco | Como tratar |
 |---|---|
 | Base pequena, com itens que aparecem em poucos pedidos | limites mínimos nas regras (RN-04) e sugestão dos mais pedidos (RN-06) |
-| Itens populares parecerem associados a tudo | ordenação pelo lift (RN-05) |
+| Itens populares dominarem as sugestões | as sugestões vêm de regras ligadas ao carrinho, e a avaliação compara o resultado com a referência dos mais pedidos |
 | Explicação da IA citar algo fora da regra | a IA recebe só os dados da regra; se a frase não citar os dois itens, vale a frase padrão (RN-07 e RN-08) |
 | Serviço de IA indisponível | frase padrão sempre disponível (RNF-03) |
 | Histórico sem data e sem identificação do cliente | o MVP não usa horário nem perfil; isso fica para fases futuras |

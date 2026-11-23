@@ -1,17 +1,18 @@
-"""Executa as etapas do pipeline de dados em sequência."""
+"""Executa as etapas do pipeline de dados em sequência, para cada loja."""
 
+from lojas import LOJAS, caminho, lojas_disponiveis
 from pipeline.etapa1_carregamento import carregar_pedidos, mostrar_visao_geral
 from pipeline.etapa2_nulos_vazios import mostrar_nulos_vazios, tratar_nulos_vazios
 from pipeline.etapa3_duplicados import mostrar_duplicados, tratar_duplicados
 from pipeline.etapa4_outliers import mostrar_outliers, tratar_outliers
 from pipeline.etapa5_exploracao import mostrar_exploracao
 
-CAMINHO_PEDIDOS_LIMPOS = "dados/pedidos_limpos.csv"
 
+def executar_pipeline(loja):
+    print(f"\n{'#' * 60}\n# Loja: {LOJAS[loja]}\n{'#' * 60}\n")
 
-def executar_pipeline():
     # Etapa 1: carregamento dos dados
-    pedidos = carregar_pedidos()
+    pedidos = carregar_pedidos(caminho(loja, "pedidos.csv"))
     mostrar_visao_geral(pedidos)
 
     # Etapa 2: nulos e vazios
@@ -30,11 +31,13 @@ def executar_pipeline():
     mostrar_exploracao(pedidos)
 
     # Base limpa usada pelo modelo
-    pedidos.to_csv(CAMINHO_PEDIDOS_LIMPOS, index=False)
-    print(f"\nBase limpa salva em {CAMINHO_PEDIDOS_LIMPOS}")
+    destino = caminho(loja, "pedidos_limpos.csv")
+    pedidos.to_csv(destino, index=False)
+    print(f"\nBase limpa salva em {destino}")
 
     return pedidos
 
 
 if __name__ == "__main__":
-    executar_pipeline()
+    for loja in lojas_disponiveis():
+        executar_pipeline(loja)

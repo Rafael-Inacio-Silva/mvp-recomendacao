@@ -2,10 +2,8 @@
 
 import pandas as pd
 
-CAMINHO_PEDIDOS = "dados/pedidos.csv"
 
-
-def carregar_pedidos(caminho=CAMINHO_PEDIDOS):
+def carregar_pedidos(caminho):
     """Lê o CSV de pedidos e retorna um DataFrame."""
     return pd.read_csv(caminho, encoding="utf-8")
 

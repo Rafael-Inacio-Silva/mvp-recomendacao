@@ -2,10 +2,14 @@
 
 import pandas as pd
 
-from modelo.regras import CAMINHO_PEDIDOS_LIMPOS, CAMINHO_REGRAS
-
 MAXIMO_SUGESTOES = 3
 SEPARADOR_ITENS = " + "
+
+# Ordem das sugestões: critério principal e desempate
+ORDENACAO = {
+    "confianca": ["confianca", "lift"],
+    "lift": ["lift", "confianca"],
+}
 
 
 def preparar_regras(regras):
@@ -15,7 +19,7 @@ def preparar_regras(regras):
     return regras
 
 
-def carregar_regras(caminho=CAMINHO_REGRAS):
+def carregar_regras(caminho):
     """Lê as regras salvas, com o antecedente como conjunto de itens."""
     return preparar_regras(pd.read_csv(caminho))
 
@@ -25,7 +29,7 @@ def calcular_populares(pedidos):
     return pedidos["item"].value_counts().index.tolist()
 
 
-def carregar_populares(caminho=CAMINHO_PEDIDOS_LIMPOS):
+def carregar_populares(caminho):
     """Lê a base limpa e retorna os itens do mais pedido para o menos pedido."""
     return calcular_populares(pd.read_csv(caminho))
 
@@ -41,11 +45,10 @@ def sugerir_populares(carrinho, populares, maximo=MAXIMO_SUGESTOES):
     return sugestoes
 
 
-def recomendar(carrinho, regras, populares, maximo=MAXIMO_SUGESTOES, completar=True):
+def recomendar(carrinho, regras, populares, maximo=MAXIMO_SUGESTOES, criterio="confianca", completar=True):
     """Retorna até `maximo` sugestões para o carrinho, cada uma com a regra que a gerou.
 
-    Com `completar=False`, os mais pedidos só entram quando nenhuma regra se aplica
-    (primeira versão, mantida para comparação na avaliação).
+    `criterio="lift"` e `completar=False` reproduzem as primeiras versões, usadas na avaliação.
     """
     carrinho = set(carrinho)
 
@@ -55,8 +58,8 @@ def recomendar(carrinho, regras, populares, maximo=MAXIMO_SUGESTOES, completar=T
     # Sem itens que já estão no carrinho (RN-02)
     aplicaveis = aplicaveis[~aplicaveis["consequente"].isin(carrinho)]
 
-    # Ordem por lift, com desempate pela confiança (RN-05)
-    aplicaveis = aplicaveis.sort_values(["lift", "confianca"], ascending=False)
+    # Ordem por confiança, com desempate pelo lift (RN-05)
+    aplicaveis = aplicaveis.sort_values(ORDENACAO[criterio], ascending=False)
 
     # Melhor regra de cada item sugerido
     aplicaveis = aplicaveis.drop_duplicates(subset="consequente")

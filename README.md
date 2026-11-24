@@ -2,7 +2,7 @@
 
 **Recomendação "compre junto" para delivery**: regras de associação calculadas a partir dos pedidos sugerem o complemento do carrinho com uma frase explicando o porquê, e uma **assistente de conversa em agentes** (orquestrador e analistas com LLM) responde sobre o cardápio, as combinações e a loja, sempre com os dados do restaurante.
 
-`Python` · `pandas` · `mlxtend (Apriori)` · `FastAPI` · `OpenAI` · `React` · `Vite` · `pytest`
+**[Abrir o site no ar](https://mvp-recomendacao.vercel.app)** · `Python` · `pandas` · `mlxtend (Apriori)` · `FastAPI` · `OpenAI` · `React` · `Vite` · `pytest`
 
 ![Cardápio da Sabor na Mesa com dois itens no pedido e a sugestão "Combina com seu pedido" ao lado](docs/imagens/cardapio.jpg)
 
@@ -248,3 +248,14 @@ Abra [o site local](http://127.0.0.1:5173). Escolha uma loja, adicione um prato 
 O site é feito em React com Vite, com um componente por arquivo em `frontend/src/`. A página inicial fica em `Entrada.jsx`. Cada loja fica em `Restaurante.jsx`, com `Cardapio.jsx`, `Pedido.jsx` e `Chat.jsx`. O `useConsulta.js` faz as chamadas à API. As fontes são instaladas pelo npm e servidas pelo próprio site. O código segue a formatação do Prettier: `npm run formatar` formata os arquivos, e `npm run conferir-formato` confere a formatação.
 
 O Vite encaminha `/api` para `http://127.0.0.1:8000` durante o desenvolvimento. O comando `npm run build` gera o site estático em `frontend/dist/`. Para hospedagem separada, configure o encaminhamento de `/api` ao backend na hospedagem ou defina `VITE_API_BASE` com a origem pública do backend antes do build e inclua a origem do frontend em `ORIGENS_PERMITIDAS`.
+
+## Publicação
+
+O site fica na Vercel, em [mvp-recomendacao.vercel.app](https://mvp-recomendacao.vercel.app), e a API fica no Render, em `https://mvp-recomendacao-api.onrender.com`. O site chama `/api` no próprio endereço, e a Vercel repassa as chamadas ao Render ([`frontend/vercel.json`](frontend/vercel.json)). Assim, o navegador não precisa falar direto com a API.
+
+| Serviço | Configuração | O que faz |
+|---|---|---|
+| Render | [`render.yaml`](render.yaml) | instala as dependências, gera `pedidos_limpos.csv` e `regras.csv` das duas lojas e liga a API com o `uvicorn`; a rota `/api/saude` mostra que ela está no ar |
+| Vercel | [`frontend/vercel.json`](frontend/vercel.json) | publica o site da pasta `frontend/` e repassa `/api` ao Render |
+
+A chave da OpenAI fica só nas variáveis de ambiente do Render. No plano gratuito, a API dorme depois de 15 minutos sem uso, e a primeira chamada depois disso leva até um minuto. Antes de uma apresentação, vale abrir o site alguns minutos antes. Se a API reiniciar no meio de uma conversa, o chat avisa que a conversa anterior expirou.

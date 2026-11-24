@@ -1,0 +1,760 @@
+:root {
+  --papel: #fbf7ef;
+  --cartao: #fffcf6;
+  --verde: #193b29;
+  --tinta: #29362c;
+  --muted: #61695e;
+  --barro: #ac4021;
+  --linha: #dfd6c7;
+  --lima: #afbb42;
+  --serif: 'DM Serif Text', Georgia, 'Times New Roman', serif;
+  font:
+    16px/1.5 'DM Sans Variable',
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
+  color: var(--tinta);
+  background: var(--papel);
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-width: 300px;
+}
+[hidden] {
+  display: none !important;
+}
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button,
+a,
+input,
+summary {
+  outline-offset: 4px;
+}
+:focus-visible {
+  outline: 3px solid #688a30;
+}
+h1,
+h2,
+h3,
+.palavra {
+  font-family: var(--serif);
+  font-weight: 400;
+  color: var(--verde);
+  margin: 0;
+  letter-spacing: -0.045em;
+  line-height: 1.06;
+}
+h1 {
+  font-size: clamp(2.8rem, 5vw, 4.9rem);
+}
+h2 {
+  font-size: clamp(1.8rem, 3vw, 2.7rem);
+}
+h3 {
+  font-size: 1.45rem;
+}
+p {
+  margin: 0.65rem 0;
+}
+svg {
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+.largura {
+  width: min(1280px, 92%);
+  margin-inline: auto;
+}
+.botao,
+.contorno,
+.flutuante,
+.link,
+.icone,
+.bairro,
+.rotulo,
+.onde,
+.chatTopo strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.botao,
+.contorno,
+.flutuante {
+  border-radius: 9px;
+  padding: 0.65rem 1.1rem;
+  justify-content: center;
+  font-weight: 650;
+}
+.botao {
+  background: var(--barro);
+  color: white;
+}
+.botao:hover:not(:disabled) {
+  background: #8e3219;
+}
+.contorno {
+  border: 1px solid var(--verde);
+  color: var(--verde);
+}
+.contorno:hover,
+.contorno[aria-current] {
+  background: #e8ecd9;
+}
+.link {
+  color: var(--barro);
+  font-weight: 650;
+  padding: 0.2rem 0;
+}
+.link:hover,
+nav a:hover,
+nav button:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.palavra {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.27em;
+  white-space: nowrap;
+}
+.marca {
+  position: relative;
+  display: inline-block;
+  width: 1.05em;
+  height: 0.95em;
+  flex: none;
+}
+.marca i {
+  position: absolute;
+  width: 26%;
+  height: 64%;
+  background: var(--verde);
+  left: 38%;
+  bottom: 10%;
+  border-radius: 0 95% 0 95%;
+  transform: rotate(-28deg);
+  transform-origin: 50% 95%;
+}
+.marca i:first-child {
+  transform: rotate(-67deg);
+  height: 52%;
+  left: 30%;
+}
+.marca i:last-of-type {
+  transform: rotate(29deg);
+  height: 75%;
+  left: 48%;
+}
+.plataforma i {
+  bottom: 28%;
+}
+.plataforma b {
+  position: absolute;
+  bottom: 0;
+  left: 3%;
+  width: 94%;
+  height: 38%;
+  background: var(--barro);
+  border-radius: 4% 4% 70% 70% / 5% 5% 100% 100%;
+}
+.entrada {
+  text-align: center;
+  max-width: 1150px;
+  padding: clamp(24px, 4vh, 48px) 0 12px;
+}
+.cabEntrada .palavra {
+  font-size: clamp(2.4rem, 4vw, 3.8rem);
+}
+.filete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  color: var(--lima);
+  margin: 0.9rem auto 1.6rem;
+}
+.filete i {
+  width: 37px;
+  height: 2px;
+  background: var(--lima);
+}
+.filete b {
+  width: 6px;
+  height: 6px;
+  background: var(--barro);
+  transform: rotate(45deg);
+}
+.entrada h1 {
+  font-size: clamp(3rem, 6.2vw, 5.8rem);
+  line-height: 1.03;
+}
+.intro {
+  font-size: clamp(1rem, 1.6vw, 1.28rem);
+  margin: 0.65rem auto 2.1rem;
+  color: #465447;
+}
+.gradeCasas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(18px, 2.2vw, 32px);
+  text-align: left;
+}
+.cartaoCasa,
+.painel,
+.prato,
+.sugestao,
+dialog {
+  background: var(--cartao);
+  border: 1px solid var(--linha);
+  border-radius: 16px;
+}
+.cartaoCasa {
+  box-shadow: 0 8px 26px #50391609;
+  overflow: hidden;
+}
+.fotoCasa {
+  width: 100%;
+  aspect-ratio: 2.3;
+  display: block;
+  object-fit: cover;
+}
+.conteudoCasa {
+  padding: 19px 24px 22px;
+}
+.conteudoCasa h2 {
+  font-size: clamp(2rem, 3.3vw, 3.1rem);
+}
+.conteudoCasa .bairro {
+  margin-bottom: 0;
+}
+.bairro svg {
+  color: var(--barro);
+}
+.conteudoCasa > p:not(.bairro) {
+  color: var(--muted);
+  margin-top: 0.35rem;
+}
+.conteudoCasa .botao {
+  margin-top: 0.45rem;
+  width: 100%;
+}
+footer {
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 22px 0 12px;
+}
+.pequeno {
+  display: inline-block;
+  margin: 0 0.4rem 0 0;
+}
+.topo {
+  border-bottom: 1px solid var(--linha);
+  background: var(--cartao);
+}
+.topo .largura {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2.5vw, 36px);
+  min-height: 74px;
+}
+.topo .palavra {
+  font-size: clamp(1.65rem, 2.65vw, 2.5rem);
+}
+nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+nav button {
+  padding: 0;
+}
+nav [aria-current] {
+  color: var(--barro);
+  text-decoration: underline;
+  text-underline-offset: 7px;
+}
+.onde {
+  margin-left: auto;
+  font-size: 0.87rem;
+}
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #f6eddf;
+  border-bottom: 1px solid var(--linha);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 0 40%;
+  background:
+    linear-gradient(to right, #f6eddf 0%, transparent 40%),
+    var(--capa) center / cover;
+}
+.hero .largura {
+  padding-block: clamp(25px, 3.7vw, 52px);
+}
+.hero h1 {
+  font-size: clamp(2.8rem, 5vw, 4.6rem);
+  max-width: 12em;
+  width: 57%;
+  text-wrap: balance;
+}
+.hero p:not(.rotulo) {
+  max-width: 48%;
+  margin-bottom: 0;
+}
+.rotulo {
+  color: var(--barro);
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  font-size: 0.69rem;
+  font-weight: 750;
+  margin: 0 0 0.65rem;
+}
+.colMenu,
+.colChat,
+.colPedido {
+  display: grid;
+  align-items: start;
+  gap: 26px;
+}
+.colMenu {
+  grid-template-columns: minmax(0, 1fr) minmax(245px, 0.31fr);
+  padding-block: 28px 98px;
+}
+.categorias,
+.perguntas {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+.categorias button,
+.perguntas button {
+  border: 1px solid var(--linha);
+  border-radius: 30px;
+  padding: 0.4rem 0.85rem;
+  background: var(--cartao);
+  font-size: 0.85rem;
+}
+.categorias button:hover,
+.perguntas button:hover {
+  border-color: var(--verde);
+}
+.categorias .ativo {
+  color: white;
+  background: var(--barro);
+  border-color: var(--barro);
+}
+.tituloMenu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 24px 0 16px;
+}
+.busca {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-bottom: 1px solid #acac9f;
+}
+.busca input {
+  width: 125px;
+  border: 0;
+  background: transparent;
+  padding: 0.35rem;
+}
+.gradePratos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 13px;
+  align-items: stretch;
+}
+.prato {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+}
+.fotoPrato {
+  width: 100px;
+  height: 100px;
+  max-width: 100%;
+  object-fit: contain;
+  margin: 15px 0 0 15px;
+  border-radius: 10px;
+}
+.prato > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  padding: 15px;
+  width: 100%;
+}
+.prato .rotulo {
+  margin-bottom: 6px;
+}
+.prato details {
+  color: var(--muted);
+  margin: 10px 0 16px;
+  font-size: 0.85rem;
+}
+summary {
+  cursor: pointer;
+}
+.prato .botao {
+  margin-top: auto;
+  width: 100%;
+  padding: 0.49rem;
+}
+.selecionado,
+.selecionado:hover:not(:disabled) {
+  color: var(--verde);
+  background: #e8ecd9;
+}
+.mais {
+  margin-top: 20px;
+}
+.painel {
+  padding: clamp(17px, 2vw, 28px);
+}
+.resumo {
+  position: sticky;
+  top: 16px;
+}
+.resumo h2 {
+  font-size: 1.85rem;
+}
+.resumo > small {
+  border-top: 1px solid var(--linha);
+  display: block;
+  margin-top: 17px;
+  padding-top: 12px;
+  color: var(--muted);
+}
+.resumo .botao {
+  width: 100%;
+}
+.itens {
+  margin: 10px 0 18px;
+  list-style: none;
+  padding: 0;
+}
+.itens li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--linha);
+}
+.mini {
+  width: 54px;
+  height: 54px;
+  border-radius: 9px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.icone {
+  margin-left: auto;
+  min-width: 32px;
+  height: 32px;
+  justify-content: center;
+  border-radius: 50%;
+}
+.icone:hover {
+  background: #eee7da;
+}
+.vazio {
+  text-align: center;
+  color: var(--muted);
+  padding: 21px 3px;
+}
+.vazio p {
+  color: var(--verde);
+  font-weight: 600;
+}
+.flutuante,
+.verde {
+  background: var(--verde);
+  color: white;
+}
+.flutuante {
+  position: fixed;
+  bottom: 20px;
+  right: 4%;
+  border-radius: 30px;
+  box-shadow: 0 5px 18px #152c2430;
+  z-index: 2;
+}
+.areaPedido {
+  padding: 28px 0 65px;
+}
+.areaPedido h1,
+.chatHero h1 {
+  margin-top: 0.5rem;
+}
+.colPedido {
+  margin: 24px 0;
+  grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1.2fr);
+}
+.sugestoes h2 {
+  margin-bottom: 14px;
+}
+.sugestao {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+.sugestao .botao {
+  margin-left: auto;
+  font-size: 0.85rem;
+}
+.sugestao p {
+  color: var(--muted);
+  font-size: 0.94rem;
+  margin-bottom: 0;
+}
+.chatHero h1 {
+  width: 64%;
+}
+.colChat {
+  grid-template-columns: minmax(0, 1.8fr) minmax(240px, 0.8fr);
+  padding-block: 25px 45px;
+}
+.chatTopo,
+.compor {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+}
+.chatTopo {
+  border-bottom: 1px solid var(--linha);
+  padding-bottom: 12px;
+}
+.mensagens {
+  max-height: 46vh;
+  min-height: 165px;
+  overflow-y: auto;
+  padding: 15px 0;
+}
+.mensagens p {
+  padding: 11px 15px;
+  border-radius: 12px;
+  max-width: 84%;
+  width: fit-content;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.saudacao {
+  display: flex;
+  align-items: start;
+  gap: 8px;
+}
+.saudacao img {
+  width: 45px;
+  border-radius: 12px;
+  margin-top: 8px;
+}
+.saudacao p,
+.assistente {
+  background: #e9edcd;
+}
+.cliente {
+  background: #f1e3d2;
+  margin-left: auto;
+}
+.perguntas {
+  padding: 12px 0;
+}
+.perguntas button {
+  border-color: #c2c895;
+  text-align: left;
+}
+.compor {
+  padding: 6px;
+  border: 1px solid var(--linha);
+  border-radius: 12px;
+  background: #fff;
+}
+.compor input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.55rem;
+  border: 0;
+  background: transparent;
+}
+.ajuda p {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--linha);
+  margin: 0;
+}
+.ajuda svg {
+  color: var(--barro);
+}
+.aviso {
+  padding: 12px 15px;
+  margin: 12px 0;
+  background: #f8e6d9;
+  border-radius: 9px;
+}
+dialog {
+  max-width: min(460px, 90%);
+  padding: 28px;
+  color: var(--tinta);
+}
+dialog::backdrop {
+  background: #15251acc;
+}
+dialog .botao {
+  margin-top: 0.8rem;
+}
+@media (max-width: 980px) {
+  .onde {
+    display: none;
+  }
+  .cestaTopo {
+    margin-left: auto;
+  }
+  .gradePratos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 730px) {
+  .gradeCasas,
+  .colMenu,
+  .colChat,
+  .colPedido {
+    grid-template-columns: 1fr;
+  }
+  .gradeCasas {
+    max-width: 540px;
+    margin: auto;
+  }
+  .intro {
+    max-width: 330px;
+    margin-bottom: 22px;
+  }
+  .conteudoCasa {
+    padding: 16px 18px;
+  }
+  .topo .largura {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-block: 12px;
+  }
+  nav {
+    order: 3;
+    width: 100%;
+  }
+  .cestaTopo {
+    padding: 0.38rem 0.55rem;
+    font-size: 0.86rem;
+  }
+  .hero::before {
+    left: 36%;
+    opacity: 0.7;
+    background-image: linear-gradient(90deg, #f6eddf, #f6eddfaa 30%, transparent), var(--capa);
+  }
+  .hero h1,
+  .chatHero h1 {
+    width: 80%;
+    font-size: 2.8rem;
+  }
+  .hero p:not(.rotulo) {
+    max-width: 67%;
+  }
+  .categorias {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 3px 1px 8px;
+  }
+  .categorias button {
+    flex-shrink: 0;
+  }
+  .colMenu > section {
+    min-width: 0;
+  }
+  .resumo {
+    position: static;
+  }
+  .areaPedido {
+    padding-top: 20px;
+  }
+  .sugestao {
+    flex-wrap: wrap;
+  }
+  .sugestao > div {
+    flex: 1;
+    min-width: 140px;
+  }
+  .flutuante {
+    font-size: 0.9rem;
+    bottom: 12px;
+  }
+}
+@media (max-width: 420px) {
+  .gradePratos {
+    gap: 8px;
+  }
+  .prato > div {
+    padding: 10px;
+  }
+  .prato h3 {
+    font-size: 1.2rem;
+  }
+  .tituloMenu {
+    align-items: flex-start;
+  }
+}
+
+.previa {
+  background: #f1f1de;
+  border-radius: 9px;
+  padding: 13px;
+  margin: 0 0 14px;
+}
+.previa .rotulo {
+  color: var(--verde);
+  margin: 0;
+}
+.previa p {
+  font-size: 0.94rem;
+  margin-bottom: 0;
+}

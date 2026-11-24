@@ -31,7 +31,7 @@ site (Vercel) → API (Render) → serviço do chat → assistente: orquestrador
 | `agente` | assistente de conversa: orquestrador, analistas, fontes de dados e prompts | RF-07, RF-08, RN-10, RN-11, RNF-03 |
 | `servicos` | validações e regras de negócio das rotas: lojas, cardápio, sugestões e conversas do chat | RF-01, RF-02, RF-04, RF-06, RF-07, RF-08, RN-09 |
 | `api` | controller: recebe as requisições do site, chama os serviços e converte os erros em status HTTP | RF-01, RF-02, RF-04, RF-06, RF-07, RF-08 |
-| site | página “Monte seu pedido” e chat, na Vercel (próxima etapa) | RF-01, RF-02, RF-07 |
+| `frontend/` | seleção de restaurante, cardápio, carrinho com sugestões e chat por loja (React e Vite) | RF-01, RF-02, RF-07 |
 
 O recomendador não depende do site, da explicação nem do assistente. Assim, ele pode ser testado sozinho, e a forma de explicar pode mudar sem afetar as sugestões.
 
@@ -96,6 +96,17 @@ mvp-recomendacao/
 │   ├── chat.py                  # validação das mensagens e conversas em memória
 │   └── erros.py                 # erros dos serviços, com código e texto
 ├── api.py                       # controller: rotas da API em FastAPI
+├── frontend/                    # site em React e Vite
+│   ├── public/imagens/          # capas das lojas e foto de cada produto
+│   └── src/
+│       ├── main.jsx             # rotas pelo endereço (#/<loja>/<página>)
+│       ├── Entrada.jsx          # escolha da loja
+│       ├── Restaurante.jsx      # topo, carrinho e páginas de uma loja
+│       ├── Cardapio.jsx         # cardápio com categorias, busca e resumo do pedido
+│       ├── Pedido.jsx           # pedido e sugestões com a frase
+│       ├── Chat.jsx             # conversa com a assistente
+│       ├── useConsulta.js       # chamadas à API, com a mais recente valendo
+│       └── casas.js             # textos e imagens de cada loja
 ├── dados_loja.py                # arquivos de cada loja em memória
 ├── lojas.py                     # lojas, assistentes e caminhos dos arquivos
 ├── analise_dados.py             # executa o pipeline
@@ -178,7 +189,7 @@ O controller não acessa os dados diretamente, e os serviços não conhecem HTTP
 | `GET /api/lojas` | lista as lojas e o nome da assistente de cada uma |
 | `GET /api/lojas/{loja}/cardapio` | itens da loja com categoria e descrição, do mais pedido para o menos pedido |
 | `POST /api/lojas/{loja}/sugestoes` | recebe `{"carrinho": [...]}`, valida (RN-09), recomenda e devolve as 3 sugestões com a frase |
-| `POST /api/lojas/{loja}/chat` | recebe `{"conversa_id": ..., "mensagem": ...}` e devolve a resposta do assistente |
+| `POST /api/lojas/{loja}/chat` | recebe `{"conversa_id": ..., "mensagem": ...}` e devolve a resposta do assistente, os analistas consultados, a etapa e se a conversa começou nessa mensagem (`nova_conversa`) |
 | `DELETE /api/lojas/{loja}/chat/{conversa_id}` | apaga o histórico da conversa, quando o cliente reinicia o chat |
 
 Todo erro volta no mesmo formato, com o campo, o código e um texto explicativo:
@@ -228,7 +239,7 @@ Fluxo de uma mensagem:
 4. se o critério de avanço da etapa foi cumprido, o orquestrador chama `avancar_estagio`;
 5. o orquestrador escreve a resposta ao cliente, com a identidade da loja (Lupe na Sabor na Mesa, Maya na Casa Masala) e a instrução da etapa atual.
 
-**Histórico.** Cada conversa guarda a lista de mensagens em memória e a envia inteira a cada chamada, até o cliente reiniciar o chat. Os analistas não guardam histórico: recebem só a pergunta do orquestrador. Ao reiniciar o chat, a conversa volta para a etapa 1. O serviço do chat mantém até 200 conversas; as mais antigas saem da memória.
+**Histórico.** Cada conversa guarda a lista de mensagens em memória e a envia inteira a cada chamada, até o cliente reiniciar o chat. Os analistas não guardam histórico: recebem só a pergunta do orquestrador. Ao reiniciar o chat, a conversa volta para a etapa 1. O serviço do chat mantém até 200 conversas; as mais antigas saem da memória. O site guarda o histórico na sessão da aba. Se a API reiniciar ou descartar a conversa, a resposta seguinte vem com `nova_conversa: true`. O site então troca o histórico antigo pela mensagem atual e avisa o cliente de que a conversa anterior expirou.
 
 **Cuidados.** Os analistas respondem só com os dados que recebem (RN-10); o assistente não fecha pedidos (RN-11) e não pede dados pessoais. Há limite de 4 consultas aos analistas e de 8 chamadas de ferramenta por mensagem. As chamadas usam `store=False`, então a OpenAI não guarda as conversas. Se a OpenAI falhar, a mensagem sai do histórico e o cliente recebe um aviso para tentar de novo.
 
@@ -265,6 +276,6 @@ Os testes usam pytest (`python -m pytest`). Os das regras de negócio usam regra
 | `test_validacao.py` | carrinho válido é normalizado; repetidos contam uma vez; cada erro recebe o código certo, na ordem dos itens; a entrada não é alterada | RN-01, RN-09 |
 | `test_explicacao.py` | frase montada com os itens da regra | RN-07 |
 | `test_explicacao.py` | sugestão dos mais vendidos recebe a frase dos mais pedidos | RN-08 |
-| `test_servicos.py` | cardápio do mais pedido para o menos pedido; loja desconhecida; carrinho inválido com código e texto; mensagem do chat validada antes de chamar o assistente | RF-01, RN-09 |
+| `test_servicos.py` | cardápio do mais pedido para o menos pedido; loja desconhecida; carrinho inválido com código e texto; mensagem do chat validada antes de chamar o assistente; aviso de conversa nova | RF-01, RF-07, RN-09 |
 | `test_api.py` | rotas de saúde, lojas, cardápio, sugestões e chat; status 400, 404, 405 e 503 com o mesmo formato de erro; JSON inválido; chat sem a chave da OpenAI; encerramento da conversa | RF-01, RF-04, RF-08, RN-09, RNF-03 |
 | `test_agente.py` | ferramentas do orquestrador; dados de cada analista completos (todos os produtos, todas as regras com “N de cada 100 pedidos”, documento da loja); etapas com nome, objetivo e instrução; só a etapa atual no prompt; marcadores preenchidos; datas de referência; a etapa só avança | RN-10 |

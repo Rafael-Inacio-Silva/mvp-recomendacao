@@ -171,6 +171,18 @@ POST /api/lojas/mexicano/sugestoes
      {"item": "Nachos", "frase": "Já que você escolheu um bowl de frango e uma água mineral, que tal incluir uma porção de nachos no pedido?", "origem": "regra"}, ...]}
 ```
 
+Exemplo de chat:
+
+```
+POST /api/lojas/indiano/chat
+{"conversa_id": "3f6c2a9e-...", "mensagem": "O que costuma sair junto com o naan simples?"}
+
+→ {"ok": true, "resposta": "Com o Naan Simples, costumam pedir Arroz Pilau (45 em cada 100 pedidos), ...",
+   "consultas": ["combinacoes"], "estagio": 1, "nova_conversa": true}
+```
+
+`consultas` lista os analistas que o assistente usou, e `estagio` é a etapa do atendimento. `nova_conversa` vem `true` quando a conversa começa nessa mensagem. Se o site ainda mostrava um histórico, a API perdeu essa conversa (reiniciou ou descartou a mais antiga), e o site avisa o cliente que uma nova conversa foi iniciada.
+
 Todo erro volta no mesmo formato, com o campo, o código e um texto. Um carrinho inválido, por exemplo, volta com status 400 e `{"field": "carrinho[0]", "code": "unknown_item", "message": "Item fora do cardápio da loja."}`. Loja que não existe volta com 404, e chat sem a chave da OpenAI, com 503.
 
 ## Assistente de conversa
@@ -208,3 +220,19 @@ python api.py   # API em http://127.0.0.1:8000; documentação das rotas em /doc
 ```
 
 No PyCharm, selecione o interpretador `.venv` do projeto e execute, nesta ordem, `analise_dados.py`, `gerar_regras.py` e `avaliar.py`. Cada script processa as duas lojas, e `avaliar.py` salva o resultado em `dados/<loja>/avaliacao.csv`. Os testes ficam na pasta `tests/` e podem ser executados pelo PyCharm ou com `python -m pytest`. Por fim, `api.py` liga a API; com ela no ar, as rotas podem ser testadas pelo navegador em `http://127.0.0.1:8000/docs`. O chat precisa da chave da OpenAI no `.env`.
+
+### Abrir o frontend
+
+Com a API em execução na porta 8000 e os arquivos de dados gerados, abra um segundo terminal na raiz do projeto. Use Node.js 20.19 ou superior, ou Node.js 22.12 ou superior.
+
+```bash
+cd frontend
+npm ci
+npm run dev
+```
+
+Abra [o site local](http://127.0.0.1:5173). Escolha uma loja, adicione um prato e clique em **Ver sugestões**. Ao adicionar ou remover itens, a tela atualiza as sugestões com as frases enviadas pela API. Cada loja guarda seu carrinho e a conversa na sessão da aba. **Nova conversa** limpa o histórico daquela loja. A chave da OpenAI fica apenas no backend.
+
+O site é feito em React com Vite, com um componente por arquivo em `frontend/src/`. A página inicial fica em `Entrada.jsx`. Cada loja fica em `Restaurante.jsx`, com `Cardapio.jsx`, `Pedido.jsx` e `Chat.jsx`. O `useConsulta.js` faz as chamadas à API. As fontes são instaladas pelo npm e servidas pelo próprio site. O código segue a formatação do Prettier: `npm run formatar` formata os arquivos, e `npm run conferir-formato` confere a formatação.
+
+O Vite encaminha `/api` para `http://127.0.0.1:8000` durante o desenvolvimento. O comando `npm run build` gera o site estático em `frontend/dist/`. Para hospedagem separada, configure o encaminhamento de `/api` ao backend na hospedagem ou defina `VITE_API_BASE` com a origem pública do backend antes do build e inclua a origem do frontend em `ORIGENS_PERMITIDAS`.

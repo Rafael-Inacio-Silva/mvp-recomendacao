@@ -52,8 +52,16 @@ class ServicoChat:
             raise EntradaInvalida(erros)
 
         conversa = self._obter_conversa(dados, conversa_id)
+        # Sem histórico, a conversa começa nesta mensagem; o site usa isso para saber se a anterior expirou
+        nova_conversa = not conversa.historico
         resposta = conversa.responder(mensagem.strip())
-        return {"ok": not resposta.falhou, "resposta": resposta.texto, "consultas": resposta.consultas, "estagio": resposta.estagio}
+        return {
+            "ok": not resposta.falhou,
+            "resposta": resposta.texto,
+            "consultas": resposta.consultas,
+            "estagio": resposta.estagio,
+            "nova_conversa": nova_conversa,
+        }
 
     def encerrar(self, loja, conversa_id):
         """Apaga o histórico; a próxima mensagem começa uma conversa nova, na etapa 1."""

@@ -85,12 +85,14 @@ mvp-recomendacao/
 │   ├── analista.py              # subagente analista, que lê os dados da sua área
 │   ├── fontes.py                # dados de cada analista em texto
 │   ├── prompts.py               # montagem das instruções de cada agente
-│   ├── llm.py                   # conexão com a OpenAI
+│   ├── llm.py                   # conexão com a OpenAI e contagem de tokens
+│   ├── avaliacao.py             # regras da avaliação do assistente e juiz LLM
 │   └── prompts/                 # um prompt por agente, em Markdown
 │       ├── orquestrador/        # template_base.md e estagios/ (um arquivo por etapa)
 │       ├── cardapio/            # prompt.md
 │       ├── combinacoes/         # prompt.md
-│       └── loja/                # prompt.md
+│       ├── loja/                # prompt.md
+│       └── juiz/                # prompt.md do juiz da avaliação
 ├── servicos/                    # camada de serviço, chamada pela API
 │   ├── recomendacao.py          # lojas, cardápio e sugestões
 │   ├── chat.py                  # validação das mensagens e conversas em memória
@@ -112,6 +114,7 @@ mvp-recomendacao/
 ├── analise_dados.py             # executa o pipeline
 ├── gerar_regras.py              # calcula e compara as regras
 ├── avaliar.py                   # executa a avaliação offline
+├── avaliar_assistente.py        # avalia o assistente com os casos de cada loja (chama a OpenAI)
 ├── avaliar_cardapio.py          # compara os artigos do LLM com o gabarito
 ├── .env.example                 # variáveis da OpenAI, sem a chave
 ├── pytest.ini
@@ -261,6 +264,10 @@ Fluxo de uma mensagem:
 
 Os resultados de cada loja estão nos relatórios: [Sabor na Mesa](mexicano/relatorio.md) e [Casa Masala](indiano/relatorio.md).
 
+### Avaliação do assistente
+
+`avaliar_assistente.py` conversa com o assistente real usando os casos de `dados/<loja>/casos_assistente.json` e uma data simulada fixa. A nota vem de regras determinísticas (`agente/avaliacao.py`): analista consultado, etapa, fatos que precisam aparecer e textos proibidos, comparados sem acentos. Um juiz LLM (`agente/prompts/juiz/prompt.md`, esforço `high`, saída em JSON com esquema fixo) recebe os dados da loja como gabarito e avalia se a resposta respondeu à pergunta, se inventou informação e o tom, numa coluna separada. As conversas rodam em paralelo, e `llm.py` soma os tokens de cada chamada para o custo. O resultado vai para [avaliacao_assistente.md](avaliacao_assistente.md); a história das correções está no [README](../README.md#avaliação-do-assistente).
+
 ## 6. Testes
 
 Os testes usam pytest (`python -m pytest`). Os das regras de negócio usam regras pequenas montadas no próprio teste; os da API e do assistente usam os dados das lojas e são pulados quando os arquivos gerados não existem. Nenhum teste chama o LLM.
@@ -277,5 +284,6 @@ Os testes usam pytest (`python -m pytest`). Os das regras de negócio usam regra
 | `test_explicacao.py` | frase montada com os itens da regra | RN-07 |
 | `test_explicacao.py` | sugestão dos mais vendidos recebe a frase dos mais pedidos | RN-08 |
 | `test_servicos.py` | cardápio do mais pedido para o menos pedido; loja desconhecida; carrinho inválido com código e texto; mensagem do chat validada antes de chamar o assistente; aviso de conversa nova | RF-01, RF-07, RN-09 |
+| `test_avaliacao_assistente.py` | regras da avaliação do assistente com respostas escritas à mão; arquivos de casos bem formados | RF-07, RN-10 |
 | `test_api.py` | rotas de saúde, lojas, cardápio, sugestões e chat; status 400, 404, 405 e 503 com o mesmo formato de erro; JSON inválido; chat sem a chave da OpenAI; encerramento da conversa | RF-01, RF-04, RF-08, RN-09, RNF-03 |
 | `test_agente.py` | ferramentas do orquestrador; dados de cada analista completos (todos os produtos, todas as regras com “N de cada 100 pedidos”, documento da loja); etapas com nome, objetivo e instrução; só a etapa atual no prompt; marcadores preenchidos; datas de referência; a etapa só avança | RN-10 |

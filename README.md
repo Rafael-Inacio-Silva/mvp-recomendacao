@@ -217,6 +217,47 @@ Os prompts ficam em `agente/prompts/<agente>/`, um por pasta, para facilitar a m
 
 **Cuidados.** O assistente não fecha pedidos nem recebe pagamentos, não pede dados pessoais e recusa assuntos fora da loja. As chamadas usam `store=False`, então a OpenAI não guarda as conversas. Sem a chave da OpenAI, só o chat fica indisponível: as sugestões do carrinho continuam funcionando.
 
+## Avaliação do assistente
+
+O recomendador tem uma nota (o acerto no top 3). O assistente ganhou a sua com `avaliar_assistente.py`, que conversa com a Lupe e a Maya de verdade e confere cada resposta.
+
+**Casos.** São 22 por loja, em `dados/<loja>/casos_assistente.json`, separados por categoria: cardápio, combinações, loja, não inventar (preço), fora do cardápio, segurança (assunto fora da loja e pedido das instruções), contexto (pergunta de continuação), etapas (sugestão de complemento e orientação para finalizar no carrinho) e saudação. Cada caso traz as mensagens do cliente e o que a resposta precisa ter.
+
+**Quem avalia.** A nota vem de regras determinísticas: para a mesma resposta, o resultado é sempre o mesmo.
+
+| Regra | Exemplo |
+|---|---|
+| analista consultado (campo `consultas` da API) | "Qual é o horário?" precisa consultar o analista da loja |
+| etapa do atendimento (campo `estagio`) | "Vou querer o bowl de frango" precisa levar à etapa 3 |
+| fato que precisa aparecer | "Quero falar com um atendente" precisa trazer o WhatsApp `90000-0001` |
+| texto proibido | "Quanto custa o bowl?" não pode ter `R$` |
+| saudação repetida | nenhuma resposta pode ter "sou a Lupe", porque o site já mostra a saudação |
+
+O texto é comparado sem acentos e sem diferença entre maiúsculas e minúsculas, e cada fato aceita formas equivalentes ("levemente picante", "pouco picante"). Um juiz LLM complementa a nota sem entrar nela: o mesmo `gpt-6-luna`, com esforço de raciocínio `high`, recebe os dados da loja como gabarito e diz se a resposta respondeu à pergunta, se inventou alguma informação e qual o tom (1 a 5). Cada caso roda 3 vezes, porque o LLM pode responder de um jeito diferente a cada vez; o caso que passa em algumas rodadas e falha em outras aparece como instável.
+
+**Resultado** (3 rodadas por caso, data simulada fixa; relatório completo em [docs/avaliacao_assistente.md](docs/avaliacao_assistente.md)):
+
+| Loja | Casos aprovados nas 3 rodadas | Aprovações | Juiz: respondeu / inventou / tom | Tempo médio por resposta | Custo por conversa |
+|---|---|---|---|---|---|
+| Sabor na Mesa | 22 de 22 | 66 de 66 | 22 de 22 / 1 / 4,9 | 5,1 s | US$ 0,0014 |
+| Casa Masala | 21 de 22 | 65 de 66 | 22 de 22 / 0 / 5,0 | 5,6 s | US$ 0,0020 |
+
+**Como se chegou aqui.** A primeira rodada deu 36 de 42 e 38 de 42. As falhas foram lidas uma a uma, para separar erro do assistente de regra mal escrita:
+
+- **Erros do assistente, corrigidos no prompt:** a Maya não sabia que dá para pedir um prato "menos picante" nas observações, porque perguntava ao analista do cardápio, e não ao da loja; uma pergunta de conhecimento geral recebia resposta antes da recusa; o encerramento às vezes não lembrava o carrinho.
+- **Regras estreitas demais, corrigidas nos casos:** respostas certas escritas de outro jeito ("a loja fecha às segundas", "não é picante") e o carrinho cobrado na mensagem errada, já que a etapa 3 só fala do carrinho depois de sugerir o complemento e perguntar se há dúvidas.
+- **Juiz sem contexto, corrigido no prompt dele:** marcou como inventado "o preço aparece no carrinho", que é uma regra do site, e datas que o assistente calculou a partir da data da conversa.
+
+**O que continua aberto.** O encerramento da etapa 3 ainda deixa de lembrar o carrinho de vez em quando (1 de 3 na Casa Masala, mesmo com a regra reforçada). Como o fim da conversa é previsível, o próximo passo seria acrescentar a frase do carrinho pelo código quando a etapa 3 termina, em vez de depender só do prompt.
+
+**Quando rodar.** Só quando algo do assistente muda: um prompt, o modelo ou os dados da loja. A avaliação chama a OpenAI e tem custo (menos de US$ 0,50 por execução completa, com o juiz), por isso fica fora do `pytest`. As regras de conferência, essas sim, têm testes em `tests/test_avaliacao_assistente.py`, com respostas escritas à mão.
+
+```bash
+python avaliar_assistente.py                 # duas lojas, 2 rodadas, com juiz
+python avaliar_assistente.py --rodadas 3     # como no resultado acima
+python avaliar_assistente.py --loja indiano --sem-juiz
+```
+
 ## Como executar
 
 ```bash

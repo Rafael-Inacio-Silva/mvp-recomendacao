@@ -43,7 +43,7 @@ ANALISTAS = {
         nome="loja",
         descricao=(
             "Analista da loja: endereço, horário, se está aberta agora, delivery, taxa, pedido mínimo, "
-            "pagamento, alergias, problemas com o pedido e contato."
+            "pagamento, alergias, pedidos especiais (como menos picante), problemas com o pedido e contato."
         ),
         fonte=texto_loja,
     ),

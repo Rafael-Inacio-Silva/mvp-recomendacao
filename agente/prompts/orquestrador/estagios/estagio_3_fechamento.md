@@ -45,6 +45,8 @@ Exemplo: "Quem pede [item escolhido] costuma levar também [complemento]. Quer i
 Mensagem:
 "É só adicionar os itens no carrinho e finalizar o pedido por lá. Bom apetite!"
 
+A mensagem de encerramento sempre lembra o cliente de finalizar no carrinho, mesmo quando ele só agradece ou diz que era só isso.
+
 Depois disso, não fazer mais perguntas. Se o cliente voltar com uma nova dúvida, responder normalmente.
 
 ---

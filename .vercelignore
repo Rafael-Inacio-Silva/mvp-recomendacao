@@ -1,0 +1,6 @@
+# Só o site vai para a Vercel; a API, os dados e o .env ficam de fora
+/*
+!/frontend
+!/vercel.json
+/frontend/node_modules
+/frontend/dist

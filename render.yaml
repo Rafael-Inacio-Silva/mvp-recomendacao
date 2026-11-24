@@ -1,0 +1,22 @@
+# API no Render (plano gratuito). O build gera os arquivos de dados que não vão para o GitHub.
+services:
+  - type: web
+    name: mvp-recomendacao-api
+    runtime: python
+    plan: free
+    region: virginia
+    buildCommand: pip install -r requirements.txt && python analise_dados.py && python gerar_regras.py
+    startCommand: uvicorn api:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/saude
+    autoDeployTrigger: commit
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.5
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-6-luna
+      - key: OPENAI_REASONING_EFFORT
+        value: low
+      - key: ORIGENS_PERMITIDAS
+        value: https://mvp-recomendacao.vercel.app

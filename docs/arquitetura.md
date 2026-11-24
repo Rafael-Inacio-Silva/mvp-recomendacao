@@ -225,7 +225,7 @@ Os dados de cada área cabem inteiros no prompt (no maior caso, as regras da Cas
 
 | Etapa | Arquivo | Objetivo | Avança quando |
 |---|---|---|---|
-| 1 — Conexão | `estagio_1_conexao.md` | se apresentar e entender o que o cliente procura | o cliente traz uma dúvida, uma preferência ou um item |
+| 1 — Conexão | `estagio_1_conexao.md` | entender o que o cliente procura; não se apresenta, porque o site já mostra a saudação da assistente | o cliente traz uma dúvida, uma preferência ou um item |
 | 2 — Atendimento | `estagio_2_atendimento.md` | esclarecer dúvidas e ajudar a escolher, com microcompromissos | o cliente escolhe um item ou diz que vai pedir |
 | 3 — Fechamento | `estagio_3_fechamento.md` | sugerir um complemento, tirar dúvidas finais e orientar a finalizar no carrinho | — |
 

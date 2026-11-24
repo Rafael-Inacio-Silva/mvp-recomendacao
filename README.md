@@ -1,5 +1,17 @@
 # MVP de recomendação de itens — PratoTech
 
+**Recomendação "compre junto" para delivery**: regras de associação calculadas a partir dos pedidos sugerem o complemento do carrinho com uma frase explicando o porquê, e uma **assistente de conversa em agentes** (orquestrador e analistas com LLM) responde sobre o cardápio, as combinações e a loja, sempre com os dados do restaurante.
+
+`Python` · `pandas` · `mlxtend (Apriori)` · `FastAPI` · `OpenAI` · `React` · `Vite` · `pytest`
+
+![Cardápio da Sabor na Mesa com dois itens no pedido e a sugestão "Combina com seu pedido" ao lado](docs/imagens/cardapio.jpg)
+
+*Cardápio da Sabor na Mesa: ao adicionar o Bowl de Frango e os Nachos com Guacamole, o resumo do pedido mostra na hora a sugestão do recomendador, com a frase montada a partir da regra que a gerou.*
+
+| Escolha da loja | Pedido com sugestões | Conversa com a assistente |
+|---|---|---|
+| ![Página inicial com as duas lojas](docs/imagens/entrada.jpg) | ![Página do pedido com as 3 sugestões e as frases](docs/imagens/pedido.jpg) | ![Chat com a Maya, da Casa Masala, respondendo sobre o arroz pilau e o que sai junto com o naan](docs/imagens/chat.jpg) |
+
 Projeto preparado para a entrevista a partir de um cenário fictício. Restaurantes de São Paulo pedem à PratoTech um MVP que recomende itens com base no carrinho do delivery, usando regras de associação calculadas a partir dos pedidos. Como diferencial, a PratoTech propõe um assistente de conversa, que tira dúvidas do cliente sobre o cardápio, as combinações de itens e a loja.
 
 - [Arquitetura](docs/arquitetura.md): componentes, tecnologias, organização do código, API e assistente, comuns às duas lojas.

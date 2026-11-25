@@ -10,3 +10,6 @@ dados/*/pedidos_limpos.csv
 dados/*/regras.csv
 dados/*/avaliacao.csv
 
+
+# Catálogo de restaurantes recebido (351 MB); o tratado, dados/restaurante/restaurantes.csv, fica no repositório
+dados/restaurante/restaurants.csv

@@ -266,7 +266,7 @@ Os resultados de cada loja estão nos relatórios: [Sabor na Mesa](mexicano/rela
 
 ### Avaliação do assistente
 
-`avaliar_assistente.py` conversa com o assistente real usando os casos de `dados/<loja>/casos_assistente.json` e uma data simulada fixa. A nota vem de regras determinísticas (`agente/avaliacao.py`): analista consultado, etapa, fatos que precisam aparecer e textos proibidos, comparados sem acentos. Um juiz LLM (`agente/prompts/juiz/prompt.md`, esforço `high`, saída em JSON com esquema fixo) recebe os dados da loja como gabarito e avalia se a resposta respondeu à pergunta, se inventou informação e o tom, numa coluna separada. As conversas rodam em paralelo, e `llm.py` soma os tokens de cada chamada para o custo. O resultado vai para [avaliacao_assistente.md](avaliacao_assistente.md); a história das correções está no [README](../README.md#avaliação-do-assistente).
+`avaliar_assistente.py` conversa com o assistente real usando os casos de `dados/<loja>/casos_assistente.json` e uma data simulada fixa. A nota vem de regras determinísticas (`agente/avaliacao.py`): analista consultado, etapa, fatos que precisam aparecer e textos proibidos, comparados sem acentos. Um juiz LLM (`agente/prompts/juiz/prompt.md`, esforço `high`, saída em JSON com esquema fixo) recebe os dados da loja como gabarito e avalia se a resposta respondeu à pergunta, se inventou informação e o tom, numa coluna separada. As conversas rodam em paralelo, e `llm.py` soma os tokens de cada chamada para o custo. O resultado vai para [avaliacao_assistente.md](avaliacao_assistente.md); a história das correções está no [README](../README.md#como-funciona-a-avaliação-do-assistente).
 
 ## 6. Testes
 

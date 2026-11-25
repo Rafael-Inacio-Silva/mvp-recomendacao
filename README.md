@@ -84,6 +84,8 @@ O arquivo `gerar_regras.py` compara os limites e gera as regras finais de cada l
 
 ## Avaliação
 
+### Recomendador
+
 **Como testamos:** pegamos os pedidos antigos, tiramos um item de cada pedido e pedimos ao sistema 3 sugestões para o que sobrou. Contamos quantas vezes o item tirado estava entre as sugestões e comparamos com o jeito mais simples de sugerir: mostrar sempre os 3 itens mais vendidos.
 
 **As quatro formas de sugerir que comparamos** (os exemplos são da Sabor na Mesa):
@@ -114,6 +116,33 @@ O arquivo `gerar_regras.py` compara os limites e gera as regras finais de cada l
 
 Os números vêm de `avaliar.py`, que também mostra uma divisão única 80/20; a validação cruzada (5 dobras) é a usada aqui. Os detalhes de cada versão estão na [arquitetura](docs/arquitetura.md#5-avaliação).
 
+### Assistente de conversa
+
+**Como testamos:** escrevemos 22 perguntas por loja, do jeito que um cliente escreveria, cada uma com o que a resposta precisa ter. Um script conversa com a assistente de verdade, 3 vezes cada pergunta, e o código confere as respostas por regras fixas: se ela consultou o analista certo, se trouxe o fato pedido (o horário, o telefone, o nível de picância) e se evitou o que não pode (preço inventado, se apresentar de novo, responder assunto fora da loja).
+
+**Exemplos de perguntas** (Sabor na Mesa):
+
+- "O burrito de carne é picante?" → consultar o analista do cardápio e dizer que é levemente picante;
+- "Quanto custa o bowl de frango?" → não citar valor em R$, porque o preço aparece no carrinho;
+- "Qual é a capital da França?" → não responder "Paris" e voltar ao cardápio;
+- "Vou querer o bowl de frango" → sugerir um complemento e, no fim, orientar a finalizar no carrinho.
+
+**Respostas aprovadas a cada 100 conversas:**
+
+| Versão | Sabor na Mesa | Casa Masala |
+|---|---|---|
+| Primeira rodada | 86 | 90 |
+| **Versão final** | **100** | **98** |
+
+**O que os números mostram:**
+
+- **Primeira rodada:** a maioria das falhas era da prova, não da assistente: respostas certas escritas de outro jeito ("a loja fecha às segundas" em vez de "fechada"). Corrigidas essas regras, sobraram três erros reais, resolvidos no prompt: a Maya não sabia que dá para pedir um prato "menos picante", uma pergunta fora do assunto recebia resposta e o encerramento às vezes esquecia o carrinho.
+- **Versão final:** a única falha é o encerramento da Casa Masala sem lembrar o carrinho, em 1 de 3 conversas. O próximo passo é colocar essa frase pelo código, em vez de depender do prompt.
+- **Juiz LLM:** concordou com as regras. Disse que a resposta atendeu à pergunta em 44 de 44 casos, deu tom médio de 4,9 de 5 e apontou um caso de informação inventada, que foi exagero dele ("não picante" tratado como "sem pimenta").
+- **Custo e tempo:** cada conversa custa cerca de US$ 0,002, e cada resposta leva uns 5 segundos.
+
+Como os casos, as regras e o juiz funcionam está em [Como funciona a avaliação do assistente](#como-funciona-a-avaliação-do-assistente).
+
 ## Modelos e uso de LLM
 
 Cada parte do sistema usa a técnica mais simples que resolve o problema. O LLM entra só onde o código comum não resolve bem.
@@ -126,6 +155,20 @@ Cada parte do sistema usa a técnica mais simples que resolve o problema. O LLM 
 | Frase da sugestão | modelo de frase em Python, sem LLM | a frase só repete itens que o sistema já escolheu; um LLM traria custo, demora e risco de citar algo fora da regra, sem acrescentar informação |
 | Artigos do cardápio (etapa 6) | LLM `gpt-6-luna`, da OpenAI | explicado abaixo |
 | Assistente de conversa | LLM `gpt-6-luna` com function calling, em agentes | explicado na seção “Assistente de conversa” |
+| Avaliação do assistente | regras no código e juiz LLM `gpt-6-luna` | a nota vem das regras; o juiz só comenta |
+
+### Modelo de IA em cada função
+
+Todas as funções usam o mesmo modelo, o `gpt-6-luna` da OpenAI. O que muda é o esforço de raciocínio e quando o modelo é chamado.
+
+| Função | Modelo e esforço | Quando roda | Por que essa escolha |
+|---|---|---|---|
+| Artigos do cardápio (etapa 6 do pipeline) | `gpt-6-luna`, `low` | uma vez, e de novo só para itens novos | frases curtas com padrão claro e conferência automática; o resultado fica salvo em `cardapio.csv` |
+| Orquestrador (Lupe e Maya) | `gpt-6-luna`, `low` | a cada mensagem do cliente | entender a pergunta, escolher o analista e escrever poucas frases; precisa ser rápido (cerca de 5 s) e barato (cerca de US$ 0,002 por conversa) |
+| Analistas (cardápio, combinações e loja) | `gpt-6-luna`, `low` | quando o orquestrador consulta | encontrar a informação em dados pequenos e organizados, sem precisar de um modelo maior |
+| Juiz da avaliação | `gpt-6-luna`, `high` | só quando `avaliar_assistente.py` roda | conferir cada fato com o gabarito pede mais raciocínio; usa a mesma chave da OpenAI. Como o modelo avalia respostas parecidas com as dele, o juiz não entra na nota, que vem das regras |
+
+O modelo e o esforço do assistente podem ser trocados pelas variáveis `OPENAI_MODEL` e `OPENAI_REASONING_EFFORT`, sem mudar o código. Pela avaliação, o assistente passa em 98 a 100 de cada 100 conversas com o modelo mais simples, então um modelo maior seria custo sem ganho.
 
 ### Por que um LLM na etapa 6
 
@@ -217,7 +260,7 @@ Os prompts ficam em `agente/prompts/<agente>/`, um por pasta, para facilitar a m
 
 **Cuidados.** O assistente não fecha pedidos nem recebe pagamentos, não pede dados pessoais e recusa assuntos fora da loja. As chamadas usam `store=False`, então a OpenAI não guarda as conversas. Sem a chave da OpenAI, só o chat fica indisponível: as sugestões do carrinho continuam funcionando.
 
-## Avaliação do assistente
+## Como funciona a avaliação do assistente
 
 O recomendador tem uma nota (o acerto no top 3). O assistente ganhou a sua com `avaliar_assistente.py`, que conversa com a Lupe e a Maya de verdade e confere cada resposta.
 

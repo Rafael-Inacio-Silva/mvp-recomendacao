@@ -386,10 +386,13 @@ nav [aria-current] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
+  max-width: 100%;
   border-bottom: 1px solid #acac9f;
 }
 .busca input {
-  width: 125px;
+  width: 14rem;
+  max-width: 100%;
+  min-width: 0;
   border: 0;
   background: transparent;
   padding: 0.35rem;

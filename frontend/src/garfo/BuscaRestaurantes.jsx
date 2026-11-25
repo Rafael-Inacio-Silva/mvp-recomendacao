@@ -6,6 +6,8 @@ import { Aviso, Ranking } from './Ranking'
 import './garfo.css'
 
 const CHAVE_SESSAO = 'pratotech:restaurantes'
+// Espera a pessoa parar de digitar antes de enviar o texto (uma interpretação por busca concluída)
+const ESPERA_TEXTO_MS = 700
 
 // Rolagem para as seções; o hash da página fica reservado para as rotas das lojas
 function rolarPara(id) {
@@ -51,16 +53,36 @@ function Explorar({ cidades }) {
   )
   const [culinaria, setCulinaria] = useState(salvo.culinaria || '')
   const [texto, setTexto] = useState(salvo.texto || '')
+  const [textoEnviado, setTextoEnviado] = useState((salvo.texto || '').trim())
+  const [avisoCidade, setAvisoCidade] = useState('')
   const [perfis, setPerfis] = useState(salvo.perfis || { com: padrao, sem: semTexto })
   const temTexto = Boolean(texto.trim())
   const perfil = temTexto ? 'com' : 'sem'
   const base = temTexto ? padrao : semTexto
   const pesos = perfis[perfil]
   const opcoes = useConsulta(id + '/culinarias')
+
+  // O ranking só é pedido com as culinárias da cidade atual já carregadas e a escolha conferida nelas
+  const nomes = opcoes.dados?.cidade === id ? opcoes.dados.culinarias.map((c) => c.culinaria) : null
+  const culinariaValida = Boolean(nomes) && (!culinaria || nomes.includes(culinaria))
   const ranking = useConsulta(
-    id + '/recomendacoes',
-    JSON.stringify({ culinaria: culinaria || null, preferencia: texto.trim(), pesos }),
+    culinariaValida ? id + '/recomendacoes' : '',
+    JSON.stringify({ culinaria: culinaria || null, preferencia: textoEnviado, pesos }),
   )
+
+  // Ao trocar de cidade, a culinária continua se existir lá; senão, volta para todas, com aviso
+  useEffect(() => {
+    if (nomes && culinaria && !nomes.includes(culinaria)) {
+      const nomeCidade = cidades.find((c) => c.cidade === id)?.nome
+      setAvisoCidade(`${culinaria} não existe em ${nomeCidade}. Mostrando todas as culinárias.`)
+      setCulinaria('')
+    }
+  }, [nomes, culinaria, id, cidades])
+
+  useEffect(() => {
+    const espera = setTimeout(() => setTextoEnviado(texto.trim()), ESPERA_TEXTO_MS)
+    return () => clearTimeout(espera)
+  }, [texto])
 
   useEffect(() => {
     gravarSessao(CHAVE_SESSAO, { id, culinaria, texto, perfis })
@@ -80,7 +102,7 @@ function Explorar({ cidades }) {
             value={id}
             onChange={(e) => {
               setId(e.target.value)
-              setCulinaria('')
+              setAvisoCidade('')
             }}
           >
             {cidades.map((c) => (
@@ -95,7 +117,10 @@ function Explorar({ cidades }) {
           <select
             disabled={!opcoes.dados}
             value={culinaria}
-            onChange={(e) => setCulinaria(e.target.value)}
+            onChange={(e) => {
+              setCulinaria(e.target.value)
+              setAvisoCidade('')
+            }}
           >
             <option value="">Todas as culinárias</option>
             {opcoes.dados?.culinarias.map((c) => (
@@ -104,6 +129,11 @@ function Explorar({ cidades }) {
           </select>
         </label>
         {opcoes.erro && <Aviso consulta={opcoes} />}
+        {avisoCidade && (
+          <p className="gAviso" role="status">
+            {avisoCidade}
+          </p>
+        )}
         <label>
           O que você procura?
           <input
@@ -111,6 +141,7 @@ function Explorar({ cidades }) {
             placeholder="Ex.: sushi, vegetariano, barato…"
             value={texto}
             onChange={(e) => setTexto(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && setTextoEnviado(texto.trim())}
           />
         </label>
         <fieldset>

@@ -75,6 +75,29 @@ function Restaurante({ r, posicao, pesos }) {
     </li>
   )
 }
+// O que o sistema entendeu do texto livre e os avisos da busca
+function Interpretacao({ dados }) {
+  if (!dados) return null
+  const entendido = dados.interpretacao?.disponivel
+    ? [
+        dados.interpretacao.culinaria && !dados.interpretacao.conflito
+          ? 'culinária ' + dados.interpretacao.culinaria
+          : null,
+        ...dados.interpretacao.termos.map((t) => '“' + t + '”'),
+      ].filter(Boolean)
+    : []
+  return (
+    <>
+      {entendido.length > 0 && <p className="entendido">Entendi: {entendido.join(' · ')}</p>}
+      {dados.avisos?.map((aviso) => (
+        <p className="gAviso" role="status" key={aviso}>
+          {aviso}
+        </p>
+      ))}
+    </>
+  )
+}
+
 export function Ranking({ consulta, cidade }) {
   return (
     <section id="ranking" aria-labelledby="tituloRanking">
@@ -85,6 +108,7 @@ export function Ranking({ consulta, cidade }) {
       <p className="local" aria-live="polite">
         {cidade}
       </p>
+      <Interpretacao dados={consulta.dados} />
       {consulta.erro ? (
         <Aviso consulta={consulta} />
       ) : !consulta.dados ? (

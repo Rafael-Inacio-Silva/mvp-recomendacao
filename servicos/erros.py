@@ -6,6 +6,11 @@ MENSAGENS = {
     "invalid_type": "Valor em formato diferente do esperado.",
     "empty": "Campo vazio.",
     "unknown_item": "Item fora do cardápio da loja.",
+    "unknown_cuisine": "Culinária não encontrada nesta cidade.",
+    "too_long": "Texto com mais de 200 caracteres.",
+    "unknown_field": "Campo não previsto.",
+    "not_finite": "Número não finito.",
+    "out_of_range": "Valor fora da faixa permitida.",
 }
 
 

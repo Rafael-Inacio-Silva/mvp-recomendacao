@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException
 
-from servicos import recomendacao
+from servicos import recomendacao, restaurantes
 from servicos.chat import ServicoChat
 from servicos.erros import EntradaInvalida, ErroDoServico, Indisponivel, NaoEncontrado, erro
 
@@ -100,6 +100,25 @@ def chat(loja: str, corpo: Any = Body(None)):
 @app.delete("/api/lojas/{loja}/chat/{conversa_id}")
 def encerrar_chat(loja: str, conversa_id: str):
     return servico_chat.encerrar(loja, conversa_id)
+
+
+# ---------------------------------------------------------------- recomendação de restaurantes
+
+
+@app.get("/api/restaurantes/cidades")
+def cidades():
+    return restaurantes.listar_cidades()
+
+
+@app.get("/api/restaurantes/{cidade}/culinarias")
+def culinarias(cidade: str):
+    return restaurantes.listar_culinarias(cidade)
+
+
+@app.post("/api/restaurantes/{cidade}/recomendacoes")
+def recomendacoes(cidade: str, corpo: Any = Body(None)):
+    corpo = ler_corpo(corpo)
+    return restaurantes.recomendar(cidade, corpo.get("culinaria"), corpo.get("preferencia"), corpo.get("pesos"))
 
 
 if __name__ == "__main__":

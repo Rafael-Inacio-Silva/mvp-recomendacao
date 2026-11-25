@@ -40,7 +40,7 @@ Os restaurantes e os e-mails são fictícios, mas os pedidos são reais, vindos 
 |---|---|---|
 | Sabor na Mesa | `chipotle.tsv`, pedidos da rede Chipotle, conjunto público usado em cursos de análise de dados | colunas de quantidade, opções escolhidas e preço removidas |
 | Casa Masala | `restaurant-1-orders.csv`, do conjunto [Takeaway Food Orders](https://www.kaggle.com/datasets/henslersoftware/19560-indian-takeaway-orders) (Kaggle), pedidos de um restaurante indiano de Londres | licença “Data files © Original Authors”; os direitos sobre os dados são dos autores originais, e o uso aqui é só para estudo |
-| Garfo Certo (restaurantes) | `restaurants.csv`, conjunto público do Kaggle com o catálogo de restaurantes de um aplicativo de delivery brasileiro, coletado em fevereiro de 2021 | o repositório guarda só um recorte das três capitais, sem links, logotipos, formas de pagamento e códigos internos de campanha; o uso é só para estudo |
+| Garfo Certo (restaurantes) | `restaurants.csv`, [conjunto público do Kaggle](https://www.kaggle.com/code/ricardotachinardi/an-lise-restaurantes-ifood/input?select=ifood-restaurants-february-2021.csv) com o catálogo de restaurantes de um aplicativo de delivery brasileiro, coletado em fevereiro de 2021 | o repositório guarda só um recorte das três capitais, sem links, logotipos, formas de pagamento e códigos internos de campanha; o uso é só para estudo |
 
 ### Arquivos de dados no repositório
 

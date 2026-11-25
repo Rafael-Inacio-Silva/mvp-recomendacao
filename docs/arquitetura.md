@@ -31,7 +31,7 @@ site (Vercel) → API (Render) → serviço do chat → assistente: orquestrador
 | `agente` | assistente de conversa: orquestrador, analistas, fontes de dados e prompts | RF-07, RF-08, RN-10, RN-11, RNF-03 |
 | `servicos` | validações e regras de negócio das rotas: lojas, cardápio, sugestões e conversas do chat | RF-01, RF-02, RF-04, RF-06, RF-07, RF-08, RN-09 |
 | `api` | controller: recebe as requisições do site, chama os serviços e converte os erros em status HTTP | RF-01, RF-02, RF-04, RF-06, RF-07, RF-08 |
-| `frontend/` | seleção de restaurante, cardápio, carrinho com sugestões e chat por loja (React e Vite) | RF-01, RF-02, RF-07 |
+| `frontend/` | busca de restaurantes (página inicial), cardápio, carrinho com sugestões e chat por loja (React e Vite) | RF-01, RF-02, RF-07, RF-R01 a RF-R06 |
 | `restaurantes` | pipeline do catálogo, recomendação por conteúdo e critérios, validação da busca, serviço e rotas (seção 7) | RF-R01 a RF-R06, RN-R01 a RN-R08 |
 
 O recomendador não depende do site, da explicação nem do assistente. Assim, ele pode ser testado sozinho, e a forma de explicar pode mudar sem afetar as sugestões.
@@ -112,7 +112,8 @@ mvp-recomendacao/
 │   ├── public/imagens/          # capas das lojas e foto de cada produto
 │   └── src/
 │       ├── main.jsx             # rotas pelo endereço (#/<loja>/<página>)
-│       ├── Entrada.jsx          # escolha da loja
+│       ├── garfo/               # página inicial: busca de restaurantes (ranking, pesos e estilos escopados em .garfo)
+│       ├── Entrada.jsx          # escolha direta da loja (#/lojas)
 │       ├── Restaurante.jsx      # topo, carrinho e páginas de uma loja
 │       ├── Cardapio.jsx         # cardápio com categorias, busca e resumo do pedido
 │       ├── Pedido.jsx           # pedido e sugestões com a frase
@@ -303,7 +304,7 @@ Os testes usam pytest (`python -m pytest`). Os das regras de negócio usam regra
 | `test_servicos.py` | cardápio do mais pedido para o menos pedido; loja desconhecida; carrinho inválido com código e texto; mensagem do chat validada antes de chamar o assistente; aviso de conversa nova | RF-01, RF-07, RN-09 |
 | `test_avaliacao_assistente.py` | regras da avaliação do assistente com respostas escritas à mão; arquivos de casos bem formados | RF-07, RN-10 |
 | `test_api.py` | rotas de saúde, lojas, cardápio, sugestões e chat; status 400, 404, 405 e 503 com o mesmo formato de erro; JSON inválido; chat sem a chave da OpenAI; encerramento da conversa | RF-01, RF-04, RF-08, RN-09, RNF-03 |
-| `test_restaurantes.py` | etiquetas e valores inválidos do catálogo; filtro de culinária, limite de 10, frete e tempo, nota de quem não tem avaliação, texto livre, unidades repetidas, desempate e pesos; validação da busca; rotas de cidades, culinárias e recomendações | RF-R01 a RF-R06, RN-R01 a RN-R08 |
+| `test_restaurantes.py` | etiquetas e valores inválidos do catálogo; filtro de culinária, limite de 10, frete e tempo, nota de quem não tem avaliação, texto livre, unidades repetidas, desempate e pesos; validação da busca; rotas de cidades, culinárias e recomendações; lojas parceiras no top 10 de São Paulo, com o link | RF-R01 a RF-R06, RN-R01 a RN-R08 |
 | `test_agente.py` | ferramentas do orquestrador; dados de cada analista completos (todos os produtos, todas as regras com “N de cada 100 pedidos”, documento da loja); etapas com nome, objetivo e instrução; só a etapa atual no prompt; marcadores preenchidos; datas de referência; a etapa só avança | RN-10 |
 
 ## 7. Recomendação de restaurantes
@@ -331,5 +332,7 @@ site → API → serviço de restaurantes → validação da busca → índice T
 A pontuação é a soma ponderada. `pesos_efetivos` normaliza os pesos para somarem 1 e, sem texto livre, zera o conteúdo e redistribui o peso dele (RN-R04). A ordem é pela pontuação, depois pela nota e pelo nome (RN-R06), e só a melhor unidade de cada nome fica (RN-R05). A frase (RN-R08) junta nota ou “sem avaliação”, frete, tempo e, quando o texto livre teve semelhança maior que zero, “combina com …”.
 
 **Validação.** `validar_busca` segue o formato do validador do carrinho (`{"ok": True, "value": ...}` ou `{"ok": False, "errors": [...]}`, sem exceções e sem repetir o valor recebido): culinária (`invalid_type`, `empty`, `unknown_cuisine`), texto livre (`invalid_type`, `too_long`) e pesos (`invalid_type`, `null`, `not_finite`, `out_of_range`, `unknown_field` e `out_of_range` em `pesos` quando todos são zero).
+
+**Lojas parceiras (simulação).** `LOJAS_PARCEIRAS`, em `cidades.py`, liga dois restaurantes reais do catálogo de São Paulo às lojas do projeto: Rica Pancita → `mexicano` e Queen's Kitchen → `indiano`. Ao montar o índice da cidade, `vincular_lojas` troca o nome deles pelo da loja e guarda o identificador na coluna `loja`, que a API devolve. O site usa esse campo para mostrar o link “Ver cardápio e pedir” (`#/<loja>/cardapio`); os demais restaurantes ficam sem link. Os dois foram escolhidos por já estarem no top 10 da busca por culinária, e um teste confere que continuam lá.
 
 **Avaliação.** Sem dados de cliques, `avaliar_restaurantes.py` compara o top 10 com a ordem alfabética (a lista atual do cliente) e com ordenações por um critério só em nota média, parte sem avaliação, frete e tempo; mede a parte do top 10 que combina com textos de exemplo; e conta quantos restaurantes continuam no top 10 quando um peso é dobrado. Os resultados estão no [relatório](restaurantes/relatorio.md).

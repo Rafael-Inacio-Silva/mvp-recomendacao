@@ -344,6 +344,8 @@ Sem texto livre, o peso do conteúdo é dividido entre os outros critérios. Uni
 - **Pesos:** dobrar o peso da avaliação troca 3 dos 10 restaurantes; dobrar o do frete quase não muda nada, porque o top 10 já é quase todo de frete grátis.
 - **Primeira versão:** premiava quem repetia a culinária no nome (“Yama Gastronomia Japonesa”) e punha restaurantes sem avaliação na frente dos bem avaliados, porque usava a nota mediana (4,67). As duas coisas foram corrigidas antes da avaliação.
 
+**Simulação no site.** Dois restaurantes reais do catálogo de São Paulo, que já estavam no top 10 das buscas por culinária, representam as lojas do projeto: o Rica Pancita (Mexicana, 3º lugar) aparece como **Sabor na Mesa** e o Queen's Kitchen (Indiana, 2º lugar) como **Casa Masala** (`LOJAS_PARCEIRAS`, em `cidades.py`). A API devolve o campo `loja` só para eles, e no site só esses dois têm o link “Ver cardápio e pedir”, que abre a página da loja, com as sugestões por associação e o chat. Os demais ficam sem link, porque este é um MVP. Para ver o caminho completo: escolha São Paulo e Mexicana (ou Indiana) na página inicial.
+
 O catálogo tratado já vem no repositório. Para gerar de novo, coloque o original em `dados/restaurante/restaurants.csv` e execute `python preparar_restaurantes.py`.
 
 ## Como executar
@@ -373,9 +375,9 @@ npm ci
 npm run dev
 ```
 
-Abra [o site local](http://127.0.0.1:5173). Escolha uma loja, adicione um prato e clique em **Ver sugestões**. Ao adicionar ou remover itens, a tela atualiza as sugestões com as frases enviadas pela API. Cada loja guarda seu carrinho e a conversa na sessão da aba. **Nova conversa** limpa o histórico daquela loja. A chave da OpenAI fica apenas no backend.
+Abra [o site local](http://127.0.0.1:5173). A página inicial é a busca de restaurantes do Garfo Certo. Escolha São Paulo e Mexicana (ou Indiana) e clique em **Ver cardápio e pedir** na Sabor na Mesa (ou na Casa Masala). Na página da loja, adicione um prato e clique em **Ver sugestões**. Ao adicionar ou remover itens, a tela atualiza as sugestões com as frases enviadas pela API. Cada loja guarda seu carrinho e a conversa na sessão da aba, e a busca de restaurantes também fica guardada ao voltar. **Nova conversa** limpa o histórico daquela loja. A escolha direta das duas lojas continua em `#/lojas`. A chave da OpenAI fica apenas no backend.
 
-O site é feito em React com Vite, com um componente por arquivo em `frontend/src/`. A página inicial fica em `Entrada.jsx`. Cada loja fica em `Restaurante.jsx`, com `Cardapio.jsx`, `Pedido.jsx` e `Chat.jsx`. O `useConsulta.js` faz as chamadas à API. As fontes são instaladas pelo npm e servidas pelo próprio site. O código segue a formatação do Prettier: `npm run formatar` formata os arquivos, e `npm run conferir-formato` confere a formatação.
+O site é feito em React com Vite, com um componente por arquivo em `frontend/src/`. A página inicial é a busca de restaurantes, em `garfo/` (`BuscaRestaurantes.jsx`, `Ranking.jsx`, `consulta.js`, `pesos.js` e `garfo.css`, com os estilos escopados na classe `.garfo`). A escolha direta das lojas fica em `Entrada.jsx`. Cada loja fica em `Restaurante.jsx`, com `Cardapio.jsx`, `Pedido.jsx` e `Chat.jsx`. O `useConsulta.js` faz as chamadas à API. As fontes são instaladas pelo npm e servidas pelo próprio site. O código segue a formatação do Prettier: `npm run formatar` formata os arquivos, e `npm run conferir-formato` confere a formatação.
 
 O Vite encaminha `/api` para `http://127.0.0.1:8000` durante o desenvolvimento. O comando `npm run build` gera o site estático em `frontend/dist/`. Para hospedagem separada, configure o encaminhamento de `/api` ao backend na hospedagem ou defina `VITE_API_BASE` com a origem pública do backend antes do build e inclua a origem do frontend em `ORIGENS_PERMITIDAS`.
 

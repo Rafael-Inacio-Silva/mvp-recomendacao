@@ -124,6 +124,8 @@ def recomendar_restaurantes(indice, culinaria=None, preferencia="", pesos=None, 
             "pontuacao": round(float(linha["pontuacao"]), 4),
             "partes": {criterio: round(float(linha[f"parte_{criterio}"]), 4) for criterio in PESOS_PADRAO},
             "combina_com_busca": bool(linha["combina_com_busca"]),
+            # Identificador da loja com site próprio no MVP, ou None
+            "loja": linha["loja"] if isinstance(linha.get("loja"), str) else None,
         }
         restaurante["explicacao"] = explicar(restaurante, preferencia)
         resultado.append(restaurante)

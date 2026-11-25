@@ -10,3 +10,12 @@ CIDADES = {
 # Catálogo recebido (fora do repositório, por ser grande) e catálogo tratado pelo pipeline
 ARQUIVO_ORIGINAL = "dados/restaurante/restaurants.csv"
 ARQUIVO_TRATADO = "dados/restaurante/restaurantes.csv"
+
+# Simulação do MVP: dois restaurantes do catálogo representam as lojas atendidas pelo projeto.
+# Eles aparecem com o nome da loja e levam ao site dela (cardápio, sugestões e chat).
+LOJAS_PARCEIRAS = {
+    "sao-paulo": {
+        "Rica Pancita": "mexicano",
+        "Queen's Kitchen": "indiano",
+    },
+}

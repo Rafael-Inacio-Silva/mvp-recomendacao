@@ -165,6 +165,17 @@ def test_recomendacoes(cliente):
 
 
 @precisa_do_catalogo
+@pytest.mark.parametrize("culinaria, loja, nome", [
+    ("Mexicana", "mexicano", "Sabor na Mesa Cozinha Mexicana"),
+    ("Indiana", "indiano", "Casa Masala Cozinha Indiana"),
+])
+def test_lojas_parceiras_no_top_10_com_link(cliente, culinaria, loja, nome):
+    corpo = cliente.post("/api/restaurantes/sao-paulo/recomendacoes", json={"culinaria": culinaria}).json()
+    parceiros = [r for r in corpo["restaurantes"] if r["loja"]]
+    assert [(r["loja"], r["nome"]) for r in parceiros] == [(loja, nome)]
+
+
+@precisa_do_catalogo
 def test_cidade_nao_atendida_e_busca_invalida(cliente):
     resposta = cliente.get("/api/restaurantes/curitiba/culinarias")
     assert resposta.status_code == 404

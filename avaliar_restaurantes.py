@@ -62,9 +62,9 @@ def medir_aderencia():
     for cidade in CIDADES:
         indice = indice_da_cidade(cidade)
         for texto in TEXTOS:
-            hibrido = recomendar_restaurantes(indice, None, texto)
+            hibrido = recomendar_restaurantes(indice, None, [texto])
             # Com peso zero no conteúdo, o texto não muda a ordem, mas ainda indica quem combina com ele
-            so_nota = recomendar_restaurantes(indice, None, texto, UM_CRITERIO["Só a nota"])
+            so_nota = recomendar_restaurantes(indice, None, [texto], UM_CRITERIO["Só a nota"])
             linhas.append({
                 "texto": texto,
                 "híbrido com o texto": sum(r["combina_com_busca"] for r in hibrido) / len(hibrido),

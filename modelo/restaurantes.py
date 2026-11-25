@@ -70,37 +70,80 @@ def semelhanca(indice, texto, linhas):
     return pd.Series(linear_kernel(vetor, indice["matriz"][linhas]).ravel(), index=linhas)
 
 
+def validar_intencao(indice, intencao, culinarias):
+    """Confere a intenção devolvida pelo LLM com os dados reais da cidade.
+
+    A culinária precisa existir na cidade, e cada termo precisa aparecer em pelo menos um restaurante;
+    o que não passa vai para "ignorados", para não virar promessa sem evidência.
+    """
+    culinaria = intencao.get("culinaria") if isinstance(intencao, dict) else None
+    if culinaria not in culinarias:
+        culinaria = None
+
+    analisar = indice["vetorizador"].build_analyzer()
+    vocabulario = indice["vetorizador"].vocabulary_
+    termos, ignorados = [], []
+    brutos = intencao.get("termos", []) if isinstance(intencao, dict) else []
+    for termo in brutos if isinstance(brutos, list) else []:
+        if not isinstance(termo, str) or not termo.strip():
+            continue
+        termo = termo.strip().lower()
+        palavras = analisar(termo)
+        destino = termos if palavras and all(palavra in vocabulario for palavra in palavras) else ignorados
+        if termo not in destino:
+            destino.append(termo)
+    return {"culinaria": culinaria, "termos": termos, "ignorados": ignorados}
+
+
+def correspondencias(indice, linha, termos, culinaria_do_texto):
+    """O que o restaurante tem do pedido, com evidência no cadastro (RN-R08)."""
+    encontradas = []
+    if culinaria_do_texto:
+        encontradas.append(f"culinária {linha['culinaria'].lower()}")
+    analisar = indice["vetorizador"].build_analyzer()
+    palavras_do_restaurante = set(analisar(texto_restaurante(linha)))
+    for termo in termos:
+        if set(analisar(termo)) <= palavras_do_restaurante:
+            encontradas.append(f"“{termo}”")
+    return encontradas
+
+
 def formatar_valor(valor):
     return f"{valor:.2f}".replace(".", ",")
 
 
-def explicar(restaurante, preferencia):
+def explicar(restaurante):
     """Frase da recomendação, montada com os dados do restaurante (RN-R08)."""
     partes = [f"Nota {restaurante['nota']:.1f}".replace(".", ",") if restaurante["avaliado"] else "Sem avaliação"]
     partes.append("frete grátis" if restaurante["frete"] == 0 else f"frete R$ {formatar_valor(restaurante['frete'])}")
     partes.append(f"entrega em cerca de {restaurante['tempo']} min")
-    if preferencia and restaurante["combina_com_busca"]:
-        partes.append(f"combina com “{preferencia}”")
+    if restaurante["correspondencias"]:
+        partes.append("combina com o pedido: " + " e ".join(restaurante["correspondencias"]))
     return " · ".join(partes)
 
 
-def recomendar_restaurantes(indice, culinaria=None, preferencia="", pesos=None, quantidade=QUANTIDADE):
-    """Os restaurantes mais indicados da cidade do índice, já validados e com pesos que somam 1."""
-    preferencia = (preferencia or "").strip()
-    pesos = pesos_efetivos(pesos, preferencia)
+def recomendar_restaurantes(indice, culinaria=None, termos=(), pesos=None, culinaria_do_texto=False, quantidade=QUANTIDADE):
+    """Os restaurantes mais indicados da cidade do índice.
+
+    `culinaria` já validada (do seletor ou do texto); `termos` já conferidos no catálogo;
+    `culinaria_do_texto` indica que a culinária veio do pedido escrito, para entrar na explicação.
+    """
+    termos = [termos] if isinstance(termos, str) else list(termos)
+    termos = [termo for termo in termos if termo.strip()]
+    texto_dos_termos = " ".join(termos)
+    pesos = pesos_efetivos(pesos, texto_dos_termos)
     restaurantes = indice["restaurantes"]
 
-    # RN-R02: só a culinária escolhida
+    # RN-R02: só a culinária escolhida, antes da pontuação
     filtro = restaurantes["culinaria"] == culinaria if culinaria else pd.Series(True, index=restaurantes.index)
     linhas = restaurantes.index[filtro]
     candidatos = restaurantes.loc[linhas].copy()
 
-    # Quatro notas de 0 a 1; a culinária já filtrou, então o conteúdo compara só o texto livre
-    candidatos["parte_conteudo"] = semelhanca(indice, preferencia, linhas)
+    # Quatro notas de 0 a 1; o conteúdo compara só os termos conferidos, e não a frase inteira
+    candidatos["parte_conteudo"] = semelhanca(indice, texto_dos_termos, linhas)
     candidatos["parte_avaliacao"] = candidatos["nota"].fillna(indice["nota_sem_avaliacao"]) / 5
     candidatos["parte_frete"] = nota_frete(candidatos["frete"])
     candidatos["parte_entrega"] = nota_entrega(candidatos["tempo"])
-    candidatos["combina_com_busca"] = candidatos["parte_conteudo"] > 0
 
     candidatos["pontuacao"] = sum(pesos[criterio] * candidatos[f"parte_{criterio}"] for criterio in PESOS_PADRAO)
 
@@ -112,6 +155,7 @@ def recomendar_restaurantes(indice, culinaria=None, preferencia="", pesos=None, 
 
     resultado = []
     for _, linha in candidatos.head(quantidade).iterrows():
+        encontradas = correspondencias(indice, linha, termos, culinaria_do_texto and bool(culinaria))
         restaurante = {
             "nome": linha["nome"],
             "culinaria": linha["culinaria"],
@@ -123,10 +167,11 @@ def recomendar_restaurantes(indice, culinaria=None, preferencia="", pesos=None, 
             "pedido_minimo": None if pd.isna(linha["pedido_minimo"]) else float(linha["pedido_minimo"]),
             "pontuacao": round(float(linha["pontuacao"]), 4),
             "partes": {criterio: round(float(linha[f"parte_{criterio}"]), 4) for criterio in PESOS_PADRAO},
-            "combina_com_busca": bool(linha["combina_com_busca"]),
+            "correspondencias": encontradas,
+            "combina_com_busca": bool(encontradas),
             # Identificador da loja com site próprio no MVP, ou None
             "loja": linha["loja"] if isinstance(linha.get("loja"), str) else None,
         }
-        restaurante["explicacao"] = explicar(restaurante, preferencia)
+        restaurante["explicacao"] = explicar(restaurante)
         resultado.append(restaurante)
     return resultado

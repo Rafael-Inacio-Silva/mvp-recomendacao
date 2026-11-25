@@ -9,7 +9,8 @@ from fastapi.testclient import TestClient
 
 import api
 from cidades import ARQUIVO_TRATADO
-from modelo.restaurantes import montar_indice, pesos_efetivos, recomendar_restaurantes
+from modelo.restaurantes import montar_indice, pesos_efetivos, recomendar_restaurantes, validar_intencao
+from servicos import restaurantes as servico
 from modelo.validacao_restaurantes import validar_busca
 from pipeline.restaurantes import extrair_etiquetas, tratar_valores
 
@@ -76,10 +77,27 @@ def test_sem_avaliacao_entra_com_o_primeiro_quartil():
 
 def test_texto_livre_favorece_quem_combina():
     indice = montar_indice(catalogo(("Casa do Sushi", "Japonesa", 4.0, 8.0, 50), ("Temakeria Boa", "Japonesa", 4.0, 8.0, 50)))
-    resultado = recomendar_restaurantes(indice, culinaria="Japonesa", preferencia="sushi")
+    resultado = recomendar_restaurantes(indice, culinaria="Japonesa", termos=["sushi"])
     assert nomes(resultado)[0] == "Casa do Sushi"
-    assert resultado[0]["explicacao"].endswith("combina com “sushi”")
-    assert not resultado[1]["combina_com_busca"]
+    assert resultado[0]["explicacao"].endswith("combina com o pedido: “sushi”")
+    # Sem evidência no cadastro, a explicação não afirma correspondência
+    assert not resultado[1]["combina_com_busca"] and "combina" not in resultado[1]["explicacao"]
+
+
+def test_culinaria_do_texto_entra_na_explicacao():
+    indice = montar_indice(catalogo(("Casa do Sushi", "Japonesa", 4.0, 8.0, 50), ("Pizzaria", "Pizza", 5.0, 0.0, 20)))
+    resultado = recomendar_restaurantes(indice, culinaria="Japonesa", culinaria_do_texto=True)
+    assert nomes(resultado) == ["Casa do Sushi"]
+    assert resultado[0]["correspondencias"] == ["culinária japonesa"]
+
+
+def test_intencao_do_llm_conferida_no_catalogo():
+    indice = montar_indice(catalogo(("Casa do Sushi", "Japonesa", 4.0, 8.0, 50), ("Pizzaria", "Pizza", 5.0, 0.0, 20)))
+    intencao = {"culinaria": "Coreana", "termos": ["Sushi", "lagosta", "sushi", "", 3]}
+    # Culinária que não existe na cidade vira None; termo sem nenhum restaurante vai para "ignorados"
+    assert validar_intencao(indice, intencao, ["Japonesa", "Pizza"]) == {
+        "culinaria": None, "termos": ["sushi"], "ignorados": ["lagosta"]}
+    assert validar_intencao(indice, "resposta quebrada", ["Japonesa"]) == {"culinaria": None, "termos": [], "ignorados": []}
 
 
 def test_mesmo_nome_aparece_uma_vez_a_melhor_unidade():
@@ -139,6 +157,61 @@ def test_pesos_todos_zero_ou_formato_errado():
 # ---------------------------------------------------------------- API
 
 
+# ---------------------------------------------------------------- serviço com o intérprete (LLM substituído)
+
+
+@pytest.fixture
+def interprete_falso(monkeypatch):
+    """Substitui o LLM por respostas fixas e conta as chamadas."""
+    chamadas = []
+
+    def responder(cliente, texto, culinarias):
+        chamadas.append(texto)
+        if "japon" in texto:
+            return {"culinaria": "Japonesa", "termos": []}
+        return {"culinaria": None, "termos": texto.split()}
+
+    monkeypatch.setattr(servico, "_interpretacoes", servico.OrderedDict())
+    monkeypatch.setattr(servico, "_cliente", {"llm": object()})
+    monkeypatch.setattr(servico, "interpretar", responder)
+    return chamadas
+
+
+@precisa_do_catalogo
+def test_frase_restringe_a_culinaria_e_reaproveita_a_interpretacao(interprete_falso):
+    for pesos in [None, {"conteudo": 0, "avaliacao": 1, "frete": 0, "entrega": 0}]:
+        resposta = servico.recomendar("belo-horizonte", None, "quero um restaurante japonês", pesos)
+        assert resposta["culinaria"] == "Japonesa"
+        assert {r["culinaria"] for r in resposta["restaurantes"]} == {"Japonesa"}
+        assert "culinária japonesa" in resposta["restaurantes"][0]["explicacao"]
+    # Mover os pesos não chama o LLM de novo
+    assert interprete_falso == ["quero um restaurante japonês"]
+
+
+@precisa_do_catalogo
+def test_conflito_entre_seletor_e_texto(interprete_falso):
+    resposta = servico.recomendar("belo-horizonte", "Pizza", "comida japonesa", None)
+    assert resposta["culinaria"] == "Pizza" and resposta["interpretacao"]["conflito"]
+    assert "Mantive Pizza" in resposta["avisos"][0]
+
+
+@precisa_do_catalogo
+def test_texto_vazio_nao_chama_o_llm(interprete_falso):
+    resposta = servico.recomendar("belo-horizonte", "Japonesa", "   ", None)
+    assert interprete_falso == [] and resposta["interpretacao"] is None
+
+
+@precisa_do_catalogo
+def test_llm_indisponivel_mantem_a_busca_pelos_seletores(monkeypatch):
+    monkeypatch.setattr(servico, "_interpretacoes", servico.OrderedDict())
+    monkeypatch.setattr(servico, "_cliente", {"llm": None})
+    monkeypatch.setattr(servico, "criar_cliente", lambda: None)
+    resposta = servico.recomendar("belo-horizonte", "Japonesa", "sushi", None)
+    assert resposta["interpretacao"] == {"disponivel": False}
+    assert len(resposta["restaurantes"]) == 10 and "Não consegui interpretar" in resposta["avisos"][0]
+    assert resposta["pesos"]["conteudo"] == 0
+
+
 @pytest.fixture
 def cliente():
     return TestClient(api.app)
@@ -153,7 +226,7 @@ def test_cidades_e_culinarias(cliente):
 
 
 @precisa_do_catalogo
-def test_recomendacoes(cliente):
+def test_recomendacoes(cliente, interprete_falso):
     resposta = cliente.post("/api/restaurantes/belo-horizonte/recomendacoes", json={"culinaria": "Japonesa", "preferencia": "sushi"})
     corpo = resposta.json()
     assert resposta.status_code == 200

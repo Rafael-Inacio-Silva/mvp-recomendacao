@@ -12,7 +12,7 @@
 |---|---|---|
 | ![Página inicial com as duas lojas](docs/imagens/entrada.jpg) | ![Página do pedido com as 3 sugestões e as frases](docs/imagens/pedido.jpg) | ![Chat com a Maya, da Casa Masala, respondendo sobre o arroz pilau e o que sai junto com o naan](docs/imagens/chat.jpg) |
 
-Projeto preparado para a entrevista a partir de um cenário fictício. Restaurantes de São Paulo pedem à PratoTech um MVP que recomende itens com base no carrinho do delivery, usando regras de associação calculadas a partir dos pedidos. Como diferencial, a PratoTech propõe um assistente de conversa, que tira dúvidas do cliente sobre o cardápio, as combinações de itens e a loja.
+Projeto preparado para a entrevista a partir de um cenário fictício. Restaurantes de São Paulo pedem à PratoTech um MVP que recomende itens com base no carrinho do delivery, usando regras de associação calculadas a partir dos pedidos. Como diferencial, a PratoTech propõe um assistente de conversa, que tira dúvidas do cliente sobre o cardápio, as combinações de itens e a loja. Um terceiro cliente, um aplicativo de delivery, pede a recomendação de restaurantes por cidade e culinária, feita com recomendação por conteúdo e critérios de qualidade e conveniência ([Recomendação de restaurantes](#recomendação-de-restaurantes)).
 
 - [Arquitetura](docs/arquitetura.md): componentes, tecnologias, organização do código, API e assistente, comuns às duas lojas.
 
@@ -40,6 +40,7 @@ Os restaurantes e os e-mails são fictícios, mas os pedidos são reais, vindos 
 |---|---|---|
 | Sabor na Mesa | `chipotle.tsv`, pedidos da rede Chipotle, conjunto público usado em cursos de análise de dados | colunas de quantidade, opções escolhidas e preço removidas |
 | Casa Masala | `restaurant-1-orders.csv`, do conjunto [Takeaway Food Orders](https://www.kaggle.com/datasets/henslersoftware/19560-indian-takeaway-orders) (Kaggle), pedidos de um restaurante indiano de Londres | licença “Data files © Original Authors”; os direitos sobre os dados são dos autores originais, e o uso aqui é só para estudo |
+| Garfo Certo (restaurantes) | `restaurants.csv`, conjunto público do Kaggle com o catálogo de restaurantes de um aplicativo de delivery brasileiro, coletado em fevereiro de 2021 | o repositório guarda só um recorte das três capitais, sem links, logotipos, formas de pagamento e códigos internos de campanha; o uso é só para estudo |
 
 ### Arquivos de dados no repositório
 
@@ -52,6 +53,8 @@ O repositório guarda só os dados de entrada. Tudo o que os scripts calculam é
 | `gabarito_cardapio.csv` | sim | conferência manual dos artigos do cardápio |
 | `loja.md`, `produtos.csv` | sim | dados da empresa e descrição de cada produto, enviados pelo restaurante; usados pelo assistente |
 | `pedidos_limpos.csv`, `regras.csv`, `avaliacao.csv` | não | gerados pelos scripts em segundos, sem custo |
+| `restaurante/restaurants.csv` | não | catálogo original de restaurantes, com 351 MB, acima do limite de 100 MB do GitHub |
+| `restaurante/restaurantes.csv` | sim, como exceção | recorte tratado das três capitais (3,6 MB), gerado por `preparar_restaurantes.py` a partir do catálogo original, que não vai para o repositório |
 
 **Por que o `cardapio.csv` é exceção.** A etapa 6 só chama o LLM para os itens que ainda não estão no `cardapio.csv`. Com o arquivo no repositório, o servidor já recebe o cardápio pronto a cada atualização, e o LLM não roda de novo. Sem ele, cada atualização chamaria o LLM para os 288 itens das duas lojas, o que exigiria a chave da OpenAI no servidor, levaria cerca de um minuto, teria custo e poderia mudar algum artigo já conferido. Assim, o LLM roda uma vez e só volta a rodar quando entra um item novo no cardápio.
 
@@ -156,6 +159,7 @@ Cada parte do sistema usa a técnica mais simples que resolve o problema. O LLM 
 | Artigos do cardápio (etapa 6) | LLM `gpt-6-luna`, da OpenAI | explicado abaixo |
 | Assistente de conversa | LLM `gpt-6-luna` com function calling, em agentes | explicado na seção “Assistente de conversa” |
 | Avaliação do assistente | regras no código e juiz LLM `gpt-6-luna` | a nota vem das regras; o juiz só comenta |
+| Recomendação de restaurantes | TF-IDF e cosseno (scikit-learn) somados a nota, frete e tempo, com pesos; sem LLM | não há histórico por cliente, então a recomendação por conteúdo é a que funciona sem ele; o cálculo é exato, rápido (cerca de 20 ms) e explicável |
 
 ### Modelo de IA em cada função
 
@@ -215,6 +219,9 @@ O backend expõe as rotas que o site chama, em FastAPI, organizado em camadas: o
 | `POST /api/lojas/{loja}/sugestoes` | valida o carrinho e devolve as 3 sugestões com a frase |
 | `POST /api/lojas/{loja}/chat` | envia uma mensagem ao assistente e devolve a resposta |
 | `DELETE /api/lojas/{loja}/chat/{conversa_id}` | apaga o histórico da conversa |
+| `GET /api/restaurantes/cidades` | lista as cidades atendidas |
+| `GET /api/restaurantes/{cidade}/culinarias` | culinárias da cidade, da mais comum para a menos comum |
+| `POST /api/restaurantes/{cidade}/recomendacoes` | valida a busca e devolve o top 10 de restaurantes, com a explicação de cada um |
 
 Exemplo de sugestões:
 
@@ -301,6 +308,44 @@ python avaliar_assistente.py --rodadas 3     # como no resultado acima
 python avaliar_assistente.py --loja indiano --sem-juiz
 ```
 
+## Recomendação de restaurantes
+
+O Garfo Certo, um aplicativo de delivery fictício de Belo Horizonte, São Paulo e Rio de Janeiro, pediu à PratoTech uma recomendação de restaurantes: a pessoa escolhe a cidade e a culinária e recebe os 10 restaurantes mais indicados, em vez da lista em ordem alfabética.
+
+| Cliente | Solicitação | Proposta | Relatório | Restaurantes | Culinárias |
+|---|---|---|---|---|---|
+| Garfo Certo | [e-mail](docs/restaurantes/solicitacao-cliente.md) | [proposta](docs/restaurantes/proposta.md) | [relatório](docs/restaurantes/relatorio.md) | 57.382 nas três capitais | 60 |
+
+**Pipeline** (`preparar_restaurantes.py` e `pipeline/restaurantes.py`). Lê do catálogo original só as três capitais, pelo código IBGE, e só as colunas usadas. A nota 0, que no catálogo significa “sem avaliação”, vira ausente; 33 restaurantes com tempo de entrega impossível saem; pedidos mínimos absurdos deixam de ser exibidos. A distância fica de fora, porque foi medida a partir de um endereço fixo. As etiquetas do catálogo são códigos internos de campanha: só três viram palavras (vegetariano, saudável e “bom e barato”). O resultado é o `dados/restaurante/restaurantes.csv`.
+
+**Como funciona** (`modelo/restaurantes.py`). Cada restaurante da cidade e da culinária escolhidas recebe quatro notas de 0 a 1, somadas com pesos ajustáveis (padrão: conteúdo 40%, avaliação 30%, frete 15% e entrega 15%):
+
+| Critério | Cálculo |
+|---|---|
+| Conteúdo | TF-IDF e cosseno entre o texto livre da pessoa (“sushi”, “vegetariano”) e o texto do restaurante: nome, culinária, faixa de preço e etiquetas |
+| Avaliação | nota ÷ 5; sem avaliação, a nota do primeiro quartil da cidade (cerca de 4,3) |
+| Frete | R$ 0 vale 1 e R$ 15 ou mais vale 0 |
+| Entrega | 20 minutos ou menos vale 1 e 70 minutos ou mais vale 0 |
+
+Sem texto livre, o peso do conteúdo é dividido entre os outros critérios. Unidades de uma mesma rede aparecem uma vez. Cada restaurante vem com uma frase montada a partir dos dados: “Nota 4,8 · frete grátis · entrega em cerca de 20 min · combina com “sushi””. A busca é validada antes (`modelo/validacao_restaurantes.py`), no mesmo formato de erros do carrinho: culinária inexistente na cidade, texto acima de 200 caracteres e pesos negativos, não numéricos, não finitos, desconhecidos ou todos zero.
+
+**Avaliação** (`avaliar_restaurantes.py`). O catálogo não registra quais restaurantes as pessoas escolheram, então não há “acerto” para medir. O top 10 é comparado com a lista atual do cliente, em ordem alfabética, e com ordenações por um critério só, nas 5 culinárias mais comuns de cada cidade:
+
+| Forma de ordenar | Nota média | Sem avaliação | Frete médio | Tempo médio |
+|---|---|---|---|---|
+| Ordem alfabética (lista atual) | 4,47 | 45% | R$ 7,60 | 47 min |
+| Só a nota | 5,00 | 0% | R$ 8,00 | 45 min |
+| Só o frete | 4,94 | 2% | R$ 0,00 | 42 min |
+| Só o tempo | 4,83 | 2% | R$ 4,45 | 19 min |
+| **Sistema híbrido** | **4,83** | **8%** | **R$ 0,32** | **23 min** |
+
+- **Equilíbrio:** cada ordenação por um critério só ganha nesse critério e perde nos outros; o sistema híbrido fica perto do melhor nos quatro.
+- **Texto livre:** em 8 buscas como “sushi” e “poke”, 87% do top 10 combina com o texto, contra 5% na ordem só pela nota. Os termos abaixo de 100% são raros em alguma cidade: Belo Horizonte não tem nenhum restaurante com “temaki”.
+- **Pesos:** dobrar o peso da avaliação troca 3 dos 10 restaurantes; dobrar o do frete quase não muda nada, porque o top 10 já é quase todo de frete grátis.
+- **Primeira versão:** premiava quem repetia a culinária no nome (“Yama Gastronomia Japonesa”) e punha restaurantes sem avaliação na frente dos bem avaliados, porque usava a nota mediana (4,67). As duas coisas foram corrigidas antes da avaliação.
+
+O catálogo tratado já vem no repositório. Para gerar de novo, coloque o original em `dados/restaurante/restaurants.csv` e execute `python preparar_restaurantes.py`.
+
 ## Como executar
 
 ```bash
@@ -311,6 +356,7 @@ cp .env.example .env   # preencha OPENAI_API_KEY (opcional: o cardápio já vem 
 python analise_dados.py
 python gerar_regras.py
 python avaliar.py
+python avaliar_restaurantes.py
 python -m pytest
 python api.py   # API em http://127.0.0.1:8000; documentação das rotas em /docs
 ```

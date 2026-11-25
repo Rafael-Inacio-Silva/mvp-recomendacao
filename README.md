@@ -159,7 +159,7 @@ Cada parte do sistema usa a técnica mais simples que resolve o problema. O LLM 
 | Artigos do cardápio (etapa 6) | LLM `gpt-6-luna`, da OpenAI | explicado abaixo |
 | Assistente de conversa | LLM `gpt-6-luna` com function calling, em agentes | explicado na seção “Assistente de conversa” |
 | Avaliação do assistente | regras no código e juiz LLM `gpt-6-luna` | a nota vem das regras; o juiz só comenta |
-| Recomendação de restaurantes | TF-IDF e cosseno (scikit-learn) somados a nota, frete e tempo, com pesos; sem LLM | não há histórico por cliente, então a recomendação por conteúdo é a que funciona sem ele; o cálculo é exato, rápido (cerca de 20 ms) e explicável |
+| Recomendação de restaurantes | TF-IDF e cosseno (scikit-learn) somados a nota, frete e tempo, com pesos; LLM só para interpretar o texto livre | não há histórico por cliente, então a recomendação por conteúdo é a que funciona sem ele; o cálculo é exato, rápido (cerca de 20 ms) e explicável. O LLM só traduz a frase da pessoa em culinária e termos, explicado abaixo |
 
 ### Modelo de IA em cada função
 
@@ -171,6 +171,16 @@ Todas as funções usam o mesmo modelo, o `gpt-6-luna` da OpenAI. O que muda é 
 | Orquestrador (Lupe e Maya) | `gpt-6-luna`, `low` | a cada mensagem do cliente | entender a pergunta, escolher o analista e escrever poucas frases; precisa ser rápido (cerca de 5 s) e barato (cerca de US$ 0,002 por conversa) |
 | Analistas (cardápio, combinações e loja) | `gpt-6-luna`, `low` | quando o orquestrador consulta | encontrar a informação em dados pequenos e organizados, sem precisar de um modelo maior |
 | Juiz da avaliação | `gpt-6-luna`, `high` | só quando `avaliar_assistente.py` roda | conferir cada fato com o gabarito pede mais raciocínio; usa a mesma chave da OpenAI. Como o modelo avalia respostas parecidas com as dele, o juiz não entra na nota, que vem das regras |
+| Intérprete da busca de restaurantes | `gpt-6-luna`, `low` | uma vez para cada texto novo em cada cidade; mover os pesos reaproveita a interpretação | só transforma uma frase curta em culinária e termos, com a saída presa a um esquema JSON e às culinárias reais da cidade; precisa ser rápido (cerca de 1 a 3 s na primeira vez) e barato |
+
+**Por que um LLM em cada função, e não código comum:**
+
+- **Artigos do cardápio:** escrever “uma porção de nachos” ou “um bowl de frango” depende de gênero, número e de como o prato é servido; uma regra fixa erra, e uma tabela manual teria 288 linhas ([detalhes](#por-que-um-llm-na-etapa-6)).
+- **Orquestrador e analistas:** o cliente escreve do jeito dele (“e ele é picante?”), e entender a pergunta e responder com naturalidade é uma tarefa de linguagem; os fatos vêm sempre dos dados ([detalhes](#assistente-de-conversa-1)).
+- **Juiz da avaliação:** as regras conferem fatos, mas não sabem se a resposta “respondeu de fato” ou se o tom está bom; o juiz cobre isso numa coluna separada, sem mexer na nota ([detalhes](#como-funciona-a-avaliação-do-assistente)).
+- **Intérprete da busca de restaurantes:** a frase “quero um restaurante japonês” pede uma culinária, e não as palavras “quero” e “restaurante”; comparar palavras soltas punha o Quero Açaí em 1º ([detalhes](#por-que-um-llm-na-busca-de-restaurantes)).
+
+Em todas, o LLM não decide sozinho: a saída é conferida por código, e o resto do sistema continua funcionando sem ele.
 
 O modelo e o esforço do assistente podem ser trocados pelas variáveis `OPENAI_MODEL` e `OPENAI_REASONING_EFFORT`, sem mudar o código. Pela avaliação, o assistente passa em 100 de cada 100 conversas com o modelo mais simples, então um modelo maior seria custo sem ganho.
 
@@ -195,6 +205,24 @@ O LLM, porém, não participa da escolha das sugestões nem roda durante o uso. 
 É o modelo mais simples e mais barato da linha GPT-6 da OpenAI, e a tarefa não pede mais que isso: frases curtas, um padrão claro e conferência automática da resposta. Por isso, o esforço de raciocínio é `low`. Modelos maiores seriam custo sem ganho. O modelo pode ser trocado pela variável `OPENAI_MODEL`, sem mudar o código.
 
 Na execução, o cardápio do mexicano (45 itens) levou cerca de 13 segundos e o do indiano (243 itens), cerca de 51 segundos.
+
+### Por que um LLM na busca de restaurantes
+
+A primeira versão comparava a frase inteira com o texto de cada restaurante, por TF-IDF. Isso funciona para palavras como “sushi” ou “vegetariano”, mas falha com frases. Em Belo Horizonte, “quero um restaurante japonês” punha o **Quero Açaí** em 1º, porque o nome tem a palavra “quero”, e a explicação ainda dizia que ele combinava com o pedido.
+
+Entender que a frase pede uma culinária é uma tarefa de linguagem. Por isso, um LLM (`agente/interprete.py`, prompt em `agente/prompts/interprete/`) transforma o texto em uma intenção: a culinária pedida, se houver, e até 5 termos, como “sushi” ou “barato”. O resto continua determinístico.
+
+**Cuidados:**
+
+- a saída segue um esquema JSON, e a culinária só pode ser uma das culinárias reais da cidade, ou nenhuma;
+- cada termo é conferido no catálogo (`validar_intencao`): termo que não aparece em nenhum restaurante da cidade é descartado e informado à pessoa (“Não encontrei nesta cidade: “temaki””);
+- a culinária pedida no texto filtra os candidatos **antes** da pontuação, para que nota alta ou frete grátis não tragam outra culinária;
+- se o seletor de culinária e o texto se contradizem, vale o seletor, e a pessoa recebe um aviso;
+- a explicação só diz “combina com o pedido” quando há evidência no cadastro: a culinária veio do texto ou o termo está no nome, na culinária, na faixa de preço ou nas etiquetas do restaurante;
+- a interpretação é feita uma vez para cada texto em cada cidade e fica guardada; mover os pesos não chama o LLM de novo, e texto vazio não chama o LLM;
+- se o LLM estiver indisponível, a pessoa recebe um aviso, e a busca continua pela cidade, pela culinária e pelos pesos.
+
+O mesmo `gpt-6-luna`, com esforço `low`, basta: a tarefa é curta e a saída é conferida por código.
 
 ### Conferência do resultado
 
@@ -322,12 +350,12 @@ O Garfo Certo, um aplicativo de delivery fictício de Belo Horizonte, São Paulo
 
 | Critério | Cálculo |
 |---|---|
-| Conteúdo | TF-IDF e cosseno entre o texto livre da pessoa (“sushi”, “vegetariano”) e o texto do restaurante: nome, culinária, faixa de preço e etiquetas |
+| Conteúdo | TF-IDF e cosseno entre os termos que o intérprete extraiu do texto livre (“sushi”, “vegetariano”), já conferidos no catálogo, e o texto do restaurante: nome, culinária, faixa de preço e etiquetas |
 | Avaliação | nota ÷ 5; sem avaliação, a nota do primeiro quartil da cidade (cerca de 4,3) |
 | Frete | R$ 0 vale 1 e R$ 15 ou mais vale 0 |
 | Entrega | 20 minutos ou menos vale 1 e 70 minutos ou mais vale 0 |
 
-Sem texto livre, o peso do conteúdo é dividido entre os outros critérios. Unidades de uma mesma rede aparecem uma vez. Cada restaurante vem com uma frase montada a partir dos dados: “Nota 4,8 · frete grátis · entrega em cerca de 20 min · combina com “sushi””. A busca é validada antes (`modelo/validacao_restaurantes.py`), no mesmo formato de erros do carrinho: culinária inexistente na cidade, texto acima de 200 caracteres e pesos negativos, não numéricos, não finitos, desconhecidos ou todos zero.
+O texto livre passa antes pelo intérprete com LLM ([por quê](#por-que-um-llm-na-busca-de-restaurantes)): “quero um restaurante japonês” vira o filtro da culinária Japonesa, e “temaki barato” vira os termos “temaki” e “barato”. Sem texto livre, ou sem termos conferidos, o peso do conteúdo é dividido entre os outros critérios. Unidades de uma mesma rede aparecem uma vez. Cada restaurante vem com uma frase montada a partir dos dados, por exemplo “Nota 4,8 · frete grátis · entrega em cerca de 40 min · combina com o pedido: culinária japonesa e “sushi””. A busca é validada antes (`modelo/validacao_restaurantes.py`), no mesmo formato de erros do carrinho: culinária inexistente na cidade, texto acima de 200 caracteres e pesos negativos, não numéricos, não finitos, desconhecidos ou todos zero.
 
 **Avaliação** (`avaliar_restaurantes.py`). O catálogo não registra quais restaurantes as pessoas escolheram, então não há “acerto” para medir. O top 10 é comparado com a lista atual do cliente, em ordem alfabética, e com ordenações por um critério só, nas 5 culinárias mais comuns de cada cidade:
 
@@ -375,7 +403,7 @@ npm ci
 npm run dev
 ```
 
-Abra [o site local](http://127.0.0.1:5173). A página inicial é a busca de restaurantes do Garfo Certo. Escolha São Paulo e Mexicana (ou Indiana) e clique em **Ver cardápio e pedir** na Sabor na Mesa (ou na Casa Masala). Na página da loja, adicione um prato e clique em **Ver sugestões**. Ao adicionar ou remover itens, a tela atualiza as sugestões com as frases enviadas pela API. Cada loja guarda seu carrinho e a conversa na sessão da aba, e a busca de restaurantes também fica guardada ao voltar. **Nova conversa** limpa o histórico daquela loja. A escolha direta das duas lojas continua em `#/lojas`. A chave da OpenAI fica apenas no backend.
+Abra [o site local](http://127.0.0.1:5173). A página inicial é a busca de restaurantes do Garfo Certo. Escolha São Paulo e Mexicana (ou Indiana) e clique em **Ver cardápio e pedir** na Sabor na Mesa (ou na Casa Masala). Na página da loja, adicione um prato e clique em **Ver sugestões**. Ao adicionar ou remover itens, a tela atualiza as sugestões com as frases enviadas pela API. Cada loja guarda seu carrinho e a conversa na sessão da aba, e a busca de restaurantes também fica guardada ao voltar. **Nova conversa** limpa o histórico daquela loja. A escolha direta das duas lojas continua em `#/lojas`. Ao trocar de cidade, a culinária escolhida continua se existir na cidade nova; se não existir, a busca volta para todas as culinárias, com aviso. O texto livre só é enviado quando a pessoa para de digitar. A chave da OpenAI fica apenas no backend.
 
 O site é feito em React com Vite, com um componente por arquivo em `frontend/src/`. A página inicial é a busca de restaurantes, em `garfo/` (`BuscaRestaurantes.jsx`, `Ranking.jsx`, `consulta.js`, `pesos.js` e `garfo.css`, com os estilos escopados na classe `.garfo`). A escolha direta das lojas fica em `Entrada.jsx`. Cada loja fica em `Restaurante.jsx`, com `Cardapio.jsx`, `Pedido.jsx` e `Chat.jsx`. O `useConsulta.js` faz as chamadas à API. As fontes são instaladas pelo npm e servidas pelo próprio site. O código segue a formatação do Prettier: `npm run formatar` formata os arquivos, e `npm run conferir-formato` confere a formatação.
 

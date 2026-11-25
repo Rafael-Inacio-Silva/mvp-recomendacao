@@ -53,7 +53,7 @@ A partir do catálogo tratado, o sistema dá a cada restaurante quatro notas de 
 
 | Critério | Como é calculado |
 |---|---|
-| Conteúdo | semelhança entre o texto livre da pessoa e o texto do restaurante (nome, culinária, faixa de preço e etiquetas), com TF-IDF e cosseno; a culinária escolhida já é um filtro |
+| Conteúdo | semelhança entre os termos do texto livre da pessoa e o texto do restaurante (nome, culinária, faixa de preço e etiquetas), com TF-IDF e cosseno; a culinária escolhida já é um filtro |
 | Avaliação | nota do restaurante dividida por 5; sem avaliação, a nota do primeiro quartil da cidade |
 | Frete | quanto mais barato, melhor: R$ 0 vale 1 e R$ 15 ou mais vale 0 |
 | Entrega | quanto mais rápido, melhor: 20 minutos ou menos vale 1 e 70 minutos ou mais vale 0 |
@@ -76,7 +76,7 @@ Cada recomendação vem com uma frase montada a partir dos dados, por exemplo: �
 | RNF | Tipo | Descrição |
 |---|---|---|
 | RNF-R01 | Desempenho | A recomendação deve sair em até 1 segundo, na demonstração executada localmente. |
-| RNF-R02 | Confiabilidade | A recomendação não depende de serviços de IA externos: o cálculo é feito no próprio sistema. |
+| RNF-R02 | Confiabilidade | O ranking é calculado no próprio sistema. Só a interpretação do texto livre usa um modelo de linguagem; se ele estiver indisponível, a busca continua pela cidade, pela culinária e pelos pesos, com aviso. |
 | RNF-R03 | Manutenibilidade | O catálogo tratado deve poder ser gerado de novo a partir de um arquivo no mesmo formato, sem alterar o sistema. |
 | RNF-R04 | Manutenibilidade | As regras de negócio RN-R01 a RN-R07 devem ter testes automatizados. |
 | RNF-R05 | Privacidade | O catálogo publicado não traz links, logotipos, formas de pagamento nem códigos internos das campanhas. |
@@ -92,7 +92,8 @@ Cada recomendação vem com uma frase montada a partir dos dados, por exemplo: �
 | RN-R05 | Restaurantes com o mesmo nome na mesma cidade aparecem uma vez só, a unidade com a maior pontuação. | RF-R02 |
 | RN-R06 | São exibidos no máximo 10 restaurantes, da maior para a menor pontuação. Em caso de empate, vem primeiro o de maior nota. | RF-R02 |
 | RN-R07 | A entrada é validada antes da recomendação: cidade atendida, culinária existente na cidade, texto de até 200 caracteres e pesos numéricos, finitos e não negativos, com pelo menos um maior que zero. Uma entrada inválida recebe a lista de erros, sem recomendações. | RF-R01, RF-R04 |
-| RN-R08 | A explicação é montada a partir dos dados do restaurante: nota (ou “sem avaliação”), frete e tempo de entrega e, quando o texto livre ajudou na escolha, a menção ao que a pessoa procurou. | RF-R06 |
+| RN-R08 | A explicação é montada a partir dos dados do restaurante: nota (ou “sem avaliação”), frete e tempo de entrega e, quando há evidência no cadastro, o que correspondeu ao pedido (“culinária japonesa”, “sushi”). | RF-R06 |
+| RN-R09 | O texto livre é interpretado por um modelo de linguagem, que devolve a culinária pedida e até 5 termos. A culinária precisa existir na cidade e restringe os candidatos antes da pontuação; cada termo precisa aparecer em algum restaurante da cidade, senão é descartado com aviso. Se o seletor de culinária contradiz o texto, vale o seletor, com aviso. Cada texto é interpretado uma vez por cidade. | RF-R03 |
 
 ## 7. Abordagem
 

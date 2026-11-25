@@ -32,7 +32,7 @@ site (Vercel) → API (Render) → serviço do chat → assistente: orquestrador
 | `servicos` | validações e regras de negócio das rotas: lojas, cardápio, sugestões e conversas do chat | RF-01, RF-02, RF-04, RF-06, RF-07, RF-08, RN-09 |
 | `api` | controller: recebe as requisições do site, chama os serviços e converte os erros em status HTTP | RF-01, RF-02, RF-04, RF-06, RF-07, RF-08 |
 | `frontend/` | busca de restaurantes (página inicial), cardápio, carrinho com sugestões e chat por loja (React e Vite) | RF-01, RF-02, RF-07, RF-R01 a RF-R06 |
-| `restaurantes` | pipeline do catálogo, recomendação por conteúdo e critérios, validação da busca, serviço e rotas (seção 7) | RF-R01 a RF-R06, RN-R01 a RN-R08 |
+| `restaurantes` | pipeline do catálogo, intérprete do texto livre (LLM), recomendação por conteúdo e critérios, validação da busca, serviço e rotas (seção 7) | RF-R01 a RF-R06, RN-R01 a RN-R09 |
 
 O recomendador não depende do site, da explicação nem do assistente. Assim, ele pode ser testado sozinho, e a forma de explicar pode mudar sem afetar as sugestões.
 
@@ -95,13 +95,15 @@ mvp-recomendacao/
 │   ├── fontes.py                # dados de cada analista em texto
 │   ├── prompts.py               # montagem das instruções de cada agente
 │   ├── llm.py                   # conexão com a OpenAI e contagem de tokens
+│   ├── interprete.py            # intérprete da busca de restaurantes: texto livre → culinária e termos
 │   ├── avaliacao.py             # regras da avaliação do assistente e juiz LLM
 │   └── prompts/                 # um prompt por agente, em Markdown
 │       ├── orquestrador/        # template_base.md e estagios/ (um arquivo por etapa)
 │       ├── cardapio/            # prompt.md
 │       ├── combinacoes/         # prompt.md
 │       ├── loja/                # prompt.md
-│       └── juiz/                # prompt.md do juiz da avaliação
+│       ├── juiz/                # prompt.md do juiz da avaliação
+│       └── interprete/          # prompt.md do intérprete da busca de restaurantes
 ├── servicos/                    # camada de serviço, chamada pela API
 │   ├── recomendacao.py          # lojas, cardápio e sugestões
 │   ├── chat.py                  # validação das mensagens e conversas em memória
@@ -304,7 +306,7 @@ Os testes usam pytest (`python -m pytest`). Os das regras de negócio usam regra
 | `test_servicos.py` | cardápio do mais pedido para o menos pedido; loja desconhecida; carrinho inválido com código e texto; mensagem do chat validada antes de chamar o assistente; aviso de conversa nova | RF-01, RF-07, RN-09 |
 | `test_avaliacao_assistente.py` | regras da avaliação do assistente com respostas escritas à mão; arquivos de casos bem formados | RF-07, RN-10 |
 | `test_api.py` | rotas de saúde, lojas, cardápio, sugestões e chat; status 400, 404, 405 e 503 com o mesmo formato de erro; JSON inválido; chat sem a chave da OpenAI; encerramento da conversa | RF-01, RF-04, RF-08, RN-09, RNF-03 |
-| `test_restaurantes.py` | etiquetas e valores inválidos do catálogo; filtro de culinária, limite de 10, frete e tempo, nota de quem não tem avaliação, texto livre, unidades repetidas, desempate e pesos; validação da busca; rotas de cidades, culinárias e recomendações; lojas parceiras no top 10 de São Paulo, com o link | RF-R01 a RF-R06, RN-R01 a RN-R08 |
+| `test_restaurantes.py` | etiquetas e valores inválidos do catálogo; filtro de culinária, limite de 10, frete e tempo, nota de quem não tem avaliação, texto livre, unidades repetidas, desempate e pesos; validação da busca; rotas de cidades, culinárias e recomendações; lojas parceiras no top 10 de São Paulo, com o link; intérprete com o LLM substituído: frase vira culinária, conflito com o seletor, texto vazio sem chamada, interpretação reaproveitada ao mover os pesos e LLM indisponível | RF-R01 a RF-R06, RN-R01 a RN-R09 |
 | `test_agente.py` | ferramentas do orquestrador; dados de cada analista completos (todos os produtos, todas as regras com “N de cada 100 pedidos”, documento da loja); etapas com nome, objetivo e instrução; só a etapa atual no prompt; marcadores preenchidos; datas de referência; a etapa só avança | RN-10 |
 
 ## 7. Recomendação de restaurantes
@@ -324,12 +326,14 @@ site → API → serviço de restaurantes → validação da busca → índice T
 
 | Parte | Fórmula |
 |---|---|
-| conteúdo | cosseno entre o vetor do texto livre e o do restaurante (os vetores do TF-IDF têm norma 1, então o produto escalar é o cosseno) |
+| conteúdo | cosseno entre o vetor dos termos conferidos do texto livre e o do restaurante (os vetores do TF-IDF têm norma 1, então o produto escalar é o cosseno) |
 | avaliação | nota ÷ 5; sem avaliação, primeiro quartil das notas da cidade ÷ 5 (RN-R03) |
 | frete | 1 − mín(frete, 15) ÷ 15 |
 | entrega | 1 − (tempo − 20) ÷ 50, limitado entre 0 e 1 |
 
 A pontuação é a soma ponderada. `pesos_efetivos` normaliza os pesos para somarem 1 e, sem texto livre, zera o conteúdo e redistribui o peso dele (RN-R04). A ordem é pela pontuação, depois pela nota e pelo nome (RN-R06), e só a melhor unidade de cada nome fica (RN-R05). A frase (RN-R08) junta nota ou “sem avaliação”, frete, tempo e, quando o texto livre teve semelhança maior que zero, “combina com …”.
+
+**Intérprete do texto livre (RN-R09).** `servicos/restaurantes.py` chama `agente/interprete.py`, que pede ao LLM (`gpt-6-luna`, esforço `low`, saída em JSON com esquema estrito) a culinária e até 5 termos; o esquema só aceita as culinárias da cidade ou null. `validar_intencao` confere cada termo no vocabulário do TF-IDF da cidade e separa os que não existem em `ignorados`. A culinária do texto filtra os candidatos antes da pontuação, a não ser que o seletor indique outra; nesse caso vale o seletor, e a resposta traz `interpretacao.conflito` e um aviso. As interpretações ficam num cache por cidade e texto (até 500), então mover os pesos não chama o LLM de novo; falhas não entram no cache. Sem chave ou com erro da OpenAI, a resposta traz `interpretacao.disponivel = false`, um aviso e o ranking pelos seletores. A frase da recomendação usa `correspondencias`: “culinária …” quando ela veio do texto e cada termo que aparece no texto do restaurante.
 
 **Validação.** `validar_busca` segue o formato do validador do carrinho (`{"ok": True, "value": ...}` ou `{"ok": False, "errors": [...]}`, sem exceções e sem repetir o valor recebido): culinária (`invalid_type`, `empty`, `unknown_cuisine`), texto livre (`invalid_type`, `too_long`) e pesos (`invalid_type`, `null`, `not_finite`, `out_of_range`, `unknown_field` e `out_of_range` em `pesos` quando todos são zero).
 

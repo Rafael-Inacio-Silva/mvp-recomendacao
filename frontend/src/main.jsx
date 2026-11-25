@@ -7,11 +7,13 @@ import { casas } from './casas'
 import { useConsulta } from './useConsulta'
 import Entrada from './Entrada'
 import Restaurante from './Restaurante'
+import BuscaRestaurantes from './garfo/BuscaRestaurantes'
 
 const PAGINAS = ['cardapio', 'pedido', 'chat']
 
-function tituloDaAba(loja, pagina) {
-  if (!loja) return 'PratoTech · Escolha sua cozinha'
+function tituloDaAba(loja, pagina, id) {
+  if (!loja)
+    return id === 'lojas' ? 'PratoTech · Escolha sua cozinha' : 'Garfo Certo · Onde pedir hoje?'
   const nomes = { cardapio: 'Cardápio', pedido: 'Meu pedido', chat: loja.atendente }
   return nomes[pagina] + ' · ' + casas[loja.loja].nome
 }
@@ -38,12 +40,18 @@ function App() {
 
   useEffect(() => {
     if (ativa) setVisitadas((ids) => (ids.includes(id) ? ids : [...ids, id]))
-    document.title = tituloDaAba(ativa, pagina)
+    document.title = tituloDaAba(ativa, pagina, id)
   }, [ativa, id, pagina])
 
   return (
     <>
-      {!ativa && <Entrada lojas={lojas} estado={estado} repetir={repetir} />}
+      {/* Início: busca de restaurantes; #/lojas: escolha direta das duas lojas */}
+      {!ativa &&
+        (id === 'lojas' ? (
+          <Entrada lojas={lojas} estado={estado} repetir={repetir} />
+        ) : (
+          <BuscaRestaurantes />
+        ))}
       {lojas
         .filter((l) => l === ativa || visitadas.includes(l.loja))
         .map((l) => (

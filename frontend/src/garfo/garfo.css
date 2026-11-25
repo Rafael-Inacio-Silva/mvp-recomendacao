@@ -1,0 +1,478 @@
+.garfo {
+  --papel: #fbf7ef;
+  --cartao: #fffcf6;
+  --verde: #193b29;
+  --tinta: #29362c;
+  --muted: #61695e;
+  --barro: #ac4021;
+  --linha: #dfd6c7;
+  --lima: #afbb42;
+  --conteudo: #ac4021;
+  --avaliacao: #29593c;
+  --frete: #9a7322;
+  --entrega: #62732f;
+  --serif: 'DM Serif Text', Georgia, serif;
+  font:
+    16px/1.5 'DM Sans Variable',
+    Arial,
+    sans-serif;
+  color: var(--tinta);
+  background: var(--papel);
+}
+.garfo * {
+  box-sizing: border-box;
+}
+.garfo {
+  margin: 0;
+}
+.garfo a {
+  color: inherit;
+  text-decoration: none;
+}
+.garfo button,
+.garfo select,
+.garfo input {
+  font: inherit;
+  color: inherit;
+}
+.garfo button,
+.garfo select,
+.garfo input[type='range'],
+.garfo summary {
+  cursor: pointer;
+}
+.garfo :focus-visible {
+  outline: 3px solid #718b39;
+  outline-offset: 3px;
+}
+.garfo h1,
+.garfo h2,
+.garfo h3,
+.garfo .gMarca {
+  color: var(--verde);
+  font: 400 2rem/1.08 var(--serif);
+  letter-spacing: -0.035em;
+  margin: 0;
+}
+.garfo .gLargura {
+  width: min(1180px, 92%);
+  margin-inline: auto;
+}
+.garfo header {
+  background: var(--cartao);
+  border-bottom: 1px solid var(--linha);
+}
+.garfo .gTopo,
+.garfo .gMarca,
+.garfo nav,
+.garfo .total,
+.garfo .tituloRanking,
+.garfo .peso span,
+.garfo footer {
+  display: flex;
+  align-items: center;
+}
+.garfo .gTopo {
+  min-height: 68px;
+  gap: 18px;
+}
+.garfo .gMarca {
+  gap: 7px;
+  font-size: 2.1rem;
+}
+.garfo .produto {
+  border-left: 1px solid var(--linha);
+  padding-left: 18px;
+  color: var(--muted);
+}
+.garfo nav {
+  margin-left: auto;
+  gap: 20px;
+  font-weight: 600;
+}
+.garfo nav button:hover {
+  color: var(--barro);
+}
+.garfo .simbolo {
+  position: relative;
+  width: 34px;
+  height: 32px;
+}
+.garfo .simbolo i {
+  position: absolute;
+  width: 9px;
+  height: 20px;
+  left: 13px;
+  bottom: 7px;
+  background: var(--verde);
+  border-radius: 0 95% 0 95%;
+  transform: rotate(-24deg);
+  transform-origin: bottom;
+}
+.garfo .simbolo i:first-child {
+  transform: rotate(-62deg);
+  height: 15px;
+}
+.garfo .simbolo i:last-of-type {
+  transform: rotate(30deg);
+}
+.garfo .simbolo b {
+  position: absolute;
+  inset: 21px 0 0;
+  background: var(--barro);
+  border-radius: 0 0 20px 20px;
+}
+.garfo .gHero {
+  background: #f2e8d7;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-bottom: 1px solid var(--linha);
+}
+.garfo .gHero:before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 0 48%;
+  background:
+    linear-gradient(to right, #f2e8d7, transparent 58%),
+    url('/imagens/indiano.jpg') center 46% / cover;
+}
+.garfo .gHero .gLargura {
+  padding-block: clamp(34px, 5vw, 75px);
+}
+.garfo h1 {
+  font-size: clamp(3.2rem, 6.6vw, 6rem);
+  max-width: 62%;
+}
+.garfo .gHero p {
+  max-width: 48%;
+  margin: 12px 0 0;
+  font-size: 1.1rem;
+}
+.garfo .colunas {
+  display: grid;
+  grid-template-columns: minmax(260px, 310px) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(24px, 4vw, 56px);
+  padding-block: 32px 55px;
+}
+.garfo aside,
+.garfo .cartao {
+  border-radius: 16px;
+  border: 1px solid var(--linha);
+  background: var(--cartao);
+  box-shadow: 0 4px 20px #50391607;
+}
+.garfo aside {
+  padding: 22px;
+}
+.garfo aside h2 {
+  margin-bottom: 18px;
+}
+.garfo aside > label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 650;
+  margin: 13px 0;
+}
+.garfo select,
+.garfo input:not([type='range']) {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid #bcb9a7;
+  border-radius: 8px;
+  background: white;
+  padding: 8px 10px;
+  margin-top: 5px;
+}
+.garfo fieldset {
+  border: 0;
+  margin: 26px 0 0;
+  padding: 0;
+  min-width: 0;
+}
+.garfo legend {
+  font: 400 1.5rem var(--serif);
+  color: var(--verde);
+  padding: 0;
+}
+.garfo .dica,
+.garfo details small,
+.garfo .local,
+.garfo footer,
+.garfo .tituloRanking > span {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+.garfo .dica {
+  margin: 3px 0 14px;
+}
+.garfo .peso {
+  display: block;
+  margin: 12px 0;
+}
+.garfo .peso span,
+.garfo .total,
+.garfo .tituloRanking,
+.garfo footer {
+  justify-content: space-between;
+  gap: 10px;
+}
+.garfo .peso span {
+  font-size: 0.9rem;
+}
+.garfo .peso input {
+  width: 100%;
+  margin: 6px 0 0;
+}
+.garfo .peso:has(:disabled) {
+  color: var(--muted);
+}
+.garfo .total {
+  padding: 10px 0;
+  border-top: 1px solid var(--linha);
+  font-size: 0.9rem;
+}
+.garfo .restaurar,
+.garfo .gAviso button {
+  background: var(--barro);
+  color: white;
+  border: 0;
+  padding: 9px 14px;
+  border-radius: 9px;
+  font-weight: 650;
+}
+.garfo .restaurar {
+  width: 100%;
+}
+.garfo .restaurar:hover {
+  background: #8e3219;
+}
+.garfo .tituloRanking {
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.garfo .tituloRanking h2 {
+  font-size: clamp(1.8rem, 3.4vw, 2.8rem);
+}
+.garfo .local {
+  margin: 6px 0 18px;
+}
+.garfo ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+.garfo .cartao {
+  padding: 19px 22px;
+}
+.garfo .cabCard {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+}
+.garfo .posicao {
+  background: #ebeed9;
+  color: var(--verde);
+  font: 400 1.35rem var(--serif);
+  min-width: 38px;
+  line-height: 38px;
+  text-align: center;
+  border-radius: 50%;
+}
+.garfo .nome {
+  min-width: 0;
+}
+.garfo .nome h3 {
+  font-size: 1.55rem;
+  overflow-wrap: anywhere;
+}
+.garfo .culinaria {
+  color: var(--barro);
+  font-size: 0.71rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 750;
+}
+.garfo .score {
+  margin-left: auto;
+  text-align: right;
+  white-space: nowrap;
+  color: var(--verde);
+}
+.garfo .score strong {
+  font: 400 1.7rem var(--serif);
+  display: block;
+}
+.garfo .score small {
+  color: var(--muted);
+}
+.garfo .metricas {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+.garfo .metricas dt {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+.garfo .metricas dd {
+  margin: 0;
+  font-weight: 650;
+}
+.garfo details {
+  border-top: 1px solid var(--linha);
+  padding-top: 9px;
+}
+.garfo summary {
+  color: var(--barro);
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+.garfo details p {
+  font-size: 0.9rem;
+}
+.garfo .parte {
+  display: grid;
+  grid-template-columns: 10em 1fr 5.5em;
+  gap: 10px;
+  align-items: center;
+  margin: 6px 0;
+  font-size: 0.83rem;
+}
+.garfo .parte strong {
+  text-align: right;
+}
+.garfo .trilho {
+  height: 8px;
+  border-radius: 5px;
+  background: #e8e2d6;
+  overflow: hidden;
+}
+.garfo .trilho i {
+  display: block;
+  height: 100%;
+}
+.garfo .gAviso {
+  padding: 15px;
+  margin: 10px 0;
+  background: #f4e2d7;
+  border-radius: 10px;
+}
+.garfo .gAviso button {
+  margin: 4px;
+  font-size: 0.85rem;
+}
+.garfo footer {
+  border-top: 1px solid var(--linha);
+  padding: 16px 0 24px;
+  flex-wrap: wrap;
+}
+.garfo section,
+.garfo aside {
+  scroll-margin-top: 12px;
+}
+@media (max-width: 760px) {
+  .garfo .colunas {
+    grid-template-columns: 1fr;
+  }
+  .garfo .gHero:before {
+    inset: 0 0 0 45%;
+    opacity: 0.58;
+  }
+  .garfo .gHero p {
+    max-width: 60%;
+  }
+  .garfo .gTopo {
+    gap: 10px;
+  }
+  .garfo .produto {
+    padding-left: 10px;
+  }
+  .garfo .cabCard {
+    gap: 9px;
+  }
+  .garfo .cartao {
+    padding: 15px;
+  }
+  .garfo .parte {
+    grid-template-columns: 8.5em 1fr 4.7em;
+  }
+}
+@media (max-width: 460px) {
+  .garfo .produto {
+    display: none;
+  }
+  .garfo .gMarca {
+    font-size: 1.8rem;
+  }
+  .garfo h1 {
+    max-width: 72%;
+    font-size: 3rem;
+  }
+  .garfo .gHero p {
+    font-size: 0.95rem;
+  }
+  .garfo .colunas {
+    padding-top: 18px;
+  }
+  .garfo .metricas {
+    gap: 16px;
+  }
+  .garfo .tituloRanking > span {
+    font-size: 0.8rem;
+  }
+  .garfo .score strong {
+    font-size: 1.4rem;
+  }
+  .garfo .nome h3 {
+    font-size: 1.3rem;
+  }
+  .garfo nav {
+    gap: 12px;
+  }
+  .garfo .parte {
+    gap: 5px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .garfo .restaurar,
+  .garfo nav button {
+    transition:
+      background-color 0.15s,
+      color 0.15s;
+  }
+}
+
+/* Loja com site próprio no MVP */
+.garfo .nome h3 a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--barro);
+  text-underline-offset: 4px;
+}
+.garfo .irLoja {
+  display: inline-flex;
+  align-self: flex-start;
+  margin: 2px 0 10px;
+  padding: 0.5rem 0.9rem;
+  border-radius: 9px;
+  background: var(--barro);
+  color: #fff;
+  font-weight: 650;
+  text-decoration: none;
+}
+.garfo .irLoja:hover {
+  background: #8e3219;
+}
+.garfo nav button {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}

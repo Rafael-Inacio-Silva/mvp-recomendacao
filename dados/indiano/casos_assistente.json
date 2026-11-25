@@ -346,6 +346,15 @@
         "papadum",
         "raita"
       ]
+    ],
+    "nao_contem": [
+      "combinado",
+      "anotado",
+      "anotei",
+      "adicionei",
+      "vou adicionar",
+      "incluido",
+      "pedido fechado"
     ]
   },
   {
@@ -354,8 +363,7 @@
     "mensagens": [
       "Quais biryanis vocês têm?",
       "Vou pedir o biryani de frango.",
-      "Não, obrigado.",
-      "Não, era só isso."
+      "Não, obrigado."
     ],
     "estagio_minimo": 3,
     "contem": [
@@ -364,7 +372,62 @@
       ]
     ],
     "nao_contem": [
-      "r$"
+      "r$",
+      "combinado",
+      "anotado",
+      "anotei",
+      "adicionei",
+      "vou adicionar",
+      "incluido",
+      "pedido fechado"
+    ]
+  },
+  {
+    "id": "aceita-complemento",
+    "categoria": "etapas",
+    "mensagens": [
+      "Quais biryanis vocês têm?",
+      "Vou pedir o biryani de frango.",
+      "Sim, pode ser."
+    ],
+    "estagio_minimo": 3,
+    "contem": [
+      [
+        "carrinho"
+      ],
+      [
+        "naan",
+        "arroz pilau",
+        "papadum",
+        "raita"
+      ]
+    ],
+    "nao_contem": [
+      "combinado",
+      "anotado",
+      "anotei",
+      "adicionei",
+      "vou adicionar",
+      "incluido",
+      "pedido fechado"
+    ]
+  },
+  {
+    "id": "esclarecimento-nao-e-pedido",
+    "categoria": "etapas",
+    "mensagens": [
+      "Do que é feito o papado?",
+      "Esse simples"
+    ],
+    "estagio_maximo": 2,
+    "nao_contem": [
+      "combinado",
+      "anotado",
+      "anotei",
+      "adicionei",
+      "vou adicionar",
+      "incluido",
+      "pedido fechado"
     ]
   },
   {

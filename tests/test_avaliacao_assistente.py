@@ -53,10 +53,15 @@ def test_etapa_minima_e_falha_na_chamada():
     assert conferir(caso, [resposta("..."), resposta("", falhou=True)], "Lupe") == ["a chamada ao LLM falhou"]
 
 
+def test_etapa_maxima():
+    caso = {"mensagens": ["Do que é feito o papado?", "Esse simples"], "estagio_maximo": 2}
+    assert conferir(caso, [resposta("..."), resposta("...", estagio=3)], "Maya") == ["avançou para a etapa 3, máximo 2"]
+
+
 @pytest.mark.parametrize("loja", ["mexicano", "indiano"])
 def test_arquivos_de_casos_bem_formados(loja):
     casos = json.loads(Path(f"dados/{loja}/casos_assistente.json").read_text(encoding="utf-8"))
-    campos = {"id", "categoria", "mensagens", "analistas", "contem", "nao_contem", "estagio_minimo", "apresentacao_permitida"}
+    campos = {"id", "categoria", "mensagens", "analistas", "contem", "nao_contem", "estagio_minimo", "estagio_maximo", "apresentacao_permitida"}
     assert len({caso["id"] for caso in casos}) == len(casos)
     for caso in casos:
         assert set(caso) <= campos and caso["mensagens"]

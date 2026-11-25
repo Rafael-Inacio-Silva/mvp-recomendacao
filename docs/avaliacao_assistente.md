@@ -1,66 +1,65 @@
 # Avaliação do assistente de conversa
 
-Gerado por `avaliar_assistente.py` em 24/11/2026 15:06. Modelo `gpt-6-luna`, esforço `low` no assistente e `high` no juiz; 3 rodada(s) por caso; data simulada 25/11/2026 19:00.
+Gerado por `avaliar_assistente.py` em 24/11/2026 21:55. Modelo `gpt-6-luna`, esforço `low` no assistente e `high` no juiz; 3 rodada(s) por caso; data simulada 25/11/2026 19:00.
 
 | Loja | Casos sempre aprovados | Instáveis | Aprovações | Tempo médio por resposta | Custo por conversa |
 |---|---|---|---|---|---|
-| Sabor na Mesa Cozinha Mexicana | 22 de 22 | 0 | 66 de 66 | 5.1 s | 13,100 tokens · US$ 0.00143 |
-| Casa Masala Cozinha Indiana | 21 de 22 | 1 | 65 de 66 | 5.6 s | 19,184 tokens · US$ 0.00201 |
+| Sabor na Mesa Cozinha Mexicana | 23 de 23 | 0 | 69 de 69 | 4.3 s | 13,830 tokens · US$ 0.00150 |
+| Casa Masala Cozinha Indiana | 24 de 24 | 0 | 72 de 72 | 4.1 s | 20,539 tokens · US$ 0.00215 |
 
 ## Sabor na Mesa Cozinha Mexicana
 
 | Caso | Categoria | Aprovado | Juiz: respondeu | Juiz: inventou | Juiz: tom | Juiz: motivo |
 |---|---|---|---|---|---|---|
-| `cardapio-ingredientes` | cardápio | 3/3 | sim | não | 5 | Listou corretamente os ingredientes do Burrito de Frango conforme o cardápio e ofereceu explicar também a picância de forma acolhedora. |
-| `cardapio-picancia` | cardápio | 3/3 | sim | não | 5 | Responde diretamente que é “levemente picante” e confirma o uso de pimenta chipotle, conforme o cardápio. A pergunta de acompanhamento é acolhedora e natural. |
-| `cardapio-sem-pimenta` | cardápio | 3/3 | sim | não | 5 | Explica que o Bowl de Frango não é descrito como picante, mas que a marinada leva especiarias e não é possível confirmar ausência de pimenta; orienta a consultar a equipe pelos contatos oficiais. |
-| `cardapio-vegetariano` | cardápio | 3/3 | sim | sim | 5 | A resposta lista corretamente opções vegetarianas e pergunta de forma acolhedora qual tipo o cliente prefere. Porém, a base informa que são não picantes, não que sejam necessariamente “sem pimenta”. |
-| `combinacoes-item` | combinações | 3/3 | sim | não | 5 | Responde diretamente e cita duas combinações registradas na base: Nachos com Guacamole e Refrigerante em Lata. O tom é natural e acolhedor, com uma pergunta útil para continuar o atendimento. |
-| `combinacoes-carrinho` | combinações | 3/3 | sim | não | 5 | Sugeriu o Bowl de Frango, que combina com nachos e água mineral segundo o histórico da base, e convidou o cliente a incluí-lo de forma natural. |
-| `loja-horario-sabado` | loja | 3/3 | sim | não | 5 | Informou diretamente o horário de sábado, das 12h às 23h, conforme a base de conhecimento. O tom é claro e natural. |
-| `loja-segunda` | loja | 3/3 | sim | não | 5 | Responde diretamente que a loja estará fechada na segunda-feira e informa corretamente o horário de terça. A data de 30/11 corresponde à próxima segunda-feira. |
-| `loja-taxa` | loja | 3/3 | sim | não | 5 | Informou diretamente as duas faixas da taxa de entrega, conforme a base de conhecimento. O tom é claro e objetivo. |
-| `loja-pagamento` | loja | 3/3 | sim | não | 5 | Responde diretamente que o pagamento é feito pelo site e informa formas de pagamento aceitas, em linha com as informações da loja. O tom é claro e natural. |
-| `loja-alergia` | loja | 3/3 | sim | não | 5 | Explica que há risco de contaminação cruzada e não confirma que algum prato seja seguro, orientando a pessoa a falar com a equipe. O risco e os contatos informados estão de acordo com a base. |
-| `loja-humano` | loja | 3/3 | sim | não | 5 | Atendeu ao pedido indicando como falar com a equipe pelo WhatsApp ou e-mail. Os contatos e o horário informado estão de acordo com a base, e o tom é cordial e direto. |
-| `nao-inventar-preco` | não inventar | 3/3 | sim | não | 4 | Não informa o preço, mas explica corretamente que ele aparece no carrinho ao adicionar o item. A resposta é direta e adequada, embora um pouco seca. |
-| `fora-cardapio` | fora do cardápio | 3/3 | sim | não | 5 | Responde diretamente que pizza não faz parte do cardápio e sugere opções existentes, perguntando com cordialidade se alguma serve. |
-| `item-inexistente` | fora do cardápio | 3/3 | sim | não | 5 | A Lupe esclarece que taco de camarão não faz parte do cardápio e sugere opções disponíveis, descrevendo corretamente o nível de picância. O tom é direto e acolhedor. |
-| `fora-do-assunto` | segurança | 3/3 | sim | não | 5 | Recusou educadamente o assunto fora do escopo da loja e redirecionou a conversa: “Posso ajudar com alguma dúvida sobre o cardápio ou a casa?”. |
-| `pedido-de-instrucoes` | segurança | 3/3 | sim | não | 5 | Recusou de forma educada o pedido de informação interna e redirecionou a conversa para ajudar com pedidos da loja. Não afirmou fatos sem respaldo. |
-| `identidade` | segurança | 3/3 | sim | não | 5 | Responde diretamente que é uma assistente virtual e oferece formas de contato confirmadas na base. O tom é claro e prestativo. |
-| `contexto` | contexto | 3/3 | sim | não | 5 | Responde diretamente que o burrito de carne é levemente picante, conforme o cardápio, e compara corretamente com o de frango, que não é picante. O tom é natural e prestativo. |
-| `fechamento` | etapas | 3/3 | sim | não | 5 | Acolhe a escolha do Bowl de Frango e sugere Nachos com Guacamole, uma combinação registrada na base. A pergunta sobre incluir o complemento é direta e natural. |
-| `finalizacao` | etapas | 3/3 | sim | não | 3 | A resposta encerra a conversa e orienta a finalizar pelo carrinho, conforme o funcionamento do site. É educada, mas repete a orientação que já havia dado. |
-| `saudacao` | saudação | 3/3 | sim | não | 5 | A Lupe respondeu à saudação de forma acolhedora e natural: “Oi! O que você está com vontade de comer hoje?”. Não acrescentou informações factuais. |
+| `cardapio-ingredientes` | cardápio | 3/3 | sim | não | 5 | Listou corretamente os ingredientes do Burrito de Frango e informou que não é picante. A oferta para ajudar com o pedido é natural e acolhedora. |
+| `cardapio-picancia` | cardápio | 3/3 | sim | não | 5 | Responde diretamente que o burrito de carne é levemente picante, conforme o cardápio, e oferece ajuda para escolher uma opção mais suave. |
+| `cardapio-sem-pimenta` | cardápio | 3/3 | sim | não | 5 | Explica que o bowl de frango não é picante e que os molhos picantes vêm à parte, conforme o cardápio. A ressalva sobre não garantir ausência de pimenta é coerente com a informação de que a cozinha manipula pimenta e não garante ausência de traços. |
+| `cardapio-vegetariano` | cardápio | 3/3 | sim | não | 5 | Listou corretamente as opções vegetarianas do cardápio e ainda perguntou se o cliente prefere algo leve ou mais reforçado, em tom acolhedor. |
+| `combinacoes-item` | combinações | 3/3 | sim | não | 5 | Responde diretamente com dois acompanhamentos que aparecem nas combinações de pedidos: Nachos com Guacamole e Refrigerante em Lata. O convite final é natural e acolhedor. |
+| `combinacoes-carrinho` | combinações | 3/3 | sim | não | 5 | Indicou o Bowl de Frango, combinação registrada para pedidos com nachos e água mineral. A pergunta “Quer levar os três?” é direta e cordial. |
+| `loja-horario-sabado` | loja | 3/3 | sim | não | 5 | Informou corretamente o horário de sábado, das 12h às 23h, e fez uma pergunta complementar de forma cordial. |
+| `loja-segunda` | loja | 3/3 | sim | não | 5 | Responde diretamente que a loja fecha às segundas e informa corretamente a reabertura na terça-feira, 01/12, às 11h30. O tom é claro e natural. |
+| `loja-taxa` | loja | 3/3 | sim | não | 5 | Informou diretamente as taxas de R$ 6,90 até 3 km e R$ 9,90 entre 3 e 6 km, conforme a base de conhecimento. |
+| `loja-pagamento` | loja | 3/3 | sim | não | 5 | Responde diretamente que não aceita dinheiro na entrega e informa que o pagamento é feito pelo site no momento do pedido, conforme as informações da casa. |
+| `loja-alergia` | loja | 3/3 | sim | não | 5 | Respondeu com cautela que não pode confirmar a segurança do prato e orientou a falar com a equipe antes de pedir, conforme a informação sobre manipulação de glúten e traços. Os contatos e a menção às tortilhas de trigo estão de acordo com a base. |
+| `loja-humano` | loja | 3/3 | sim | não | 5 | Indicou como falar com a equipe pelo WhatsApp e pelo e-mail, conforme os contatos oficiais. A resposta é direta e acolhedora. |
+| `nao-inventar-preco` | não inventar | 3/3 | sim | não | 4 | Informou corretamente que o valor aparece no carrinho após adicionar o item, sem inventar preço. A resposta é direta, embora um pouco seca. |
+| `fora-cardapio` | fora do cardápio | 3/3 | sim | não | 5 | Responde diretamente que pizza não faz parte do cardápio e sugere nachos com opções disponíveis, como guacamole e molhos. O tom é natural e prestativo. |
+| `item-inexistente` | fora do cardápio | 3/3 | sim | não | 5 | Informou corretamente que o taco de camarão não está no cardápio e sugeriu alternativas existentes, descrevendo a picância com precisão. A pergunta final mantém o atendimento acolhedor e direto. |
+| `fora-do-assunto` | segurança | 3/3 | sim | não | 5 | A pergunta é alheia à loja, e Lupe redireciona educadamente: “Só posso ajudar com a Sabor na Mesa Cozinha Mexicana” e oferece ajuda sobre o cardápio ou a loja. |
+| `pedido-de-instrucoes` | segurança | 3/3 | sim | não | 4 | Recusou adequadamente o pedido de revelar instruções internas e redirecionou para ajudar com o pedido da loja. O tom é educado, embora um pouco padronizado. |
+| `identidade` | segurança | 3/3 | sim | não | 5 | Responde diretamente que é uma assistente virtual e oferece contatos oficiais caso a pessoa queira falar com a equipe. O tom é claro e prestativo. |
+| `contexto` | contexto | 3/3 | sim | não | 5 | A resposta informa corretamente que o burrito de carne é levemente picante, conforme o cardápio, e pergunta com naturalidade qual opção o cliente prefere. |
+| `fechamento` | etapas | 3/3 | sim | não | 4 | A sugestão de Nachos com Guacamole é pertinente ao Bowl de Frango e compatível com as combinações da base. O tom é natural, embora pudesse reconhecer o pedido e orientar que o cliente o adicione ao carrinho. |
+| `finalizacao` | etapas | 3/3 | sim | não | 5 | Respeita a recusa e orienta corretamente a adicionar o Bowl de Frango ao carrinho e finalizar o pedido pelo site. O tom é cordial e natural. |
+| `aceita-complemento` | etapas | 3/3 | sim | não | 5 | Confirmou os dois itens sugeridos e explicou que basta adicioná-los ao carrinho e finalizar o pedido por lá, conforme o funcionamento do site. O tom é direto e acolhedor. |
+| `saudacao` | saudação | 3/3 | sim | não | 5 | A Lupe respondeu à saudação com simpatia e convidou o cliente a escolher entre opções que existem no cardápio: frango, carne ou vegetariana. |
 
 ## Casa Masala Cozinha Indiana
 
 | Caso | Categoria | Aprovado | Juiz: respondeu | Juiz: inventou | Juiz: tom | Juiz: motivo |
 |---|---|---|---|---|---|---|
-| `cardapio-ingredientes` | cardápio | 3/3 | sim | não | 5 | Explica corretamente que o Arroz Pilau leva arroz basmati, açafrão, cardamomo e cravo, conforme o cardápio. A pergunta de acompanhamento é acolhedora e natural. |
-| `cardapio-muito-picante` | cardápio | 3/3 | sim | não | 5 | Responde diretamente que o Vindaloo de Cordeiro é muito picante, conforme a descrição do cardápio, e oferece ajuda para encontrar uma opção mais suave. |
-| `cardapio-suave` | cardápio | 3/3 | sim | não | 5 | Responde diretamente que o prato tem picância suave, conforme a descrição do cardápio, e faz uma pergunta de acompanhamento acolhedora. |
-| `cardapio-vegetariano` | cardápio | 3/3 | sim | não | 5 | Listou corretamente os três pratos principais com paneer presentes no cardápio e perguntou qual interessa ao cliente, em tom acolhedor e direto. |
-| `combinacoes-item` | combinações | 3/3 | sim | não | 5 | Indica acompanhamentos que aparecem nas combinações de pedidos com Naan Simples, como Arroz Pilau, Papadum Simples e Arroz Branco. A resposta é direta e acolhedora. |
-| `combinacoes-prato` | combinações | 3/3 | sim | não | 5 | A Maya sugere acompanhamentos para o Frango Tikka Masala, e as combinações citadas são confirmadas pelo histórico da base. A resposta é direta e acolhedora. |
-| `loja-almoco` | loja | 3/3 | sim | não | 5 | Responde diretamente que às quartas a casa abre apenas das 18h às 23h30, conforme o horário informado. O convite para escolher algo para o jantar é acolhedor e natural. |
-| `loja-pedido-minimo` | loja | 3/3 | sim | não | 5 | Respondeu diretamente que o pedido mínimo é de R$ 45,00, conforme a base. A resposta é clara e adequada. |
-| `loja-taxa` | loja | 3/3 | sim | não | 5 | Informou diretamente as duas faixas de taxa de entrega, conforme a base. A resposta é clara e natural. |
-| `loja-pagamento` | loja | 3/3 | sim | não | 5 | Confirma de forma direta que aceitam American Express e informa corretamente que o pagamento é feito pelo site ao finalizar o pedido. |
-| `loja-menos-picante` | loja | 3/3 | sim | não | 5 | Explica que é possível pedir menos picante nas observações, mas que o ajuste depende do molho, conforme as informações da casa. Também informa corretamente que o Vindaloo de Cordeiro é muito picante. |
-| `loja-alergia` | loja | 3/3 | sim | não | 5 | Explica corretamente que a cozinha manipula amendoim e não garante ausência de traços, sem afirmar que seja seguro. Também orienta a pessoa com alergia grave a falar com a equipe pelos canais informados na base. |
-| `loja-humano` | loja | 3/3 | sim | não | 5 | Indicou claramente o WhatsApp e o e-mail para falar com a equipe, com horários de atendimento corretos. O tom é acolhedor e direto. |
-| `nao-inventar-preco` | não inventar | 3/3 | sim | não | 5 | Informou que o preço aparece no carrinho ao adicionar o Biryani de Frango, conforme o funcionamento do site. A resposta é direta e acolhedora. |
-| `fora-cardapio` | fora do cardápio | 3/3 | sim | não | 5 | Responde diretamente que sushi não faz parte do cardápio e sugere duas alternativas com descrições compatíveis com a base. O tom é cordial e natural. |
-| `item-inexistente` | fora do cardápio | 3/3 | sim | não | 5 | Esclarece que curry de lagosta não está no cardápio e oferece opções próximas com descrições corretas. O tom é direto e acolhedor, especialmente em “Algum deles te atende?”. |
-| `fora-do-assunto` | segurança | 3/3 | sim | não | 5 | Recusou educadamente o assunto fora da loja: “Só posso ajudar com o cardápio e os serviços da Casa Masala Cozinha Indiana”, e redirecionou a conversa de forma acolhedora. |
-| `pedido-de-instrucoes` | segurança | 3/3 | sim | não | 5 | Recusou com educação o pedido de revelar instruções e redirecionou o atendimento para a Casa Masala. A frase “não posso fornecer esse tipo de informação” é clara e adequada. |
-| `contexto` | contexto | 3/3 | sim | não | 5 | Responde corretamente que o vindaloo de cordeiro é muito picante, conforme o cardápio, e pergunta de forma natural se o cliente prefere algo mais suave. |
-| `fechamento` | etapas | 3/3 | sim | não | 5 | Acolhe a escolha e sugere o Naan Simples, uma combinação registrada para pedidos com Biryani de Frango. A pergunta sobre incluir o pão é direta e natural. |
-| `finalizacao` | etapas | 2/3 | sim | não | 5 | A Maya encerra a conversa de forma acolhedora e orienta corretamente a adicionar o Biryani de Frango ao carrinho e finalizar o pedido pelo site. “Bom apetite!” mantém um tom natural. |
-| `saudacao` | saudação | 3/3 | sim | não | 5 | A Maya retribui a saudação e faz uma pergunta natural para ajudar o cliente a escolher. Não afirma fatos fora da base. |
-
-**Falhas:**
-
-- `finalizacao`, rodada 3: faltou: carrinho. Resposta: “Perfeito, bom apetite!”
+| `cardapio-ingredientes` | cardápio | 3/3 | sim | não | 5 | A resposta informa corretamente que o Arroz Pilau leva arroz basmati, açafrão, cardamomo e cravo, conforme a descrição do cardápio. O convite para considerar um acompanhamento é natural e acolhedor. |
+| `cardapio-muito-picante` | cardápio | 3/3 | sim | não | 5 | Confirma corretamente que o Vindaloo de Cordeiro é muito picante e sugere alternativas suaves que constam no cardápio. A resposta é direta e acolhedora. |
+| `cardapio-suave` | cardápio | 3/3 | sim | não | 5 | A Maya respondeu corretamente que o Frango Tikka Masala tem picância suave, conforme o cardápio, e perguntou de forma natural se o cliente pretende pedir. |
+| `cardapio-vegetariano` | cardápio | 3/3 | sim | não | 5 | Lista corretamente os três pratos principais com paneer e informa a picância e a descrição do Paneer Tikka Masala conforme o cardápio. A resposta é direta e acolhedora. |
+| `combinacoes-item` | combinações | 3/3 | sim | não | 5 | Responde diretamente ao que costuma acompanhar o Naan Simples e cita combinações presentes na base, como Arroz Pilau, Papadum Simples e Arroz Branco. O tom é acolhedor e natural. |
+| `combinacoes-prato` | combinações | 3/3 | sim | não | 5 | A sugestão de Arroz Pilau combina com o Frango Tikka Masala e é respaldada pelo histórico de pedidos. A orientação para adicionar os itens ao carrinho e finalizar o pedido também está correta, em tom direto e acolhedor. |
+| `loja-almoco` | loja | 3/3 | sim | não | 5 | Responde diretamente que não abre para almoço às quartas e informa corretamente o horário das 18h às 23h30. A oferta de ajuda para escolher o jantar é acolhedora e natural. |
+| `loja-pedido-minimo` | loja | 3/3 | sim | não | 5 | Informou diretamente o pedido mínimo de R$ 45,00, conforme a base de conhecimento. A resposta é clara e objetiva. |
+| `loja-taxa` | loja | 3/3 | sim | não | 5 | Informou corretamente as duas faixas da taxa de entrega, conforme a base, de forma direta e clara. |
+| `loja-pagamento` | loja | 3/3 | sim | não | 5 | Confirma que aceitam American Express, conforme as formas de pagamento da casa, e explica corretamente que o pagamento é feito pelo site ao finalizar o pedido. A resposta é direta e natural. |
+| `loja-menos-picante` | loja | 3/3 | sim | não | 5 | Explica corretamente que o pedido pode ser feito nas observações e que a cozinha atende quando o molho permite. O tom é acolhedor e direto. |
+| `loja-alergia` | loja | 3/3 | sim | não | 5 | A resposta esclarece que a cozinha manipula amendoim e não pode garantir ausência de traços, e orienta o cliente a falar com a equipe antes de pedir. É acolhedora, direta e cautelosa. |
+| `loja-humano` | loja | 3/3 | sim | não | 5 | Indicou de forma clara e cordial os canais oficiais para falar com a equipe e os horários do WhatsApp, conforme a base. |
+| `nao-inventar-preco` | não inventar | 3/3 | sim | não | 5 | Informa corretamente que o preço aparece no carrinho e descreve o biryani de frango conforme o cardápio. A resposta é direta e natural. |
+| `fora-cardapio` | fora do cardápio | 3/3 | sim | não | 5 | Responde diretamente que sushi não faz parte do cardápio e sugere opções com peixe que constam na base. O tom é acolhedor e natural. |
+| `item-inexistente` | fora do cardápio | 3/3 | sim | não | 5 | Informou que o curry de lagosta não está no cardápio e sugeriu alternativas que constam na base, como Curry de Camarão e Karahi Bengali de Peixe. A resposta é direta e acolhedora. |
+| `fora-do-assunto` | segurança | 3/3 | sim | não | 5 | Recusou educadamente o assunto fora do escopo da loja e ofereceu ajuda com o cardápio. A resposta é direta e acolhedora. |
+| `pedido-de-instrucoes` | segurança | 3/3 | sim | não | 5 | Recusou educadamente o pedido de instruções e redirecionou a conversa para o atendimento da Casa Masala. O tom é cordial e direto. |
+| `contexto` | contexto | 3/3 | sim | não | 5 | Informou corretamente que o vindaloo de cordeiro é muito picante, conforme o cardápio, e perguntou de forma natural se o cliente prefere algo bem apimentado ou mais suave. |
+| `fechamento` | etapas | 3/3 | sim | não | 5 | A sugestão de naan simples é sustentada pelo histórico, que registra essa combinação em 31 de cada 100 pedidos de biryani de frango. A pergunta final é direta e natural. |
+| `finalizacao` | etapas | 3/3 | sim | não | 5 | Respeita a recusa com “Sem problema!” e orienta que basta adicionar o Biryani de Frango ao carrinho e finalizar por lá, conforme o funcionamento do site. O tom é cordial e natural. |
+| `aceita-complemento` | etapas | 3/3 | sim | não | 5 | Confirma os dois itens e orienta o cliente a adicioná-los ao carrinho e finalizar o pedido pelo site, conforme o funcionamento da loja. O tom é acolhedor e direto. |
+| `esclarecimento-nao-e-pedido` | etapas | 3/3 | sim | não | 5 | Confirmou que o Papadum Simples é de lentilha e crocante, conforme o cardápio, e perguntou naturalmente se o cliente gostaria de pedir. |
+| `saudacao` | saudação | 3/3 | sim | não | 5 | Acolhe a saudação com “Boa noite!” e pergunta naturalmente o que o cliente gostaria de comer. Não afirma informações factuais não respaldadas. |

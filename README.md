@@ -118,7 +118,7 @@ Os números vêm de `avaliar.py`, que também mostra uma divisão única 80/20; 
 
 ### Assistente de conversa
 
-**Como testamos:** escrevemos 22 perguntas por loja, do jeito que um cliente escreveria, cada uma com o que a resposta precisa ter. Um script conversa com a assistente de verdade, 3 vezes cada pergunta, e o código confere as respostas por regras fixas: se ela consultou o analista certo, se trouxe o fato pedido (o horário, o telefone, o nível de picância) e se evitou o que não pode (preço inventado, se apresentar de novo, responder assunto fora da loja).
+**Como testamos:** escrevemos 23 perguntas para a Sabor na Mesa e 24 para a Casa Masala, do jeito que um cliente escreveria, cada uma com o que a resposta precisa ter. Um script conversa com a assistente de verdade, 3 vezes cada pergunta, e o código confere as respostas por regras fixas: se ela consultou o analista certo, se trouxe o fato pedido (o horário, o telefone, o nível de picância) e se evitou o que não pode (preço inventado, se apresentar de novo, responder assunto fora da loja).
 
 **Exemplos de perguntas** (Sabor na Mesa):
 
@@ -132,13 +132,13 @@ Os números vêm de `avaliar.py`, que também mostra uma divisão única 80/20; 
 | Versão | Sabor na Mesa | Casa Masala |
 |---|---|---|
 | Primeira rodada | 86 | 90 |
-| **Versão final** | **100** | **98** |
+| **Versão final** | **100** | **100** |
 
 **O que os números mostram:**
 
 - **Primeira rodada:** a maioria das falhas era da prova, não da assistente: respostas certas escritas de outro jeito ("a loja fecha às segundas" em vez de "fechada"). Corrigidas essas regras, sobraram três erros reais, resolvidos no prompt: a Maya não sabia que dá para pedir um prato "menos picante", uma pergunta fora do assunto recebia resposta e o encerramento às vezes esquecia o carrinho.
-- **Versão final:** a única falha é o encerramento da Casa Masala sem lembrar o carrinho, em 1 de 3 conversas. O próximo passo é colocar essa frase pelo código, em vez de depender do prompt.
-- **Juiz LLM:** concordou com as regras. Disse que a resposta atendeu à pergunta em 44 de 44 casos, deu tom médio de 4,9 de 5 e apontou um caso de informação inventada, que foi exagero dele ("não picante" tratado como "sem pimenta").
+- **Versão final:** nenhuma falha nas duas lojas. O último erro, o encerramento que às vezes esquecia o carrinho, sumiu quando o fechamento ficou mais curto: a resposta à sugestão de complemento já diz o que adicionar no carrinho. Nessa mesma mudança, a assistente deixou de usar palavras como "combinado" ou "anotado", que davam a impressão de que ela tinha incluído o item no pedido.
+- **Juiz LLM:** concordou com as regras: disse que a resposta atendeu à pergunta em 47 de 47 casos, não apontou nenhuma informação inventada e deu tom médio de 4,9 a 5 de 5.
 - **Custo e tempo:** cada conversa custa cerca de US$ 0,002, e cada resposta leva uns 5 segundos.
 
 Como os casos, as regras e o juiz funcionam está em [Como funciona a avaliação do assistente](#como-funciona-a-avaliação-do-assistente).
@@ -168,7 +168,7 @@ Todas as funções usam o mesmo modelo, o `gpt-6-luna` da OpenAI. O que muda é 
 | Analistas (cardápio, combinações e loja) | `gpt-6-luna`, `low` | quando o orquestrador consulta | encontrar a informação em dados pequenos e organizados, sem precisar de um modelo maior |
 | Juiz da avaliação | `gpt-6-luna`, `high` | só quando `avaliar_assistente.py` roda | conferir cada fato com o gabarito pede mais raciocínio; usa a mesma chave da OpenAI. Como o modelo avalia respostas parecidas com as dele, o juiz não entra na nota, que vem das regras |
 
-O modelo e o esforço do assistente podem ser trocados pelas variáveis `OPENAI_MODEL` e `OPENAI_REASONING_EFFORT`, sem mudar o código. Pela avaliação, o assistente passa em 98 a 100 de cada 100 conversas com o modelo mais simples, então um modelo maior seria custo sem ganho.
+O modelo e o esforço do assistente podem ser trocados pelas variáveis `OPENAI_MODEL` e `OPENAI_REASONING_EFFORT`, sem mudar o código. Pela avaliação, o assistente passa em 100 de cada 100 conversas com o modelo mais simples, então um modelo maior seria custo sem ganho.
 
 ### Por que um LLM na etapa 6
 
@@ -264,7 +264,7 @@ Os prompts ficam em `agente/prompts/<agente>/`, um por pasta, para facilitar a m
 
 O recomendador tem uma nota (o acerto no top 3). O assistente ganhou a sua com `avaliar_assistente.py`, que conversa com a Lupe e a Maya de verdade e confere cada resposta.
 
-**Casos.** São 22 por loja, em `dados/<loja>/casos_assistente.json`, separados por categoria: cardápio, combinações, loja, não inventar (preço), fora do cardápio, segurança (assunto fora da loja e pedido das instruções), contexto (pergunta de continuação), etapas (sugestão de complemento e orientação para finalizar no carrinho) e saudação. Cada caso traz as mensagens do cliente e o que a resposta precisa ter.
+**Casos.** São 23 na Sabor na Mesa e 24 na Casa Masala, em `dados/<loja>/casos_assistente.json`, separados por categoria: cardápio, combinações, loja, não inventar (preço), fora do cardápio, segurança (assunto fora da loja e pedido das instruções), contexto (pergunta de continuação), etapas (sugestão de complemento e orientação para finalizar no carrinho) e saudação. Cada caso traz as mensagens do cliente e o que a resposta precisa ter.
 
 **Quem avalia.** A nota vem de regras determinísticas: para a mesma resposta, o resultado é sempre o mesmo.
 
@@ -282,8 +282,8 @@ O texto é comparado sem acentos e sem diferença entre maiúsculas e minúscula
 
 | Loja | Casos aprovados nas 3 rodadas | Aprovações | Juiz: respondeu / inventou / tom | Tempo médio por resposta | Custo por conversa |
 |---|---|---|---|---|---|
-| Sabor na Mesa | 22 de 22 | 66 de 66 | 22 de 22 / 1 / 4,9 | 5,1 s | US$ 0,0014 |
-| Casa Masala | 21 de 22 | 65 de 66 | 22 de 22 / 0 / 5,0 | 5,6 s | US$ 0,0020 |
+| Sabor na Mesa | 23 de 23 | 69 de 69 | 23 de 23 / 0 / 4,9 | 4,3 s | US$ 0,0015 |
+| Casa Masala | 24 de 24 | 72 de 72 | 24 de 24 / 0 / 5,0 | 4,1 s | US$ 0,0022 |
 
 **Como se chegou aqui.** A primeira rodada deu 36 de 42 e 38 de 42. As falhas foram lidas uma a uma, para separar erro do assistente de regra mal escrita:
 
@@ -291,7 +291,7 @@ O texto é comparado sem acentos e sem diferença entre maiúsculas e minúscula
 - **Regras estreitas demais, corrigidas nos casos:** respostas certas escritas de outro jeito ("a loja fecha às segundas", "não é picante") e o carrinho cobrado na mensagem errada, já que a etapa 3 só fala do carrinho depois de sugerir o complemento e perguntar se há dúvidas.
 - **Juiz sem contexto, corrigido no prompt dele:** marcou como inventado "o preço aparece no carrinho", que é uma regra do site, e datas que o assistente calculou a partir da data da conversa.
 
-**O que continua aberto.** O encerramento da etapa 3 ainda deixa de lembrar o carrinho de vez em quando (1 de 3 na Casa Masala, mesmo com a regra reforçada). Como o fim da conversa é previsível, o próximo passo seria acrescentar a frase do carrinho pelo código quando a etapa 3 termina, em vez de depender só do prompt.
+**Fechamento mais claro.** Num teste manual, a Maya tratou "esse simples" (a resposta do cliente a "qual deles você procura?") como decisão de compra, sugeriu um complemento, respondeu "Combinado" e depois mandou o cliente adicionar tudo no carrinho. O critério da etapa 2 passou a exigir uma decisão de pedido ("vou querer", "quero esse"), e a etapa 3 ganhou a regra de que a assistente nunca dá a entender que mexeu no pedido. A conversa virou dois casos da avaliação: `esclarecimento-nao-e-pedido` (a etapa não pode avançar) e `aceita-complemento` (a resposta precisa falar do carrinho e não pode ter "combinado" nem "anotado").
 
 **Quando rodar.** Só quando algo do assistente muda: um prompt, o modelo ou os dados da loja. A avaliação chama a OpenAI e tem custo (menos de US$ 0,50 por execução completa, com o juiz), por isso fica fora do `pytest`. As regras de conferência, essas sim, têm testes em `tests/test_avaliacao_assistente.py`, com respostas escritas à mão.
 

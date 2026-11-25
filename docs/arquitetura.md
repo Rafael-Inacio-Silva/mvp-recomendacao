@@ -229,8 +229,8 @@ Os dados de cada área cabem inteiros no prompt (no maior caso, as regras da Cas
 | Etapa | Arquivo | Objetivo | Avança quando |
 |---|---|---|---|
 | 1 — Conexão | `estagio_1_conexao.md` | entender o que o cliente procura; não se apresenta, porque o site já mostra a saudação da assistente | o cliente traz uma dúvida, uma preferência ou um item |
-| 2 — Atendimento | `estagio_2_atendimento.md` | esclarecer dúvidas e ajudar a escolher, com microcompromissos | o cliente escolhe um item ou diz que vai pedir |
-| 3 — Fechamento | `estagio_3_fechamento.md` | sugerir um complemento, tirar dúvidas finais e orientar a finalizar no carrinho | — |
+| 2 — Atendimento | `estagio_2_atendimento.md` | esclarecer dúvidas e ajudar a escolher, com microcompromissos | o cliente diz que vai pedir um item ("vou querer", "quero esse") |
+| 3 — Fechamento | `estagio_3_fechamento.md` | sugerir um complemento e, na resposta seguinte, dizer quais itens o cliente adiciona no carrinho; a assistente nunca dá a entender que mexeu no pedido | — |
 
 A conversa guarda a etapa atual, e só a instrução dessa etapa entra no prompt (`{{etapa_atual}}`, `{{etapa_objetivo}}` e `{{etapa_instrucao}}`). Quando o critério de avanço é cumprido, o orquestrador chama a ferramenta `avancar_estagio`; o código só aceita avançar, nunca voltar de etapa.
 

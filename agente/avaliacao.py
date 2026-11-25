@@ -71,6 +71,10 @@ def conferir(caso, respostas, atendente):
     if minimo and ultima["estagio"] < minimo:
         falhas.append(f"ficou na etapa {ultima['estagio']}, esperada {minimo}")
 
+    maximo = caso.get("estagio_maximo")
+    if maximo and ultima["estagio"] > maximo:
+        falhas.append(f"avançou para a etapa {ultima['estagio']}, máximo {maximo}")
+
     return falhas
 
 

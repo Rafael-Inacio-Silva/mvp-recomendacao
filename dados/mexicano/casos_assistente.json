@@ -357,6 +357,15 @@
         "refrigerante",
         "guacamole"
       ]
+    ],
+    "nao_contem": [
+      "combinado",
+      "anotado",
+      "anotei",
+      "adicionei",
+      "vou adicionar",
+      "incluido",
+      "pedido fechado"
     ]
   },
   {
@@ -365,8 +374,7 @@
     "mensagens": [
       "Quais bowls vocês têm?",
       "Vou querer o bowl de frango.",
-      "Não, obrigado.",
-      "Não, era só isso."
+      "Não, obrigado."
     ],
     "estagio_minimo": 3,
     "contem": [
@@ -375,7 +383,43 @@
       ]
     ],
     "nao_contem": [
-      "r$"
+      "r$",
+      "combinado",
+      "anotado",
+      "anotei",
+      "adicionei",
+      "vou adicionar",
+      "incluido",
+      "pedido fechado"
+    ]
+  },
+  {
+    "id": "aceita-complemento",
+    "categoria": "etapas",
+    "mensagens": [
+      "Quais bowls vocês têm?",
+      "Vou querer o bowl de frango.",
+      "Sim, pode ser."
+    ],
+    "estagio_minimo": 3,
+    "contem": [
+      [
+        "carrinho"
+      ],
+      [
+        "nachos",
+        "refrigerante",
+        "guacamole"
+      ]
+    ],
+    "nao_contem": [
+      "combinado",
+      "anotado",
+      "anotei",
+      "adicionei",
+      "vou adicionar",
+      "incluido",
+      "pedido fechado"
     ]
   },
   {

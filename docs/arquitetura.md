@@ -1,6 +1,6 @@
 # Arquitetura — MVP de recomendação de itens
 
-Elaborada a partir das propostas da [Sabor na Mesa](mexicano/proposta.md) e da [Casa Masala](indiano/proposta.md). O mesmo código atende mais de uma loja: cada loja tem a sua pasta de dados, e o pipeline, as regras e a avaliação são executados para todas. O backend (a API em FastAPI) fica no Render, e o site, na Vercel.
+Elaborada a partir das propostas da [Sabor na Mesa](mexicano/proposta.md), da [Casa Masala](indiano/proposta.md) e do [Garfo Certo](restaurantes/proposta.md), este para a recomendação de restaurantes ([seção 7](#7-recomendação-de-restaurantes)). O mesmo código atende mais de uma loja: cada loja tem a sua pasta de dados, e o pipeline, as regras e a avaliação são executados para todas. O backend (a API em FastAPI) fica no Render, e o site, na Vercel.
 
 ## 1. Visão geral
 
@@ -32,6 +32,7 @@ site (Vercel) → API (Render) → serviço do chat → assistente: orquestrador
 | `servicos` | validações e regras de negócio das rotas: lojas, cardápio, sugestões e conversas do chat | RF-01, RF-02, RF-04, RF-06, RF-07, RF-08, RN-09 |
 | `api` | controller: recebe as requisições do site, chama os serviços e converte os erros em status HTTP | RF-01, RF-02, RF-04, RF-06, RF-07, RF-08 |
 | `frontend/` | seleção de restaurante, cardápio, carrinho com sugestões e chat por loja (React e Vite) | RF-01, RF-02, RF-07 |
+| `restaurantes` | pipeline do catálogo, recomendação por conteúdo e critérios, validação da busca, serviço e rotas (seção 7) | RF-R01 a RF-R06, RN-R01 a RN-R08 |
 
 O recomendador não depende do site, da explicação nem do assistente. Assim, ele pode ser testado sozinho, e a forma de explicar pode mudar sem afetar as sugestões.
 
@@ -42,6 +43,7 @@ O recomendador não depende do site, da explicação nem do assistente. Assim, e
 | Linguagem | Python | bibliotecas prontas para dados e regras de associação |
 | Dados | pandas | leitura e agrupamento dos pedidos |
 | Regras | mlxtend (Apriori) | implementação conhecida, que já calcula suporte, confiança e lift |
+| Recomendação de restaurantes | scikit-learn (TF-IDF e cosseno) | vetorização de texto conhecida e rápida; o resto da pontuação é feito com pandas |
 | Explicação | frase montada em Python | exata, instantânea e sem custo, porque só cita itens da própria regra |
 | Artigos do cardápio | OpenAI `gpt-6-luna` (Responses API, saída em JSON) | tarefa de linguagem; roda uma vez no pipeline e o resultado fica salvo |
 | Assistente de conversa | OpenAI `gpt-6-luna` (Responses API, function calling) | coordenador e analistas entendem as perguntas e escrevem as respostas; os fatos vêm dos dados da loja |
@@ -62,24 +64,31 @@ mvp-recomendacao/
 │   │   ├── loja.md              # dados da empresa, enviados pelo restaurante
 │   │   ├── produtos.csv         # descrição de cada produto, enviada pelo restaurante
 │   │   └── regras.csv           # gerado por gerar_regras.py
-│   └── indiano/                 # mesma estrutura, para a Casa Masala
+│   ├── indiano/                 # mesma estrutura, para a Casa Masala
+│   └── restaurante/
+│       ├── restaurants.csv      # catálogo original (351 MB, fora do repositório)
+│       └── restaurantes.csv     # recorte tratado das três capitais, gerado por preparar_restaurantes.py
 ├── docs/
 │   ├── arquitetura.md
 │   ├── mexicano/                # solicitação, proposta e relatório da Sabor na Mesa
-│   └── indiano/                 # solicitação, proposta e relatório da Casa Masala
+│   ├── indiano/                 # solicitação, proposta e relatório da Casa Masala
+│   └── restaurantes/            # solicitação, proposta e relatório do Garfo Certo
 ├── pipeline/                    # uma etapa por módulo
 │   ├── etapa1_carregamento.py
 │   ├── etapa2_nulos_vazios.py
 │   ├── etapa3_duplicados.py
 │   ├── etapa4_outliers.py
 │   ├── etapa5_exploracao.py
-│   └── etapa6_cardapio.py
+│   ├── etapa6_cardapio.py
+│   └── restaurantes.py          # carregamento, tratamento e recorte do catálogo de restaurantes
 ├── modelo/
 │   ├── regras.py                # cestas e regras de associação
 │   ├── validacao.py             # validação do carrinho
 │   ├── recomendador.py          # sugestões para um carrinho
 │   ├── avaliacao.py             # versões, divisões de teste e taxa de acerto
-│   └── explicacao.py            # frase de cada sugestão
+│   ├── explicacao.py            # frase de cada sugestão
+│   ├── restaurantes.py          # pontuação híbrida e top 10 de restaurantes
+│   └── validacao_restaurantes.py  # validação da busca de restaurantes
 ├── agente/                      # assistente de conversa
 │   ├── orquestrador.py          # coordenador: conversa, histórico e escolha dos analistas
 │   ├── analista.py              # subagente analista, que lê os dados da sua área
@@ -96,6 +105,7 @@ mvp-recomendacao/
 ├── servicos/                    # camada de serviço, chamada pela API
 │   ├── recomendacao.py          # lojas, cardápio e sugestões
 │   ├── chat.py                  # validação das mensagens e conversas em memória
+│   ├── restaurantes.py          # cidades, culinárias e recomendação de restaurantes
 │   └── erros.py                 # erros dos serviços, com código e texto
 ├── api.py                       # controller: rotas da API em FastAPI
 ├── frontend/                    # site em React e Vite
@@ -111,6 +121,10 @@ mvp-recomendacao/
 │       └── casas.js             # textos e imagens de cada loja
 ├── dados_loja.py                # arquivos de cada loja em memória
 ├── lojas.py                     # lojas, assistentes e caminhos dos arquivos
+├── cidades.py                   # cidades atendidas e caminhos do catálogo de restaurantes
+├── dados_restaurantes.py        # catálogo tratado e índice TF-IDF de cada cidade em memória
+├── preparar_restaurantes.py     # gera o catálogo tratado a partir do original
+├── avaliar_restaurantes.py      # avaliação offline da recomendação de restaurantes
 ├── analise_dados.py             # executa o pipeline
 ├── gerar_regras.py              # calcula e compara as regras
 ├── avaliar.py                   # executa a avaliação offline
@@ -194,6 +208,9 @@ O controller não acessa os dados diretamente, e os serviços não conhecem HTTP
 | `POST /api/lojas/{loja}/sugestoes` | recebe `{"carrinho": [...]}`, valida (RN-09), recomenda e devolve as 3 sugestões com a frase |
 | `POST /api/lojas/{loja}/chat` | recebe `{"conversa_id": ..., "mensagem": ...}` e devolve a resposta do assistente, os analistas consultados, a etapa e se a conversa começou nessa mensagem (`nova_conversa`) |
 | `DELETE /api/lojas/{loja}/chat/{conversa_id}` | apaga o histórico da conversa, quando o cliente reinicia o chat |
+| `GET /api/restaurantes/cidades` | cidades atendidas, com o código IBGE |
+| `GET /api/restaurantes/{cidade}/culinarias` | culinárias da cidade, com o número de restaurantes |
+| `POST /api/restaurantes/{cidade}/recomendacoes` | recebe `{"culinaria": ..., "preferencia": ..., "pesos": {...}}`, todos opcionais, valida (RN-R07) e devolve o top 10 com as notas de cada critério e a explicação |
 
 Todo erro volta no mesmo formato, com o campo, o código e um texto explicativo:
 
@@ -286,4 +303,33 @@ Os testes usam pytest (`python -m pytest`). Os das regras de negócio usam regra
 | `test_servicos.py` | cardápio do mais pedido para o menos pedido; loja desconhecida; carrinho inválido com código e texto; mensagem do chat validada antes de chamar o assistente; aviso de conversa nova | RF-01, RF-07, RN-09 |
 | `test_avaliacao_assistente.py` | regras da avaliação do assistente com respostas escritas à mão; arquivos de casos bem formados | RF-07, RN-10 |
 | `test_api.py` | rotas de saúde, lojas, cardápio, sugestões e chat; status 400, 404, 405 e 503 com o mesmo formato de erro; JSON inválido; chat sem a chave da OpenAI; encerramento da conversa | RF-01, RF-04, RF-08, RN-09, RNF-03 |
+| `test_restaurantes.py` | etiquetas e valores inválidos do catálogo; filtro de culinária, limite de 10, frete e tempo, nota de quem não tem avaliação, texto livre, unidades repetidas, desempate e pesos; validação da busca; rotas de cidades, culinárias e recomendações | RF-R01 a RF-R06, RN-R01 a RN-R08 |
 | `test_agente.py` | ferramentas do orquestrador; dados de cada analista completos (todos os produtos, todas as regras com “N de cada 100 pedidos”, documento da loja); etapas com nome, objetivo e instrução; só a etapa atual no prompt; marcadores preenchidos; datas de referência; a etapa só avança | RN-10 |
+
+## 7. Recomendação de restaurantes
+
+Atende ao [Garfo Certo](restaurantes/proposta.md): a pessoa escolhe a cidade e, se quiser, a culinária e um texto livre, e recebe os 10 restaurantes mais indicados.
+
+```
+restaurants.csv (original) → preparar_restaurantes.py → restaurantes.csv (3 capitais, tratado)
+site → API → serviço de restaurantes → validação da busca → índice TF-IDF da cidade → pontuação híbrida → top 10 com a frase
+```
+
+**Catálogo tratado.** `pipeline/restaurantes.py` lê só as cidades atendidas (código IBGE em `cidades.py`) e as colunas usadas, transforma a nota 0 em ausente (“sem avaliação”), remove tempos de entrega impossíveis (zero, negativos ou acima de 120 minutos), deixa de exibir pedidos mínimos acima de R$ 500 e troca as etiquetas, que são códigos de campanha, por três palavras: vegetariano, saudável e “bom e barato”. O original, com 351 MB, fica fora do Git; o recorte, com 3,6 MB, é versionado.
+
+**Índice.** `dados_restaurantes.py` carrega o catálogo uma vez e monta, na primeira busca de cada cidade, um `TfidfVectorizer` (sem acentos, minúsculas e sem palavras vazias como “de” e “com”) sobre o texto de cada restaurante: nome, culinária, faixa de preço por extenso e etiquetas. O índice fica em memória; montar o de Belo Horizonte leva cerca de 0,3 s, e cada busca, cerca de 20 ms.
+
+**Pontuação.** `modelo/restaurantes.py` filtra a cidade e a culinária (RN-R01, RN-R02) e calcula quatro notas de 0 a 1:
+
+| Parte | Fórmula |
+|---|---|
+| conteúdo | cosseno entre o vetor do texto livre e o do restaurante (os vetores do TF-IDF têm norma 1, então o produto escalar é o cosseno) |
+| avaliação | nota ÷ 5; sem avaliação, primeiro quartil das notas da cidade ÷ 5 (RN-R03) |
+| frete | 1 − mín(frete, 15) ÷ 15 |
+| entrega | 1 − (tempo − 20) ÷ 50, limitado entre 0 e 1 |
+
+A pontuação é a soma ponderada. `pesos_efetivos` normaliza os pesos para somarem 1 e, sem texto livre, zera o conteúdo e redistribui o peso dele (RN-R04). A ordem é pela pontuação, depois pela nota e pelo nome (RN-R06), e só a melhor unidade de cada nome fica (RN-R05). A frase (RN-R08) junta nota ou “sem avaliação”, frete, tempo e, quando o texto livre teve semelhança maior que zero, “combina com …”.
+
+**Validação.** `validar_busca` segue o formato do validador do carrinho (`{"ok": True, "value": ...}` ou `{"ok": False, "errors": [...]}`, sem exceções e sem repetir o valor recebido): culinária (`invalid_type`, `empty`, `unknown_cuisine`), texto livre (`invalid_type`, `too_long`) e pesos (`invalid_type`, `null`, `not_finite`, `out_of_range`, `unknown_field` e `out_of_range` em `pesos` quando todos são zero).
+
+**Avaliação.** Sem dados de cliques, `avaliar_restaurantes.py` compara o top 10 com a ordem alfabética (a lista atual do cliente) e com ordenações por um critério só em nota média, parte sem avaliação, frete e tempo; mede a parte do top 10 que combina com textos de exemplo; e conta quantos restaurantes continuam no top 10 quando um peso é dobrado. Os resultados estão no [relatório](restaurantes/relatorio.md).
